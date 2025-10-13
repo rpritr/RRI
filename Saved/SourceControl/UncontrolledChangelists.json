@@ -1,0 +1,38 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/01_-_Default.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/Archway.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/ChestBottom.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/ChestTop.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/FanBase.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/FanMotor.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/Fanblade.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyModels/WorldGridMaterial.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyTextures/T_Particle.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyTextures/T_Stone_C.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyTextures/T_Stone_N.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyTextures/T_Stone_R.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyTextures/Warehouse-with-lights.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/Pickup.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/ProjectilePop.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/ProjectileSpawn.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/Rollover.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/click.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/concrete.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/gearloop.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/genhumm.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/note.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/potion.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/thud.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/unlock.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/unlock2.uasset",
+				"/Users/robipritrznik/Documents/Unreal Projects/RRI_Exercises/Content/MyAudio/woodcreak.uasset"
+			]
+		}
+	]
+}
