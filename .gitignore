@@ -1,0 +1,49 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Node (if anyone later adds a local server or tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.cache/
+
+# Python static-server leftovers
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local notes / drafts (students and instructors)
+*.local.md
+notes.local/
+.scratch/
+
+# Logs and temp
+*.log
+*.tmp
+*.temp
+.turbo/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
