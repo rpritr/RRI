@@ -2,9 +2,9 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** sovražniki sledijo igralcu (seek) z omejeno hitrostjo; vsaj **2 tipa**; igra je igriv milestone — **skupna baza zaključena**.  
-**Gradiva:** `slides.md`, `VAJA.md`, tvoja igra (teden 7), [`projekt/`](../../projekt/).
+**Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 7), [`projekt/`](../projekt/).
 
-Po tem tednu glavni fokus **ni** polish iste zombie igre. Naslednji korak je [`projekt/BRIEF.md`](../../projekt/BRIEF.md) — lastna igra.
+Po tem tednu glavni fokus **ni** polish iste zombie igre. Naslednji korak je [`projekt/BRIEF.md`](../projekt/BRIEF.md) — lastna igra.
 
 ---
 
@@ -72,7 +72,7 @@ Ni cilj: particle-ji, glavni meni AAA, 12 orožij, Unreal.
 
 ## 4. Kaj sledi (5 min)
 
-- Brief: [`projekt/BRIEF.md`](../../projekt/BRIEF.md)  
+- Brief: [`projekt/BRIEF.md`](../projekt/BRIEF.md)  
 - Lahko nadaljuješ to kodo z **novo identiteto**, ali nov Canvas projekt.  
 - Moras pokazati loop / vhod / trki / entitete.  
 - Ne: “tedni 9–12 samo lepšam zombije.”

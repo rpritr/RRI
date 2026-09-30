@@ -63,8 +63,7 @@ Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepi
 ├── DIDAKTIKA-AI.md        ← pravila AI, primeri promptov
 ├── docs/
 │   └── GDD-predloga.md
-├── tedni/
-│   ├── 01/ … 08/          ← predavanje, vaja, prompti, slajdi
+├── lab01/ … lab08/        ← predavanje, vaja, prompti, slajdi
 ├── projekt/               ← brief, mejniki, ocenjevanje lastne igre
 ├── starter/               ← teden 1: igriva osnova
 └── demo/                  ← referenčna igra (milestone tedna 8)
@@ -74,14 +73,14 @@ Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepi
 
 | Teden | Tema | Gradiva |
 |------:|------|---------|
-| 01 | Uvod, GDD, setup | [predavanje](tedni/01/PREDAVANJE.md) · [vaja](tedni/01/VAJA.md) · [prompti](tedni/01/PROMPTI.md) · [slajdi](tedni/01/slides.md) |
-| 02 | Premikanje + repo higiene | [predavanje](tedni/02/PREDAVANJE.md) · [vaja](tedni/02/VAJA.md) · [prompti](tedni/02/PROMPTI.md) · [slajdi](tedni/02/slides.md) |
-| 03 | Game loop, delta, stanja | [predavanje](tedni/03/PREDAVANJE.md) · [vaja](tedni/03/VAJA.md) · [prompti](tedni/03/PROMPTI.md) · [slajdi](tedni/03/slides.md) |
-| 04 | Trki (stene / entitete) | [predavanje](tedni/04/PREDAVANJE.md) · [vaja](tedni/04/VAJA.md) · [prompti](tedni/04/PROMPTI.md) · [slajdi](tedni/04/slides.md) |
-| 05 | Streljanje proti miški | [predavanje](tedni/05/PREDAVANJE.md) · [vaja](tedni/05/VAJA.md) · [prompti](tedni/05/PROMPTI.md) · [slajdi](tedni/05/slides.md) |
-| 06 | Zdravje, škoda, game over | [predavanje](tedni/06/PREDAVANJE.md) · [vaja](tedni/06/VAJA.md) · [prompti](tedni/06/PROMPTI.md) · [slajdi](tedni/06/slides.md) |
-| 07 | Score, valovi, HUD | [predavanje](tedni/07/PREDAVANJE.md) · [vaja](tedni/07/VAJA.md) · [prompti](tedni/07/PROMPTI.md) · [slajdi](tedni/07/slides.md) |
-| 08 | AI sovražnikov + skupna baza | [predavanje](tedni/08/PREDAVANJE.md) · [vaja](tedni/08/VAJA.md) · [prompti](tedni/08/PROMPTI.md) · [slajdi](tedni/08/slides.md) |
+| 01 | Uvod, GDD, setup | [predavanje](lab01/PREDAVANJE.md) · [vaja](lab01/README.md) · [prompti](lab01/PROMPTI.md) · [slajdi](lab01/slides.md) |
+| 02 | Premikanje + repo higiene | [predavanje](lab02/PREDAVANJE.md) · [vaja](lab02/README.md) · [prompti](lab02/PROMPTI.md) · [slajdi](lab02/slides.md) |
+| 03 | Game loop, delta, stanja | [predavanje](lab03/PREDAVANJE.md) · [vaja](lab03/README.md) · [prompti](lab03/PROMPTI.md) · [slajdi](lab03/slides.md) |
+| 04 | Trki (stene / entitete) | [predavanje](lab04/PREDAVANJE.md) · [vaja](lab04/README.md) · [prompti](lab04/PROMPTI.md) · [slajdi](lab04/slides.md) |
+| 05 | Streljanje proti miški | [predavanje](lab05/PREDAVANJE.md) · [vaja](lab05/README.md) · [prompti](lab05/PROMPTI.md) · [slajdi](lab05/slides.md) |
+| 06 | Zdravje, škoda, game over | [predavanje](lab06/PREDAVANJE.md) · [vaja](lab06/README.md) · [prompti](lab06/PROMPTI.md) · [slajdi](lab06/slides.md) |
+| 07 | Score, valovi, HUD | [predavanje](lab07/PREDAVANJE.md) · [vaja](lab07/README.md) · [prompti](lab07/PROMPTI.md) · [slajdi](lab07/slides.md) |
+| 08 | AI sovražnikov + skupna baza | [predavanje](lab08/PREDAVANJE.md) · [vaja](lab08/README.md) · [prompti](lab08/PROMPTI.md) · [slajdi](lab08/slides.md) |
 | nato | **Lastna igra** | [`projekt/`](projekt/) — [brief](projekt/BRIEF.md) · [mejniki](projekt/MEJNIKI.md) · [ocenjevanje](projekt/OCENJEVANJE.md) |
 
 Pregled tem: [`TEDENSKI-NACRT.md`](TEDENSKI-NACRT.md). Mapiranje na CPI: [`KURIKUL-MAPIRANJE.md`](KURIKUL-MAPIRANJE.md).
@@ -108,7 +107,7 @@ To je uradni predmetni repositorij (**rpritr/RRI**). Zamenjuje lanskoletno Unrea
 
 1. **Študenti**: forkajte ali klonirajte repo, zaženite `starter/` in delajte po [`TEDENSKI-NACRT.md`](TEDENSKI-NACRT.md). Tedne 2–8 nadgrajujte **svojo** kopijo igre.
 2. **Arnes učilnica**: povežite tedenske naloge in oddaje na ta repo; URL-je dopolnite, ko so objavljeni.
-3. Gradiva za tedne 1–8 so v [`tedni/01/`](tedni/01/) … [`tedni/08/`](tedni/08/); po tem [`projekt/`](projekt/).
+3. Gradiva za tedne 1–8 so v [`lab01/`](lab01/) … [`lab08/`](lab08/); po tem [`projekt/`](projekt/).
 
 ## Avtorstvo / kontekst
 

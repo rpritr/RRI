@@ -3,7 +3,7 @@
 Uporabi ChatGPT / Claude / Cursor chat / podobno.  
 **Jezik prompta:** slovenščina ali angleščina — odgovor raje v slovenščini, če pišeš GDD v slovenščini.
 
-Splošna pravila: `../../DIDAKTIKA-AI.md`.  
+Splošna pravila: `../DIDAKTIKA-AI.md`.  
 Danes **ne** prosi za celotno igro ali cel `game.js`.
 
 ---

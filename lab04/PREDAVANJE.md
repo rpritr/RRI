@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** študent loči *detekcijo* in *razrešitev* trka; igralec ne gre skozi vsaj eno oviro; sovražnik obstaja kot podatki (`x,y,w,h`), še brez AI.  
-**Gradiva:** `slides.md`, `VAJA.md`, tvoja igra (teden 3).
+**Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 3).
 
 ---
 

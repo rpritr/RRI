@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min vsebine (lahko del 2h termina; ostalo demo + vaja).  
 **Cilj:** študent razume, *zakaj* se igralec premika tako, kot se, in zna to spremeniti; zna narediti smiseln commit in urejen README.  
-**Gradiva:** `slides.md`, `VAJA.md`, `PROMPTI.md`, `../../starter/`, `../../DIDAKTIKA-AI.md`.  
+**Gradiva:** `slides.md`, `README.md`, `PROMPTI.md`, `../starter/`, `../DIDAKTIKA-AI.md`.  
 **Predhodno:** teden 1 — tekoči starter + osnutek GDD.
 
 Študenti delajo na **svoji kopiji** igre (fork / lastni repo), ne v predmetnem `starter/` na GitHubu.
@@ -97,7 +97,7 @@ Veje niso obvezne tedna 2, ampak: `main` naj bo to, kar se zažene.
 
 ## 5. Kaj delaš na vaji danes (5 min)
 
-Glej `VAJA.md`. Na kratko:
+Glej `README.md`. Na kratko:
 
 1. Izboljšaj premik (konstante, puščice in/ali sprint, debug pozicije).  
 2. Uredi README v **svojem** forku.  

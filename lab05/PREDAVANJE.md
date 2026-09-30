@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** študent razume smer kot vektor (miška − igralec), spawna projektile, jih posodobi z `dt` in odstrani ob robu.  
-**Gradiva:** `slides.md`, `VAJA.md`, tvoja igra (teden 4).
+**Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 4).
 
 ---
 

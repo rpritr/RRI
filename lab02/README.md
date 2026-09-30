@@ -2,7 +2,7 @@
 
 **Predviden čas:** ~3–4 ure.  
 **Izhod:** izboljšan premik v **tvoji kopiji** igre + README + smiselni commit-i.  
-**Gradiva:** tvoja kopija `starter/` (teden 1), `PROMPTI.md`, `../../DIDAKTIKA-AI.md`.
+**Gradiva:** tvoja kopija `starter/` (teden 1), `PROMPTI.md`, `../DIDAKTIKA-AI.md`.
 
 Delaj po korakih. Obkljukaj, ko končaš. Ne prepisuj predmetnega `starter/` na GitHubu — to je tvoja igra od danes naprej.
 
