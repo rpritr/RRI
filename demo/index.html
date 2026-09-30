@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P16 — Referenčna igra (Teden 8)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <h1>P16 — Top-down Zombie Survival</h1>
+    <p class="hint">
+      Referenčna igra ob koncu tedna 8 ·
+      <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> premik ·
+      miška strel ·
+      <kbd>R</kbd> znova
+    </p>
+    <canvas id="game" width="960" height="540" aria-label="Igralno polje"></canvas>
+    <ul class="legend" aria-label="Legenda">
+      <li><span class="swatch player"></span> igralec</li>
+      <li><span class="swatch walker"></span> walker (počasen, več HP)</li>
+      <li><span class="swatch runner"></span> runner (hiter, 1 HP)</li>
+      <li><span class="swatch wall"></span> ovira</li>
+    </ul>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>

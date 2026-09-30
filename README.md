@@ -42,6 +42,17 @@ Odpri `http://localhost:8080` — modri kvadrat, premikanje z **WASD**.
 
 Študenti tedne 2–8 **nadgrajujejo svojo kopijo** (fork / lastni repo), ne prepisujejo `starter/` v tem predmetnem repozitoriju.
 
+## Referenčna igra (teden 8)
+
+Celotna mini **Top-down Zombie Survival** ob koncu skupne baze: premik, ovire, strel, HP, valovi, dva tipa sovražnikov.
+
+```bash
+cd demo
+python3 -m http.server 8080
+```
+
+Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepitev v tednu 1. Podrobnosti: [`demo/README.md`](demo/README.md).
+
 ## Struktura repozitorija
 
 ```
@@ -55,7 +66,8 @@ Odpri `http://localhost:8080` — modri kvadrat, premikanje z **WASD**.
 ├── tedni/
 │   ├── 01/ … 08/          ← predavanje, vaja, prompti, slajdi
 ├── projekt/               ← brief, mejniki, ocenjevanje lastne igre
-└── starter/               ← teden 1: igriva osnova
+├── starter/               ← teden 1: igriva osnova
+└── demo/                  ← referenčna igra (milestone tedna 8)
 ```
 
 ## Tedenska gradiva
