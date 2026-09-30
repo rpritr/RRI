@@ -267,9 +267,11 @@
 
   function resetPlayer() {
     const size = CONFIG.playerSize;
+    // Spawn nad pasom ovir (~y=250). Središče platna je prekrivalo staro
+    // steno in AABB je razveljavil vsak WASD korak.
     const p = {
       x: W / 2 - size / 2,
-      y: H / 2 - size / 2,
+      y: 168,
       w: size,
       h: size,
       speed: CONFIG.playerSpeed,
@@ -278,6 +280,9 @@
       maxHp: CONFIG.playerMaxHp,
       hurtCooldown: 0,
     };
+    if (hitsAnyWall(p)) {
+      unstickFromWalls(p);
+    }
     if (hitsAnyWall(p)) {
       p.x = 80;
       p.y = 80;
@@ -320,10 +325,42 @@
   }
 
   /**
+   * Če je entiteta že v steni, jo potisni ven po manjši prekrivanju osi
+   * (minimum translation). Brez tega AABB “razveljavi premik” obdrži klešče.
+   */
+  function unstickFromWalls(entity) {
+    for (let n = 0; n < 8; n++) {
+      let wall = null;
+      for (let i = 0; i < WALLS.length; i++) {
+        if (aabbOverlap(entity, WALLS[i])) {
+          wall = WALLS[i];
+          break;
+        }
+      }
+      if (!wall) return;
+      const overlapX =
+        Math.min(entity.x + entity.w, wall.x + wall.w) - Math.max(entity.x, wall.x);
+      const overlapY =
+        Math.min(entity.y + entity.h, wall.y + wall.h) - Math.max(entity.y, wall.y);
+      if (overlapX <= overlapY) {
+        const ec = entity.x + entity.w / 2;
+        const wc = wall.x + wall.w / 2;
+        entity.x += ec < wc ? -overlapX : overlapX;
+      } else {
+        const ec = entity.y + entity.h / 2;
+        const wc = wall.y + wall.h / 2;
+        entity.y += ec < wc ? -overlapY : overlapY;
+      }
+      clampToCanvas(entity);
+    }
+  }
+
+  /**
    * Premik z ločitvijo osi: najprej X, potem Y.
    * Če os trči v oviro, tisti premik razveljavimo (preprosti resolve).
    */
   function moveWithWalls(entity, dx, dy) {
+    unstickFromWalls(entity);
     entity.x += dx;
     if (hitsAnyWall(entity)) entity.x -= dx;
     entity.y += dy;
