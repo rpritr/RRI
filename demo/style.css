@@ -1,0 +1,101 @@
+/* Isti vizualni jezik kot starter/ — temno ozadje, centriran canvas */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #0f1115;
+  color: #e8eaed;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #9aa0a6;
+  text-align: center;
+}
+
+kbd {
+  display: inline-block;
+  padding: 0.1em 0.4em;
+  margin: 0 0.08em;
+  border: 1px solid #5f6368;
+  border-radius: 4px;
+  background: #1a1d23;
+  font-size: 0.85em;
+}
+
+#game {
+  display: block;
+  background: #1a1d23;
+  border: 2px solid #3c4048;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  image-rendering: pixelated;
+  cursor: crosshair;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: #9aa0a6;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.swatch.player {
+  background: #3b82f6;
+}
+
+.swatch.walker {
+  background: #4a7c59;
+}
+
+.swatch.runner {
+  background: #d44545;
+}
+
+.swatch.wall {
+  background: #5c6370;
+}
