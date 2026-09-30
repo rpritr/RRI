@@ -74,13 +74,15 @@
 
   // --- Svet: ovire (teden 4) ------------------------------------------------
   // Igralec in sovražniki se ob njih ustavijo (AABB). Projektili ob stiku izginejo.
+  // Središče (spawn igralca) mora ostati prosto — sicer AABB razveljavi vsak premik.
   const WALLS = [
-    { x: 200, y: 110, w: 150, h: 28 },
-    { x: 640, y: 70, w: 28, h: 170 },
-    { x: 390, y: 250, w: 160, h: 28 },
-    { x: 70, y: 340, w: 90, h: 90 },
-    { x: 780, y: 360, w: 120, h: 28 },
-    { x: 430, y: 430, w: 28, h: 80 },
+    { x: 200, y: 90, w: 150, h: 28 },
+    { x: 680, y: 70, w: 28, h: 160 },
+    { x: 260, y: 250, w: 90, h: 28 },
+    { x: 610, y: 250, w: 90, h: 28 },
+    { x: 70, y: 360, w: 90, h: 80 },
+    { x: 800, y: 380, w: 110, h: 28 },
+    { x: 470, y: 430, w: 28, h: 80 },
   ];
 
   // --- Vhod -----------------------------------------------------------------
@@ -264,21 +266,31 @@
   let waveBanner;
 
   function resetPlayer() {
-    return {
-      x: W / 2 - CONFIG.playerSize / 2,
-      y: H / 2 - CONFIG.playerSize / 2,
-      w: CONFIG.playerSize,
-      h: CONFIG.playerSize,
+    const size = CONFIG.playerSize;
+    // Spawn nad pasom ovir (~y=250). Središče platna je prekrivalo staro
+    // steno in AABB je razveljavil vsak WASD korak.
+    const p = {
+      x: W / 2 - size / 2,
+      y: 168,
+      w: size,
+      h: size,
       speed: CONFIG.playerSpeed,
       color: "#3b82f6",
       hp: CONFIG.playerMaxHp,
       maxHp: CONFIG.playerMaxHp,
       hurtCooldown: 0,
     };
+    if (hitsAnyWall(p)) {
+      unstickFromWalls(p);
+    }
+    if (hitsAnyWall(p)) {
+      p.x = 80;
+      p.y = 80;
+    }
+    return p;
   }
 
   function startGame() {
-    state = STATE.PLAYING;
     player = resetPlayer();
     projectiles = [];
     enemies = [];
@@ -289,6 +301,7 @@
     spawnTimer = 0;
     waveTimer = 0.4;
     waveBanner = "";
+    state = STATE.PLAYING;
     // Ne sprazni keys — pritisnjen WASD z menija mora takoj premikati.
     focusCanvas();
     setStatus();
@@ -312,10 +325,42 @@
   }
 
   /**
+   * Če je entiteta že v steni, jo potisni ven po manjši prekrivanju osi
+   * (minimum translation). Brez tega AABB “razveljavi premik” obdrži klešče.
+   */
+  function unstickFromWalls(entity) {
+    for (let n = 0; n < 8; n++) {
+      let wall = null;
+      for (let i = 0; i < WALLS.length; i++) {
+        if (aabbOverlap(entity, WALLS[i])) {
+          wall = WALLS[i];
+          break;
+        }
+      }
+      if (!wall) return;
+      const overlapX =
+        Math.min(entity.x + entity.w, wall.x + wall.w) - Math.max(entity.x, wall.x);
+      const overlapY =
+        Math.min(entity.y + entity.h, wall.y + wall.h) - Math.max(entity.y, wall.y);
+      if (overlapX <= overlapY) {
+        const ec = entity.x + entity.w / 2;
+        const wc = wall.x + wall.w / 2;
+        entity.x += ec < wc ? -overlapX : overlapX;
+      } else {
+        const ec = entity.y + entity.h / 2;
+        const wc = wall.y + wall.h / 2;
+        entity.y += ec < wc ? -overlapY : overlapY;
+      }
+      clampToCanvas(entity);
+    }
+  }
+
+  /**
    * Premik z ločitvijo osi: najprej X, potem Y.
    * Če os trči v oviro, tisti premik razveljavimo (preprosti resolve).
    */
   function moveWithWalls(entity, dx, dy) {
+    unstickFromWalls(entity);
     entity.x += dx;
     if (hitsAnyWall(entity)) entity.x -= dx;
     entity.y += dy;
@@ -674,23 +719,31 @@
 
   // --- Game loop (teden 3) --------------------------------------------------
   let lastTime = 0;
+  let loopFrames = 0;
+  let lastLoopError = "";
 
   function loop(timestamp) {
-    if (!lastTime) lastTime = timestamp;
-    let dt = (timestamp - lastTime) / 1000;
-    lastTime = timestamp;
-    if (dt > 0.05) dt = 0.05;
+    loopFrames += 1;
+    try {
+      if (!lastTime) lastTime = timestamp;
+      let dt = (timestamp - lastTime) / 1000;
+      lastTime = timestamp;
+      if (dt > 0.05) dt = 0.05;
 
-    if (state === STATE.PLAYING) {
-      updatePlayer(dt);
-      if (fireTimer > 0) fireTimer -= dt;
-      tryShoot();
-      updateProjectiles(dt);
-      updateEnemies(dt);
-      updateWaves(dt);
+      if (state === STATE.PLAYING) {
+        updatePlayer(dt);
+        if (fireTimer > 0) fireTimer -= dt;
+        tryShoot();
+        updateProjectiles(dt);
+        updateEnemies(dt);
+        updateWaves(dt);
+      }
+
+      draw();
+    } catch (err) {
+      lastLoopError = String((err && err.stack) || err);
+      console.error(lastLoopError);
     }
-
-    draw();
     requestAnimationFrame(loop);
   }
 
@@ -710,6 +763,12 @@
     },
     getLastKey: function () {
       return lastKeyLabel;
+    },
+    getFrames: function () {
+      return loopFrames;
+    },
+    getLoopError: function () {
+      return lastLoopError;
     },
   };
 })();
