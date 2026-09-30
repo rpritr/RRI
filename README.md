@@ -63,10 +63,12 @@ Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepi
 ├── DIDAKTIKA-AI.md        ← pravila AI, primeri promptov
 ├── docs/
 │   └── GDD-predloga.md
+├── slides/
+│   └── index.html         ← celoletna predstavitev (predavatelj, ocena, tedni, projekt)
 ├── lab01/ … lab08/        ← predavanje, vaja, prompti, slajdi
 ├── projekt/               ← brief, mejniki, ocenjevanje lastne igre
 ├── starter/               ← teden 1: igriva osnova
-└── demo/                  ← referenčna igra (milestone tedna 8)
+└── demo/                  ← referenčna igra (milestone tedna 8, moduli v demo/js/)
 ```
 
 ## Tedenska gradiva
@@ -84,6 +86,8 @@ Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepi
 | nato | **Lastna igra** | [`projekt/`](projekt/) — [brief](projekt/BRIEF.md) · [mejniki](projekt/MEJNIKI.md) · [ocenjevanje](projekt/OCENJEVANJE.md) |
 
 Pregled tem: [`TEDENSKI-NACRT.md`](TEDENSKI-NACRT.md). Mapiranje na CPI: [`KURIKUL-MAPIRANJE.md`](KURIKUL-MAPIRANJE.md).
+
+Celoletna predstavitev (uvod, predavatelj, sestava ocene, teorija po tednih in navezava na vaje): odpri [`slides/index.html`](slides/index.html) v brskalniku. Tipke: `←` `→`, `M` meni po tednih, `O` pregled, `N` opombe.
 
 ## Pedagoški model
 

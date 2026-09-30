@@ -2,7 +2,9 @@
 
 **Predviden čas:** ~3–4 ure.  
 **Izhod:** igriva survival igra z seek AI in dvema tipoma sovražnikov; README “kako igrati”; pripravljen prehod v [`projekt/`](../projekt/).  
-**Gradiva:** tvoja igra (teden 7), `PROMPTI.md`.
+**Gradiva:** tvoja igra (teden 7), `PROMPTI.md`, referenca [`demo/`](../demo/).
+
+Referenčna igra je razdeljena v `demo/js/` (vhod, trki, igralec, streli, sovražniki, risanje, zanka). **Tvoja oddaja sme ostati v enem `game.js`.** Razdelitev je vzorec za trenutek, ko datoteka postane nepregledna — ni zahteva tega tedna. Zagon reference: `python3 -m http.server` v mapi `demo/` (moduli ne tečejo prek `file://`).
 
 ---
 

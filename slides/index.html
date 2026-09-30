@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P16 — Razvoj računalniških iger</title>
+<style>
+  :root {
+    --paper: #f3efe4;
+    --paper-2: #e6e0d2;
+    --ink: #16130f;
+    --soft: #3c372f;
+    --muted: #6e675c;
+    --line: #d5cec0;
+    --hot: #d83a1a;
+    --hot-deep: #8d2410;
+    --moss: #1b4634;
+    --moss-2: #2f6a50;
+    --moss-soft: #e4efe8;
+    --sand: #efe2c4;
+    --dark: #12100e;
+    --dark-2: #1c1916;
+    --cream: #f6f1e6;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: #0a0908;
+    color: var(--ink);
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.011em;
+  }
+
+  .viewport {
+    height: 100dvh;
+    display: grid;
+    place-items: center;
+  }
+
+  .frame {
+    width: min(100vw, calc(100dvh * 16 / 9));
+    height: min(100dvh, calc(100vw * 9 / 16));
+    position: relative;
+    overflow: hidden;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .progress {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: rgba(22, 19, 15, 0.08);
+    z-index: 5;
+  }
+  .progress > span {
+    display: block;
+    height: 100%;
+    background: var(--hot);
+    width: 0%;
+  }
+
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    padding: 4.2rem 4.6rem 4.6rem;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide.is-top { justify-content: flex-start; padding-top: 3.6rem; }
+
+  .kicker {
+    margin: 0 0 0.85rem;
+    font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--hot-deep);
+  }
+  .is-dark .kicker { color: #ffb4a2; }
+
+  h1, h2, h3 { font-weight: 650; letter-spacing: -0.03em; margin: 0; }
+  h1 {
+    font-family: Palatino, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 5.1rem;
+    font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  h2 {
+    font-family: Palatino, "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    font-size: 3.05rem;
+    line-height: 1.02;
+    font-weight: 600;
+    max-width: 18ch;
+  }
+  h1.week-title { font-size: 4.35rem; }
+  h2.wide { max-width: 22ch; }
+  .lede {
+    margin: 1.1rem 0 0;
+    font-size: 1.35rem;
+    line-height: 1.35;
+    max-width: 36ch;
+    color: var(--soft);
+  }
+  .is-dark .lede { color: #e7e0d4; }
+
+  ul { margin: 1rem 0 0; padding: 0; list-style: none; }
+  li {
+    position: relative;
+    padding-left: 1.15rem;
+    margin: 0.42rem 0;
+    font-size: 1.22rem;
+    line-height: 1.35;
+    color: var(--soft);
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.55em;
+    width: 0.45rem; height: 0.45rem;
+    background: var(--hot);
+  }
+  .is-dark li { color: #ebe4d8; }
+  strong { color: var(--ink); font-weight: 700; }
+  .is-dark strong { color: white; }
+
+  .meta {
+    margin-top: 1.6rem;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .is-dark .meta { color: #b7aea0; }
+
+  .is-dark {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(243, 239, 228, 0.07) 1px, transparent 0) 0 0 / 22px 22px,
+      var(--dark);
+    color: var(--cream);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2.2rem;
+    align-items: center;
+    width: 100%;
+  }
+  .split.even { grid-template-columns: 1fr 1fr; align-items: start; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1.15rem;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 0.9rem 1rem 0.85rem;
+  }
+  .card b {
+    display: block;
+    font-family: Palatino, Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .card span, .card p { margin: 0; color: var(--soft); font-size: 0.98rem; line-height: 1.35; }
+
+  .formula {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 1.1rem;
+  }
+  .pill {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.45rem 0.75rem;
+    font-family: Palatino, Georgia, serif;
+    font-size: 1.25rem;
+  }
+  .arrow { color: var(--hot); font-size: 1.4rem; }
+
+  pre.code {
+    margin: 0.9rem 0 0;
+    background: var(--dark);
+    color: #f3efe4;
+    padding: 0.85rem 1rem;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    overflow: auto;
+  }
+  pre.code .c { color: #a39888; }
+
+  .out {
+    margin-top: 1rem;
+    background: var(--moss-soft);
+    border-left: 4px solid var(--moss);
+    padding: 0.75rem 0.95rem;
+  }
+  .out b {
+    display: block;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.25rem;
+  }
+  .out p { margin: 0; font-size: 1.05rem; line-height: 1.35; }
+
+  .q {
+    margin: 0.9rem 0 0;
+    font-family: Palatino, Georgia, serif;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  .bar {
+    display: flex;
+    height: 3.4rem;
+    margin-top: 1.2rem;
+    color: white;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+  .seg {
+    display: grid;
+    place-items: center;
+    background: var(--moss);
+    border-right: 2px solid var(--paper);
+  }
+  .seg:nth-child(2) { background: #245c44; }
+  .seg:nth-child(3) { background: #2e7354; }
+  .seg:nth-child(4) { background: #3d8a66; }
+  .seg.project {
+    background: var(--hot);
+    flex: 6;
+    font-size: 0.95rem;
+  }
+  .legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 1.5rem;
+    margin-top: 0.9rem;
+  }
+  .legend div { font-size: 1.02rem; color: var(--soft); }
+  .legend b { color: var(--ink); }
+
+  .rows { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr auto;
+    gap: 0.8rem;
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    padding: 0.38rem 0;
+    font-size: 1.05rem;
+  }
+  .row .tag {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hot-deep);
+  }
+  .row .pct {
+    font-family: Palatino, Georgia, serif;
+    font-size: 1.35rem;
+  }
+
+  .timeline { margin-top: 0.7rem; display: flex; flex-direction: column; }
+  .tl {
+    display: grid;
+    grid-template-columns: 8.2rem 1fr;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .tl:last-child { border-bottom: 1px solid var(--line); }
+  .tl .when {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.85rem;
+    color: var(--hot-deep);
+    padding-top: 0.15rem;
+  }
+  .tl b { display: block; font-size: 1.08rem; }
+  .tl span { color: var(--muted); font-size: 0.95rem; }
+
+  .weekmap {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.7rem;
+    font-size: 0.92rem;
+  }
+  .weekmap th {
+    text-align: left;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 0.25rem 0.45rem 0.4rem 0;
+  }
+  .weekmap td {
+    padding: 0.32rem 0.45rem 0.32rem 0;
+    border-top: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  .weekmap td:first-child {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    color: var(--hot-deep);
+    width: 2.2rem;
+  }
+
+  .steps {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.9rem;
+  }
+  .step {
+    background: var(--sand);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.95rem;
+  }
+  .step em { font-style: normal; color: var(--hot-deep); font-weight: 700; }
+
+  .nums {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .num b {
+    display: block;
+    font-family: Palatino, Georgia, serif;
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .num span { color: var(--soft); font-size: 1rem; }
+
+  .contact {
+    margin-top: 1rem;
+    font-family: Palatino, Georgia, serif;
+    font-size: 2rem;
+  }
+  .contact a { color: inherit; }
+
+  .chips { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 1rem; }
+  .chip {
+    border: 1px solid var(--line);
+    background: white;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.95rem;
+  }
+  .is-dark .chip { background: transparent; border-color: #3a342c; color: var(--cream); }
+
+  .notes {
+    display: none;
+    position: absolute;
+    left: 1.2rem; right: 1.2rem; bottom: 2.7rem;
+    background: #fffdf8;
+    border-top: 3px solid var(--moss);
+    padding: 0.55rem 0.8rem 0.65rem;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    color: var(--soft);
+    z-index: 4;
+    max-height: 28%;
+    overflow: auto;
+  }
+  .notes::before {
+    content: "Opomba";
+    display: block;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.15rem;
+  }
+  body.show-notes .slide.active .notes { display: block; }
+  body.show-notes .slide.active { padding-bottom: 9.5rem; }
+
+  .chrome {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    z-index: 6;
+    background: linear-gradient(transparent, rgba(243, 239, 228, 0.92) 30%);
+  }
+  .frame:has(.slide.active.is-dark) .chrome {
+    color: #b7aea0;
+    background: linear-gradient(transparent, rgba(18, 16, 14, 0.75) 40%);
+  }
+  .chrome button {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    padding: 0.3rem 0.4rem;
+    cursor: pointer;
+  }
+  .chrome button:hover { color: var(--ink); }
+  .frame:has(.slide.active.is-dark) .chrome button:hover { color: white; }
+
+  .overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: #12100e;
+    color: var(--cream);
+    z-index: 8;
+    padding: 2.2rem 2.4rem;
+    overflow: auto;
+  }
+  .overlay.open { display: block; }
+  .overlay h3 {
+    font-family: Palatino, Georgia, serif;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .menu-list, .overview-grid { display: flex; flex-direction: column; gap: 0.15rem; }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.45rem;
+  }
+  .overlay button.item {
+    text-align: left;
+    background: transparent;
+    color: var(--cream);
+    border: 0;
+    border-bottom: 1px solid #2c2823;
+    padding: 0.55rem 0.2rem;
+    font: inherit;
+    font-size: 1.05rem;
+    cursor: pointer;
+  }
+  .overlay button.item:hover { color: #ffb4a2; }
+  .overlay button.tile {
+    text-align: left;
+    background: #1c1916;
+    color: #e7e0d4;
+    border: 1px solid #2c2823;
+    padding: 0.55rem 0.6rem;
+    font: inherit;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    cursor: pointer;
+    min-height: 4.2rem;
+  }
+  .overlay button.tile.on { outline: 2px solid var(--hot); }
+  .overlay button.tile small {
+    display: block;
+    color: #ffb4a2;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .help {
+    margin-top: 1rem;
+    color: #b7aea0;
+    font-size: 0.85rem;
+  }
+
+  @media print {
+    .viewport { display: block; height: auto; }
+    .frame { width: 100%; height: auto; }
+    .slide {
+      display: flex !important;
+      position: relative;
+      height: 100vh;
+      page-break-after: always;
+      break-after: page;
+    }
+    .chrome, .overlay, .progress, .notes { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="viewport">
+  <div class="frame" id="frame">
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+    <!-- UVOD -->
+    <section class="slide is-dark is-center" id="uvod" data-chapter="Uvod" data-title="Naslovnica">
+      <p class="kicker">P16 · cel semester</p>
+      <h1>Razvoj<br>računalniških<br>iger</h1>
+      <p class="lede">Od prve mehanike do igre, ki jo znaš zagnati in razložiti.</p>
+      <p class="meta">24 h predavanj · 48 h vaj · HTML Canvas + JavaScript</p>
+      <aside class="notes">Prvo srečanje gre od tebe, čez oceno, do zemljevida leta. Kasneje odpri meni (M) in skoči na teden. Opombe vklopiš s tipko N.</aside>
+    </section>
+
+    <!-- PREDAVATELJ -->
+    <section class="slide" id="predavatelj" data-chapter="Predavatelj" data-title="Robi Pritržnik">
+      <p class="kicker">Predavatelj · pritrznik.si</p>
+      <div class="split">
+        <div>
+          <h2>Robi Pritržnik</h2>
+          <p class="lede">Doktorski študent, inženir programske opreme, podjetnik in predavatelj.</p>
+        </div>
+        <div class="cards" style="grid-template-columns: 1fr; margin-top: 0">
+          <div class="card">
+            <b>Steerscape</b>
+            <span>Ustanovitelj in direktor. Raziskovanje, izobraževanje in praktičen razvoj na enem mestu.</span>
+          </div>
+          <div class="card">
+            <b>Magisterij računalništva</b>
+            <span>Akademsko ozadje, ki ga dopolnjuje delo v startupih in podjetništvu.</span>
+          </div>
+          <div class="card">
+            <b>Poučevanje</b>
+            <span>Delavnice za posameznike in organizacije — isti standard: sistem, ki se da zagnati.</span>
+          </div>
+        </div>
+      </div>
+      <aside class="notes">Vir je pritrznik.si: PhD student, software engineer, entrepreneur and educator. Founder and CEO of Steerscape. MSc in Computer Science. Ne izmišljaj fakultete doktorskega študija.</aside>
+    </section>
+
+    <section class="slide" id="vloga" data-chapter="Predavatelj" data-title="Zakaj tako učim">
+      <p class="kicker">Predavatelj</p>
+      <h2 class="wide">Igra je sistem, ki se odzove.</h2>
+      <div class="cards">
+        <div class="card"><b>Praksa</b><span>Razvoj po meri: splet, notranja orodja, stvari, ki jih nekdo res uporablja.</span></div>
+        <div class="card"><b>Raziskave</b><span>Doktorski študij drži stik z vprašanji, ki še nimajo kratkega odgovora.</span></div>
+        <div class="card"><b>Izobraževanje</b><span>Delavnice. Na tem predmetu isto: ti zgradiš, ti razložiš.</span></div>
+        <div class="card"><b>Varnost</b><span>Svetovanje in pregledi. V igri se pokaže kot navada: veš, kaj koda zares naredi.</span></div>
+      </div>
+      <aside class="notes">Storitve s pritrznik.si/work: software development, cybersecurity consulting, education and workshops. Poveži z rdečo nitjo predmeta: lastništvo kode.</aside>
+    </section>
+
+    <section class="slide" id="pot" data-chapter="Predavatelj" data-title="Pot">
+      <p class="kicker">Predavatelj · pot</p>
+      <h2>Kje sem delal</h2>
+      <div class="timeline">
+        <div class="tl"><div class="when">2017–2018</div><div><b>BTC d.d.</b><span>Vodja enote za razvoj aplikacijskih rešitev, Ljubljana</span></div></div>
+        <div class="tl"><div class="when">2018–2019</div><div><b>BTC Phoenix d.o.o.</b><span>Tehnični direktor (CTO)</span></div></div>
+        <div class="tl"><div class="when">2019–2025</div><div><b>Foreach Labs d.o.o.</b><span>Ustanovitelj in direktor</span></div></div>
+        <div class="tl"><div class="when">2025–</div><div><b>Steerscape d.o.o.</b><span>Ustanovitelj in direktor</span></div></div>
+      </div>
+      <aside class="notes">Datumi in vloge so z pritrznik.si/work. Ne naštevaj strank, razen če kdo vpraša.</aside>
+    </section>
+
+    <section class="slide is-dark is-center" id="stik" data-chapter="Predavatelj" data-title="Stik">
+      <p class="kicker">Stik</p>
+      <h2 class="wide" style="max-width:none">robi@pritrznik.si</h2>
+      <p class="lede">pritrznik.si</p>
+      <p class="meta">Gradiva predmeta so v tem repozitoriju · jezik vaj je slovenščina</p>
+      <aside class="notes">Za učilnico dodaj še kanal, ki ga dejansko uporabljaš (Arnes). E-pošta je javna z naslovnice.</aside>
+    </section>
+
+    <!-- OCENA -->
+    <section class="slide" id="ocena" data-chapter="Ocena" data-title="Sestava ocene">
+      <p class="kicker">Ocena · 100 %</p>
+      <h2>Štirje zagovori in projekt</h2>
+      <div class="bar" role="img" aria-label="Štirje zagovori po 10 odstotkov in projekt 60 odstotkov">
+        <div class="seg" style="flex:1">1</div>
+        <div class="seg" style="flex:1">2</div>
+        <div class="seg" style="flex:1">3</div>
+        <div class="seg" style="flex:1">4</div>
+        <div class="seg project">Projekt 60 %</div>
+      </div>
+      <div class="legend">
+        <div><b>4 × 10 %</b> ustni zagovor, vsak pokrije dve vaji</div>
+        <div><b>60 %</b> lastna igra: od načrta do demoja</div>
+      </div>
+      <aside class="notes">To je sestava, ki jo poveš na prvem srečanju. V repozitoriju je projekt/OCENJEVANJE.md še okvir brez teh uteži — slajdi so merodajni za študente, dokler dokumenta ne uskladiš.</aside>
+    </section>
+
+    <section class="slide is-top" id="zagovori" data-chapter="Ocena" data-title="Štirje zagovori">
+      <p class="kicker">Ocena · zagovori</p>
+      <h2>Vsak par vaj, 10 %</h2>
+      <div class="rows">
+        <div class="row"><span class="tag">Zagovor 1</span><span>Vaji 1 in 2 — GDD, starter, premik, repo</span><span class="pct">10 %</span></div>
+        <div class="row"><span class="tag">Zagovor 2</span><span>Vaji 3 in 4 — game loop, delta, trki</span><span class="pct">10 %</span></div>
+        <div class="row"><span class="tag">Zagovor 3</span><span>Vaji 5 in 6 — strel, zdravje, game over</span><span class="pct">10 %</span></div>
+        <div class="row"><span class="tag">Zagovor 4</span><span>Vaji 7 in 8 — točke, valovi, AI, skupna baza</span><span class="pct">10 %</span></div>
+      </div>
+      <p class="meta">Ritem: zagovor po tednu 2, 4, 6 in 8. Datum določi učilnica.</p>
+      <aside class="notes">Zagovor je kratek in usten. Študent pokaže obe vaji v teku in razloži kodo. Zamuda tedna se da nadoknaditi, a par mora stati pred zagovorom.</aside>
+    </section>
+
+    <section class="slide" id="na-zagovoru" data-chapter="Ocena" data-title="Na zagovoru">
+      <p class="kicker">Ocena · kako izgleda zagovor</p>
+      <h2 class="wide">Pokažeš igro. Razložiš svojo kodo.</h2>
+      <ul>
+        <li>Oba tedenska izhoda tečeta v tvoji kopiji.</li>
+        <li>Poveš, kje v kodi je mehanika tega para.</li>
+        <li>Spremeniš eno številko ali pravilo v živo, če te vprašam.</li>
+        <li>AI predlog, ki ga ne znaš spremeniti, na zagovoru pade.</li>
+      </ul>
+      <aside class="notes">Ne ocenjuj lepote kvadratkov. Ocenjuj razumevanje: vhod, zanka, trk, entiteta — glede na to, kateri par je na vrsti.</aside>
+    </section>
+
+    <section class="slide" id="projekt-ocena" data-chapter="Ocena" data-title="Projekt 60 %">
+      <p class="kicker">Ocena · projekt</p>
+      <h2>Lastna igra, 60 %</h2>
+      <div class="cards">
+        <div class="card"><b>Igrivost</b><span>Začetek, igra, konec, ponovni poskus. Pravila so jasna.</span></div>
+        <div class="card"><b>Tehnika</b><span>Loop, vhod, trki, entitete — tvoja koda, razložljiva.</span></div>
+        <div class="card"><b>Zasnova</b><span>GDD ustreza igri: vhod, pravilo, feedback.</span></div>
+        <div class="card"><b>Asseti in oddaja</b><span>Sprite ali zvok z virom in licenco. README, demo 5–8 min.</span></div>
+      </div>
+      <aside class="notes">Notranjih odstotkov znotraj 60 % ne razbijaj, razen če jih kasneje fiksiraš. Igrivost in razlaga kode odločata. Demo projekta je del teh 60 %, ni peti zagovor po 10 %.</aside>
+    </section>
+
+    <section class="slide" id="ai" data-chapter="Ocena" data-title="AI in ocena">
+      <p class="kicker">Ocena · AI</p>
+      <h2 class="wide">AI predlaga. Ti ostaneš avtor.</h2>
+      <div class="steps">
+        <span class="step">generate</span>
+        <span class="step">run</span>
+        <span class="step">understand</span>
+        <span class="step"><em>change</em></span>
+        <span class="step">test</span>
+        <span class="step"><em>explain</em></span>
+      </div>
+      <ul>
+        <li>Dovoljeno: osnutek funkcije, debug, ideja mehanike.</li>
+        <li>Obvezno: spremeniš vedenje in to znaš povedati.</li>
+        <li>En prompt za celo igro na zagovoru ne zdrži.</li>
+      </ul>
+      <aside class="notes">Polni cikel je v DIDAKTIKA-AI.md. Na zagovoru vprašaj eno konkretno: kaj si spremenil po AI predlogu?</aside>
+    </section>
+
+    <!-- PREDMET -->
+    <section class="slide" id="predmet" data-chapter="Predmet" data-title="Okvir predmeta">
+      <p class="kicker">Predmet</p>
+      <h2 class="wide">Na koncu stoji delujoča igra.</h2>
+      <div class="nums">
+        <div class="num"><b>24 h</b><span>predavanj</span></div>
+        <div class="num"><b>48 h</b><span>vaj</span></div>
+        <div class="num"><b>1</b><span>igra, ki jo predstaviš</span></div>
+      </div>
+      <ul>
+        <li>Tedni 1–8: skupna baza, ena nova funkcija na teden.</li>
+        <li>Nato lastni projekt. To je tista igra, ki šteje 60 %.</li>
+      </ul>
+      <aside class="notes">CPI katalog: 24 + 48. Ne obljubljaj Unreal/Unity — lanski sklad je zamenjan.</aside>
+    </section>
+
+    <section class="slide is-top" id="cilji" data-chapter="Predmet" data-title="Cilji">
+      <p class="kicker">Predmet · cilji</p>
+      <h2>Kaj znaš ob koncu</h2>
+      <div class="rows">
+        <div class="row"><span class="tag">01</span><span>Načrtovati mehanike in celo igro (GDD)</span><span></span></div>
+        <div class="row"><span class="tag">02</span><span>Game loop, vhod, trki, stanja, napredek</span><span></span></div>
+        <div class="row"><span class="tag">03</span><span>Risati na Canvas — plast pod ogrodji</span><span></span></div>
+        <div class="row"><span class="tag">04</span><span>Vključiti sprite ali zvok z licenco</span><span></span></div>
+        <div class="row"><span class="tag">05</span><span>Zgraditi in predstaviti igrivo igro</span><span></span></div>
+      </div>
+      <aside class="notes">To so kompetence 1–5 iz KURIKUL-MAPIRANJE.md, v jeziku študenta. Asseti (04) se pokažejo v projektu, v tednih 1–8 zadostujejo barvni kvadrati.</aside>
+    </section>
+
+    <section class="slide" id="semester" data-chapter="Predmet" data-title="Semester">
+      <p class="kicker">Predmet · ritem</p>
+      <h2>Osem tednov, nato tvoja igra</h2>
+      <div class="cards">
+        <div class="card"><b>Skupna baza</b><span>Ista tehnična pot za vse. Top-down preživetje. Ena funkcija na teden.</span></div>
+        <div class="card"><b>Tvoja kopija</b><span>Od tedna 2 delaš v svojem repozitoriju. Predmetni starter ostane nespremenjen.</span></div>
+        <div class="card"><b>Milestone</b><span>Teden 8: igriva skupna baza. To je izpit iz osnove, še ne končna oddaja.</span></div>
+        <div class="card"><b>Projekt</b><span>Nova tema ali nova mehanika. Ozka, dokončana igra.</span></div>
+      </div>
+      <aside class="notes">Poudari: po tednu 8 glavni cilj ni več tednov polisha na isti zombie igri.</aside>
+    </section>
+
+    <section class="slide is-dark" id="igra" data-chapter="Predmet" data-title="Skupna igra">
+      <p class="kicker">Skupna igra tednov 1–8</p>
+      <h2 class="wide">Top-down Zombie Survival</h2>
+      <p class="lede">Pogled od zgoraj. Igralec, ovire, streli, zdravje, valovi, sovražniki, ki te iščejo.</p>
+      <div class="chips">
+        <span class="chip">Alternativa: Dungeon Escape</span>
+        <span class="chip">ista tehnika</span>
+        <span class="chip">mehkejša zgodba</span>
+      </div>
+      <p class="meta">Izbira teme ne spremeni ocene. Spremeni GDD.</p>
+      <aside class="notes">Dungeon Escape: labirint, ključi, sovražniki. GDD predloga podpira obe. Referenčna igra je v demo/ ob koncu tedna 8, ni koda za teden 1.</aside>
+    </section>
+
+    <section class="slide" id="sklad" data-chapter="Predmet" data-title="Sklad">
+      <p class="kicker">Predmet · sklad</p>
+      <h2>Canvas in vanilla JavaScript</h2>
+      <div class="cards">
+        <div class="card"><b>Platno</b><span>HTML5 Canvas 2D. Sam brišeš, premikaš in rišeš.</span></div>
+        <div class="card"><b>Jezik</b><span>JavaScript. Moduli, ko jih rabiš.</span></div>
+        <div class="card"><b>Mediji</b><span>V projektu PNG ali SVG, zvok prek Web Audio ali audio.</span></div>
+        <div class="card"><b>Ogrodja kasneje</b><span>Phaser in sorodna orodja pridejo, ko znaš loop, vhod in trke sam.</span></div>
+      </div>
+      <aside class="notes">Če kdo prinese lansko Unreal ali Unity oddajo: na tem predmetu to ni sklad. Povej to mirno in zgodaj.</aside>
+    </section>
+
+    <section class="slide is-top" id="zemljevid" data-chapter="Predmet" data-title="Zemljevid leta">
+      <p class="kicker">Teorija in vaje</p>
+      <h2>Kaj se naučiš, kaj oddaš</h2>
+      <table class="weekmap">
+        <thead><tr><th></th><th>Teorija</th><th>Vaja</th><th>Zagovor</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Igra kot sistem, GDD</td><td>Starter + osnutek GDD</td><td rowspan="2">1 · 10 %</td></tr>
+          <tr><td>2</td><td>Premik, git</td><td>Diagonala, README, commiti</td></tr>
+          <tr><td>3</td><td>Zanka, delta, stanja</td><td>update(dt) + stanje</td><td rowspan="2">2 · 10 %</td></tr>
+          <tr><td>4</td><td>Trk AABB</td><td>Ovira + entiteta</td></tr>
+          <tr><td>5</td><td>Smer proti miški</td><td>Projektili</td><td rowspan="2">3 · 10 %</td></tr>
+          <tr><td>6</td><td>HP, i-frames</td><td>Game over, tipka R</td></tr>
+          <tr><td>7</td><td>Točke, valovi, HUD</td><td>Survival zanka</td><td rowspan="2">4 · 10 %</td></tr>
+          <tr><td>8</td><td>Seek, dva tipa</td><td>Skupna baza</td></tr>
+          <tr><td>→</td><td>Zasnova celote</td><td>Lastna igra</td><td>60 %</td></tr>
+        </tbody>
+      </table>
+      <aside class="notes">To je slajd, na katerega se vračaš. Študentom povej, naj si zemljevid shrani. Podrobnosti tedna so v tedni/NN/.</aside>
+    </section>
+
+    <!-- TEDEN 1 -->
+    <section class="slide is-dark" id="teden-1" data-chapter="Teden 1" data-title="Uvod">
+      <p class="kicker">Teden 1 · predavanje</p>
+      <h1 class="week-title">Uvod, GDD,<br>setup</h1>
+      <p class="lede">Danes ne pišemo cele igre. Dogovorimo se, kaj gradimo in zakaj najprej načrt.</p>
+      <div class="chips"><span class="chip">Zagovor 1 · z vajama 1 in 2</span></div>
+      <aside class="notes">Vprašanje v dvorano: kaj naredi igro igro, ne samo animacijo? Trajanje vsebine 45–60 min, ostanek je vaja.</aside>
+    </section>
+
+    <section class="slide" id="teden-1-sistem" data-chapter="Teden 1" data-title="Igra kot sistem">
+      <p class="kicker">Teden 1 · teorija</p>
+      <h2>Vhod, pravilo, feedback</h2>
+      <p class="q">Igra so odločitve, pravila in odziv sistema.</p>
+      <div class="formula">
+        <span class="pill">mehanika</span>
+        <span class="arrow">→</span>
+        <span class="pill">pravilo</span>
+        <span class="arrow">→</span>
+        <span class="pill">feedback</span>
+      </div>
+      <ul>
+        <li><strong>Premik:</strong> WASD → hitrost in rob platna → igralec se premakne.</li>
+        <li>Isto formulo pišeš v GDD za vsako mehaniko semestra.</li>
+      </ul>
+      <aside class="notes">Mini vaja v paru: ista formula za premik v starterju. AAA grafika in multiplayer ta semester niso fokus.</aside>
+    </section>
+
+    <section class="slide" id="teden-1-gdd" data-chapter="Teden 1" data-title="Zakaj GDD">
+      <p class="kicker">Teden 1 · teorija</p>
+      <h2>GDD je kompas</h2>
+      <ul>
+        <li>Štiri do pet mehanik, potem ena na teden.</li>
+        <li>Pitch v dveh ali treh stavkih.</li>
+        <li>Tabela: vhod, pravilo, feedback.</li>
+        <li>Kako izgubiš — in kako morebiti zmagaš.</li>
+      </ul>
+      <p class="meta">Predloga: docs/GDD-predloga.md</p>
+      <aside class="notes">GDD ni roman. Brez načrta tri ure kode pogosto zbrišeš. Naj bo dovolj kratek, da ga v dveh minutah obnoviš.</aside>
+    </section>
+
+    <section class="slide" id="teden-1-vaja" data-chapter="Teden 1" data-title="Vaja 1">
+      <p class="kicker">Teden 1 · vaja</p>
+      <h2>Starter in osnutek GDD</h2>
+      <ul>
+        <li>Zaženi <strong>starter/</strong>: modri igralec, WASD, zanka s časom.</li>
+        <li>Preberi <strong>game.js</strong> toliko, da veš, kje je premik.</li>
+        <li>Izpolni osnutek GDD: Zombie Survival ali Dungeon Escape.</li>
+        <li>AI sme predlagati mehanike. Ti jih razložiš z lastnimi besedami.</li>
+      </ul>
+      <div class="out"><b>Izhod</b><p>Tekoči starter, osnutek GDD, kratka AI refleksija.</p></div>
+      <aside class="notes">Zagon: python3 -m http.server v starter/. Podrobnosti so v tedni/01/VAJA.md. Domače vprašanje: kje bi živel sovražnik (x, y, w, h)?</aside>
+    </section>
+
+    <!-- TEDEN 2 -->
+    <section class="slide is-dark" id="teden-2" data-chapter="Teden 2" data-title="Premikanje">
+      <p class="kicker">Teden 2 · predavanje</p>
+      <h1 class="week-title">Premik<br>in repo</h1>
+      <p class="lede">Igralec se že premika. Danes naredimo premik predvidljiv in repozitorij berljiv.</p>
+      <div class="chips"><span class="chip">Zagovor 1 · ta teden zaključi par</span></div>
+      <aside class="notes">Vprašanje: zakaj je diagonala brez normalizacije hitrejša? Odgovor: vektor (1,1) ima dolžino √2.</aside>
+    </section>
+
+    <section class="slide" id="teden-2-vhod" data-chapter="Teden 2" data-title="Vhod in hitrost">
+      <p class="kicker">Teden 2 · teorija</p>
+      <h2>Stanje tipke, ne utrip OS</h2>
+      <ul>
+        <li>keydown in keyup samo zabeležita <strong>keys.w = true/false</strong>.</li>
+        <li>Premik živi v <strong>update</strong>, vsak frejm.</li>
+        <li>Diagonala: deli z dolžino vektorja, sicer je √2-krat hitrejša.</li>
+      </ul>
+      <pre class="code">player.x += dx * PLAYER_SPEED * dt</pre>
+      <aside class="notes">Hitrost je v pikslih na sekundo, zato množimo z dt. Konstante na vrh datoteke. Puščice in Shift za sprint sta dober dokaz, da znaš spremeniti vedenje. Clamp na rob platna še ni trk z zidom — to je teden 4.</aside>
+    </section>
+
+    <section class="slide" id="teden-2-git" data-chapter="Teden 2" data-title="Repo">
+      <p class="kicker">Teden 2 · teorija</p>
+      <h2>Svoja kopija, smiselni commiti</h2>
+      <ul>
+        <li>Delaš v forku ali lastnem repu, ne v predmetnem starterju.</li>
+        <li>Commit pove, kaj se je v igri spremenilo.</li>
+        <li>README: kako zagnati, kontrole.</li>
+        <li>.gitignore za smeti, veja za večji poskus.</li>
+      </ul>
+      <aside class="notes">Repo higiena je del kompetence izgradnje. En commit z imenom final na koncu semestra na zagovoru boli.</aside>
+    </section>
+
+    <section class="slide" id="teden-2-vaja" data-chapter="Teden 2" data-title="Vaja 2">
+      <p class="kicker">Teden 2 · vaja · zagovor 1</p>
+      <h2>Čistejši premik</h2>
+      <ul>
+        <li>Normalizirana diagonala, hitrost v konstanti.</li>
+        <li>Puščice ali sprint — eno dodatno vedenje.</li>
+        <li>README in prvi smiselni commiti.</li>
+      </ul>
+      <div class="out"><b>Izhod · na zagovoru 1 skupaj s tednom 1</b><p>Izboljšan premik v tvoji kopiji, README, commiti. Znaš razložiti vhod in hitrost.</p></div>
+      <aside class="notes">Zagovor 1: GDD + ta premik. Vprašaj, zakaj listener ne premika igralca sam, in kaj naredi hypot.</aside>
+    </section>
+
+    <!-- TEDEN 3 -->
+    <section class="slide is-dark" id="teden-3" data-chapter="Teden 3" data-title="Game loop">
+      <p class="kicker">Teden 3 · predavanje</p>
+      <h1 class="week-title">Zanka,<br>čas, stanja</h1>
+      <p class="lede">Na tej zanki visijo trki, streli, valovi in lastna igra.</p>
+      <div class="chips"><span class="chip">Zagovor 2 · z vajo 4</span></div>
+      <aside class="notes">Vprašanje: pri 30 in pri 144 FPS mora biti igralec enako hiter. Kako? Odgovor je čas, ne število frejmov.</aside>
+    </section>
+
+    <section class="slide" id="teden-3-loop" data-chapter="Teden 3" data-title="Anatomija zanke">
+      <p class="kicker">Teden 3 · teorija</p>
+      <h2>Počisti, posodobi, nariši</h2>
+      <pre class="code">requestAnimationFrame(loop)
+dt = čas od prejšnjega frejma
+update(dt)   <span class="c">// pravila</span>
+draw()        <span class="c">// platno</span></pre>
+      <ul>
+        <li>Brez čiščenja ostanejo sledi pravokotnikov.</li>
+        <li>Premor preskoči update, draw še pokaže kader.</li>
+      </ul>
+      <aside class="notes">Naj strukturo naredijo eksplicitno: update(dt), draw(), morda state. Starter to že približno dela.</aside>
+    </section>
+
+    <section class="slide" id="teden-3-dt" data-chapter="Teden 3" data-title="Delta in stanja">
+      <p class="kicker">Teden 3 · teorija</p>
+      <h2>dt v sekundah, stanje igre</h2>
+      <pre class="code">dt = (now - last) / 1000
+dt = Math.min(dt, 0.05)</pre>
+      <ul>
+        <li>Premik je hitrost krat dt. Enaka hitrost pri različnem FPS.</li>
+        <li>Zavihek v ozadju zna prinesti ogromen dt — zato zgornja meja.</li>
+        <li>Skica stanj: MENU, PLAYING, GAME_OVER. Danes zadostuje spremenljivka.</li>
+      </ul>
+      <aside class="notes">Fiksni korak je veljaven, če je dokumentiran. AI naj razloži zanko vrstico po vrstico; študent preveri in popravi napake v razlagi.</aside>
+    </section>
+
+    <section class="slide" id="teden-3-vaja" data-chapter="Teden 3" data-title="Vaja 3">
+      <p class="kicker">Teden 3 · vaja</p>
+      <h2>Zanka, ki jo znaš narisati</h2>
+      <ul>
+        <li>Update teče z delto ali z dokumentiranim fiksnim korakom.</li>
+        <li>V kodi je stanje, tudi če je še samo PLAYING.</li>
+        <li>Na glas razložiš clear, update, draw.</li>
+      </ul>
+      <div class="out"><b>Izhod</b><p>Urejen game loop, spremenljivka stanja, zapisano ali je čas delta ali fiksni korak.</p></div>
+      <aside class="notes">To je priprava na entitete. Naslednji teden trki sedijo v update, ne v draw.</aside>
+    </section>
+
+    <!-- TEDEN 4 -->
+    <section class="slide is-dark" id="teden-4" data-chapter="Teden 4" data-title="Trki">
+      <p class="kicker">Teden 4 · predavanje</p>
+      <h1 class="week-title">Trki</h1>
+      <p class="lede">Omejitev na rob platna ni zid v svetu. Danes pravokotniki, ki si lastijo piksle.</p>
+      <div class="chips"><span class="chip">Zagovor 2 · ta teden zaključi par</span></div>
+      <aside class="notes">Vprašanje: ali sta kvadrata v trku, če se samo dotikata po robu? Formula uporablja stroge neenakosti — dotik po robu lahko ostane brez prekrivanja. Naj povejo, katero pravilo so izbrali.</aside>
+    </section>
+
+    <section class="slide" id="teden-4-aabb" data-chapter="Teden 4" data-title="AABB">
+      <p class="kicker">Teden 4 · teorija</p>
+      <h2>Detect in resolve</h2>
+      <pre class="code">a.x &lt; b.x + b.w &amp;&amp; a.x + a.w &gt; b.x &amp;&amp;
+a.y &lt; b.y + b.h &amp;&amp; a.y + a.h &gt; b.y</pre>
+      <ul>
+        <li><strong>Detect</strong> pove, da se prekrivata.</li>
+        <li><strong>Resolve</strong> igralca potisne ven. Brez tega ostaneš v zidu.</li>
+        <li>Na vaji: najprej os x, preveri, nato os y. Drsenje ob zidu je takrat boljše.</li>
+      </ul>
+      <aside class="notes">AABB: axis-aligned bounding box, x,y,w,h kot v starterju, levi zgornji kot. Krogi so opcijski za kasneje. Tri strategije: razveljavi cel premik, po oseh, najmanjši potisk. Priporočilo je po oseh.</aside>
+    </section>
+
+    <section class="slide" id="teden-4-entiteta" data-chapter="Teden 4" data-title="Entiteta">
+      <p class="kicker">Teden 4 · teorija</p>
+      <h2>Sovražnik je podatek</h2>
+      <pre class="code">enemy = { x, y, w, h }</pre>
+      <ul>
+        <li>Še brez hoje proti igralcu. To pride v tednu 8.</li>
+        <li>Ista oblika kot igralec: lažje trki, lažje risanje.</li>
+        <li>Test: igralec ne gre skozi oviro.</li>
+      </ul>
+      <aside class="notes">Naj narišejo oviro in dummy sovražnika. AI sledenja danes ne dodajaj — sicer se teden razleze.</aside>
+    </section>
+
+    <section class="slide" id="teden-4-vaja" data-chapter="Teden 4" data-title="Vaja 4">
+      <p class="kicker">Teden 4 · vaja · zagovor 2</p>
+      <h2>Ovira in entiteta</h2>
+      <ul>
+        <li>Vsaj ena ovira, trk igralca, razrešitev po oseh.</li>
+        <li>Sovražnik obstaja kot položaj in velikost.</li>
+        <li>Na glas: razlika med detekcijo in razrešitvijo.</li>
+      </ul>
+      <div class="out"><b>Izhod · na zagovoru 2 skupaj s tednom 3</b><p>Igralec ne gre skozi oviro. Entiteta je v kodi. Znaš razložiti zanko in trk.</p></div>
+      <aside class="notes">Zagovor 2: naj pokažejo dt in en trk. Vprašaj, kaj se zgodi na vogalu, če razveljavijo cel premik.</aside>
+    </section>
+
+    <!-- TEDEN 5 -->
+    <section class="slide is-dark" id="teden-5" data-chapter="Teden 5" data-title="Streljanje">
+      <p class="kicker">Teden 5 · predavanje</p>
+      <h1 class="week-title">Strel<br>proti miški</h1>
+      <p class="lede">Krogla gre proti točki na platnu. Sovražnik začne padati šele, ko štejemo točke.</p>
+      <div class="chips"><span class="chip">Zagovor 3 · z vajo 6</span></div>
+      <aside class="notes">Vprašanje: klik je v oknu ali na platnu? clientX je okno. Canvas ima getBoundingClientRect in lahko CSS skaliranje.</aside>
+    </section>
+
+    <section class="slide" id="teden-5-mis" data-chapter="Teden 5" data-title="Koordinate">
+      <p class="kicker">Teden 5 · teorija</p>
+      <h2>Iz okna na platno</h2>
+      <pre class="code">rect = canvas.getBoundingClientRect()
+mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width)
+mouse.y = (e.clientY - rect.top) * (canvas.height / rect.height)</pre>
+      <p class="lede" style="font-size:1.15rem">Če platno na zaslonu ni v svoji notranji ločljivosti, brez tega korekcijskega faktorja strel zamudi.</p>
+      <aside class="notes">Drži miško v mousemove. Hold-to-fire je opcijski. Nariši na tabli okno, ki je večje od canvas.width.</aside>
+    </section>
+
+    <section class="slide" id="teden-5-vektor" data-chapter="Teden 5" data-title="Vektor">
+      <p class="kicker">Teden 5 · teorija</p>
+      <h2>Smer je enotski vektor</h2>
+      <pre class="code">vx = mouse.x - centerX
+vy = mouse.y - centerY
+len = hypot(vx, vy)
+vx /= len; vy /= len</pre>
+      <ul>
+        <li>Projektil se rodi pri igralcu, hitrost je konstanta krat dt.</li>
+        <li>Ko zapusti platno, ga odstraniš. Cooldown med streli je dobrodošel.</li>
+      </ul>
+      <aside class="notes">len === 0: ne deli z nič. Isti vzorec vektorja pride nazaj pri seek v tednu 8 — povej to, da vidijo nit.</aside>
+    </section>
+
+    <section class="slide" id="teden-5-vaja" data-chapter="Teden 5" data-title="Vaja 5">
+      <p class="kicker">Teden 5 · vaja</p>
+      <h2>Krogle, ki letijo</h2>
+      <ul>
+        <li>Klik ali držanje izstreli v smeri miške.</li>
+        <li>Projektili se premikajo in izginejo ob robu.</li>
+        <li>Opcijsko: cooldown.</li>
+      </ul>
+      <div class="out"><b>Izhod</b><p>Igrivo streljanje. Smer znaš izračunati iz miške in središča igralca.</p></div>
+      <aside class="notes">Škoda sovražniku še ni pogoj. Če kdo to doda, naj ne podre priprave na teden 6.</aside>
+    </section>
+
+    <!-- TEDEN 6 -->
+    <section class="slide is-dark" id="teden-6" data-chapter="Teden 6" data-title="Zdravje">
+      <p class="kicker">Teden 6 · predavanje</p>
+      <h1 class="week-title">Zdravje<br>in game over</h1>
+      <p class="lede">Sklenemo zanko poraza. Valovi in zmaga prideta naslednji teden.</p>
+      <div class="chips"><span class="chip">Zagovor 3 · ta teden zaključi par</span></div>
+      <aside class="notes">Vprašanje: sovražnik se prekriva eno sekundo pri 60 FPS. Kolikokrat pade HP, če vsak frejm odšteješ 1? Okoli 60. Zato hurt cooldown.</aside>
+    </section>
+
+    <section class="slide" id="teden-6-hp" data-chapter="Teden 6" data-title="HP in i-frames">
+      <p class="kicker">Teden 6 · teorija</p>
+      <h2>Škoda ima hladilni čas</h2>
+      <pre class="code">hp, maxHp, hurtTimer
+if (overlap &amp;&amp; hurtTimer &lt;= 0) {
+  hp -= DAMAGE
+  hurtTimer = IFRAMES
+}</pre>
+      <ul>
+        <li>Feedback: flash barve, dokler je hurtTimer nad nič.</li>
+        <li>Številke v kodi so številke v GDD.</li>
+      </ul>
+      <aside class="notes">Nevarnost je lahko dummy sovražnik ali rdeča cona. HUD palica lahko počaka na teden 7; fillText zadostuje.</aside>
+    </section>
+
+    <section class="slide" id="teden-6-stanje" data-chapter="Teden 6" data-title="Game over">
+      <p class="kicker">Teden 6 · teorija</p>
+      <h2>Stanje GAME_OVER in tipka R</h2>
+      <ul>
+        <li>Ko je hp 0, preklop v GAME_OVER. Update igre se ustavi.</li>
+        <li>Draw še napiše, da je konec.</li>
+        <li>R ponastavi položaj, hp, entitete, stanje na PLAYING.</li>
+      </ul>
+      <aside class="notes">Restart mora pobrisati tudi krogle in ponastaviti sovražnika, sicer je druga igra drugačna od prve. To je dober zagovorni vpogled.</aside>
+    </section>
+
+    <section class="slide" id="teden-6-vaja" data-chapter="Teden 6" data-title="Vaja 6">
+      <p class="kicker">Teden 6 · vaja · zagovor 3</p>
+      <h2>Poraz, ki se da ponoviti</h2>
+      <ul>
+        <li>Stik zmanjša HP, z i-frames.</li>
+        <li>Game over je besedilo na platnu.</li>
+        <li>R začne znova.</li>
+      </ul>
+      <div class="out"><b>Izhod · na zagovoru 3 skupaj s tednom 5</b><p>Streljanje in zanka poraza. Znaš razložiti vektor in zakaj škoda ni vsak frejm.</p></div>
+      <aside class="notes">Zagovor 3: naj izstrelijo in naj se pustijo zadeti. Vprašaj, kaj se zgodi, če hurtTimer ne odštevaš z dt.</aside>
+    </section>
+
+    <!-- TEDEN 7 -->
+    <section class="slide is-dark" id="teden-7" data-chapter="Teden 7" data-title="Valovi">
+      <p class="kicker">Teden 7 · predavanje</p>
+      <h1 class="week-title">Točke,<br>valovi, HUD</h1>
+      <p class="lede">Preživetje brez napredka je hoja. Progressija je mehanika.</p>
+      <div class="chips"><span class="chip">Zagovor 4 · z vajo 8</span></div>
+      <aside class="notes">Vprašanje: val 2 se začne, ko pobiješ vse, ali ko mine čas? Oba odgovora sta veljavna. Izbrati morajo enega in ga zapisati v GDD.</aside>
+    </section>
+
+    <section class="slide" id="teden-7-score" data-chapter="Teden 7" data-title="Score in valovi">
+      <p class="kicker">Teden 7 · teorija</p>
+      <h2>Ubog sovražnik šteje</h2>
+      <ul>
+        <li>Prekrivanje krogle in sovražnika: oba ven, score naraste.</li>
+        <li>Dummy iz tedna 4 postane uničljiv.</li>
+        <li>Val: <strong>wave</strong> in koliko sovražnikov še živi.</li>
+        <li>Naslednji val: več sovražnikov ali višja hitrost. Eno pravilo, zapisano.</li>
+      </ul>
+      <aside class="notes">Če je sovražnik samo eden in stoji, naj po smrti pride naslednji — že mini val. Težavnost naj raste počasi, da igra ostane igriva.</aside>
+    </section>
+
+    <section class="slide" id="teden-7-hud" data-chapter="Teden 7" data-title="HUD">
+      <p class="kicker">Teden 7 · teorija</p>
+      <h2>HUD pove, kje si</h2>
+      <div class="chips">
+        <span class="chip">HP</span>
+        <span class="chip">score</span>
+        <span class="chip">val</span>
+      </div>
+      <ul>
+        <li>Feedback je del mehanike, ne okras na koncu.</li>
+        <li>V GDD dopolni progressijo: kdaj je težje in kdaj se krog konča.</li>
+      </ul>
+      <aside class="notes">Po tem tednu obstaja osnovna survival zanka. Teden 8 doda iskanje igralca in dva tipa. Lastna igra je šele za tem.</aside>
+    </section>
+
+    <section class="slide" id="teden-7-vaja" data-chapter="Teden 7" data-title="Vaja 7">
+      <p class="kicker">Teden 7 · vaja</p>
+      <h2>Survival zanka</h2>
+      <ul>
+        <li>Točke ob uničenju.</li>
+        <li>Vsaj dva vala.</li>
+        <li>HUD: score, val, HP.</li>
+      </ul>
+      <div class="out"><b>Izhod</b><p>Osnovna zanka preživetja in dopolnjena progressija v GDD.</p></div>
+      <aside class="notes">Preveri, da val res napreduje in da HUD ne laže (HP se ujema s podatkom).</aside>
+    </section>
+
+    <!-- TEDEN 8 -->
+    <section class="slide is-dark" id="teden-8" data-chapter="Teden 8" data-title="AI sovražnikov">
+      <p class="kicker">Teden 8 · predavanje</p>
+      <h1 class="week-title">Sovražnik<br>te išče</h1>
+      <p class="lede">Skupna baza se danes sklene. Naslednji korak je tvoja igra.</p>
+      <div class="chips"><span class="chip">Zagovor 4 · ta teden zaključi par</span></div>
+      <aside class="notes">Kje smo: loop, vhod, ovire, strel, HP, score, valovi. Manjka občutek, da sovražnik hoče do tebe. Vprašanje: razlika med seek in pathfinding.</aside>
+    </section>
+
+    <section class="slide" id="teden-8-seek" data-chapter="Teden 8" data-title="Seek">
+      <p class="kicker">Teden 8 · teorija</p>
+      <h2>Seek je vektor, ne knjižnica</h2>
+      <pre class="code">dx = playerCenterX - enemy.x
+dy = playerCenterY - enemy.y
+len = hypot(dx, dy)
+enemy.x += (dx / len) * enemy.speed * dt</pre>
+      <ul>
+        <li>Hitrost je omejena v pikslih na sekundo. Sovražnik ne skoči nate.</li>
+        <li>Obhod zidov (A*) ta teden ni pogoj. Če gre skozi oviro, to zapiši.</li>
+      </ul>
+      <aside class="notes">Isti vzorec kot krogla, cilj je igralec. len === 0: ne deli. Trk z ovirami je priporočljiv, če čas dopušča, z isto razrešitvijo kot pri igralcu.</aside>
+    </section>
+
+    <section class="slide" id="teden-8-tipa" data-chapter="Teden 8" data-title="Dva tipa">
+      <p class="kicker">Teden 8 · teorija</p>
+      <h2>Dva tipa, ena logika</h2>
+      <div class="cards">
+        <div class="card"><b>Walker</b><span>Počasnejši, več HP. Drži pritisk.</span></div>
+        <div class="card"><b>Runner</b><span>Hitrejši, manj HP. Kaznuje mirovanje.</span></div>
+      </div>
+      <ul>
+        <li>Razlikujeta se v podatkih: hitrost, HP, barva. Ista funkcija seek.</li>
+        <li>Referenca celotne mini igre je v mapi <strong>demo/</strong>.</li>
+      </ul>
+      <aside class="notes">Demo/ je cilj tednov 1–8, ne predloga za kopiranje v tednu 1. Milestone: igriva survival igra.</aside>
+    </section>
+
+    <section class="slide" id="teden-8-vaja" data-chapter="Teden 8" data-title="Vaja 8">
+      <p class="kicker">Teden 8 · vaja · zagovor 4</p>
+      <h2>Skupna baza je milestone</h2>
+      <ul>
+        <li>Sovražniki sledijo igralcu.</li>
+        <li>Vsaj dva tipa: hitrost, HP ali barva.</li>
+        <li>README: kako igrati.</li>
+      </ul>
+      <div class="out"><b>Izhod · na zagovoru 4 skupaj s tednom 7</b><p>Igriva survival igra. Znaš razložiti val in seek. Nato se začne projekt.</p></div>
+      <aside class="notes">Zagovor 4: score, val, HUD, seek, dva tipa. Vprašaj, kaj je razlika med tipoma v podatkih, ne v dveh kopijah funkcije.</aside>
+    </section>
+
+    <!-- PROJEKT -->
+    <section class="slide is-dark" id="projekt" data-chapter="Projekt" data-title="Lastna igra">
+      <p class="kicker">Projekt · 60 %</p>
+      <h1 class="week-title">Tvoja<br>igra</h1>
+      <p class="lede">Skupna baza dokaže osnovo. Projekt dokaže, da znaš načrtovati in dokončati celoto.</p>
+      <aside class="notes">Odpri projekt/BRIEF.md. Glavni cilj ni sprite na nespremenjeni zombie igri.</aside>
+    </section>
+
+    <section class="slide" id="projekt-pot" data-chapter="Projekt" data-title="Dve poti">
+      <p class="kicker">Projekt · izhodišče</p>
+      <h2>Dve legitimni poti</h2>
+      <div class="cards">
+        <div class="card"><b>A — iz baze tedna 8</b><span>Nova tema ali jedrna mehanika. V README piše, kaj je novo. Loop, vhod, trki in entitete ostanejo vidni.</span></div>
+        <div class="card"><b>B — nova Canvas igra</b><span>Platformer, puzzle, arena. Isti štirje stebri, igrivo, v istem skladu.</span></div>
+      </div>
+      <p class="meta">Ozka in dovršena igra premaga seznam funkcij.</p>
+      <aside class="notes">Ni legitimno: tuj Phaser tutorial, prepis v Unreal, igra ki je ne znaš razložiti, samo barve na isti kodi.</aside>
+    </section>
+
+    <section class="slide is-top" id="projekt-obseg" data-chapter="Projekt" data-title="Obseg">
+      <p class="kicker">Projekt · obseg</p>
+      <h2>Kaj mora stati</h2>
+      <div class="rows">
+        <div class="row"><span class="tag">Krog</span><span>Začetek, igra, konec, ponovni poskus</span><span></span></div>
+        <div class="row"><span class="tag">Loop</span><span>update in draw, dt ali dokumentiran fiksni korak</span><span></span></div>
+        <div class="row"><span class="tag">Vhod</span><span>Tipkovnica ali miška, ki jo razložiš</span><span></span></div>
+        <div class="row"><span class="tag">Trki</span><span>AABB, krogi ali ploščice — zavestno</span><span></span></div>
+        <div class="row"><span class="tag">Entitete</span><span>Igralec in vsaj še ena vrsta</span><span></span></div>
+        <div class="row"><span class="tag">Asseti</span><span>En sprite ali en zvok v assets/, vir in licenca</span><span></span></div>
+      </div>
+      <aside class="notes">Ni treba: multiplayer, 3D, fizikalni pogon, odprt svet. Če zmanjka časa, reži dodatne mehanike, ne vertical slice in ne razlage.</aside>
+    </section>
+
+    <section class="slide" id="projekt-mejniki" data-chapter="Projekt" data-title="Mejniki">
+      <p class="kicker">Projekt · mejniki</p>
+      <h2>Načrt, rez, polish, demo</h2>
+      <div class="rows">
+        <div class="row"><span class="tag">1 Načrt</span><span>Pitch, 4–6 mehanik, win/lose, seznam česa ne boš delal</span><span></span></div>
+        <div class="row"><span class="tag">2 Slice</span><span>Najkrajši igriv krog. Sošolec igra minuto brez tebe ob rami</span><span></span></div>
+        <div class="row"><span class="tag">3 Polish</span><span>assets/, licenca, HUD, en ali dva občutka. Brez novih velikih mehanik</span><span></span></div>
+        <div class="row"><span class="tag">4 Demo</span><span>README, GDD usklajen z igro, AI refleksija, predstavitev</span><span></span></div>
+      </div>
+      <aside class="notes">Datumi mejnikov gredo v učilnico. Vrstni red je fiksen. Načrt je kratek in obvezen, da ustavi preširok obseg.</aside>
+    </section>
+
+    <section class="slide" id="projekt-demo" data-chapter="Projekt" data-title="Demo in oddaja">
+      <p class="kicker">Projekt · zagovor igre</p>
+      <h2>Pet do osem minut</h2>
+      <ul>
+        <li>Pol minute: kaj igramo in kako se konča.</li>
+        <li>Dve do štiri minute: igraš, pokažeš jedro.</li>
+        <li>Minuta: odpreš update, trk ali entiteto in razložiš.</li>
+        <li>Oddaja: igra, README, GDD, AI refleksija na pol strani.</li>
+      </ul>
+      <div class="out"><b>Na zagovoru projekta</b><p>Kako teče zanka in kaj je dt. Kako bereš vhod. Kako detektiraš trk. Kako živi entiteta.</p></div>
+      <aside class="notes">Če igra dela in je črna skrinjica, ocena pade. Delo v paru samo, če ga dovoliš, z razdeljenim avtorstvom v README.</aside>
+    </section>
+
+    <section class="slide is-dark is-center" id="zakljucek" data-chapter="Zaključek" data-title="Prvi korak">
+      <p class="kicker">Začetek</p>
+      <h2 class="wide" style="max-width:16ch">Zaženi starter. Napiši pitch.</h2>
+      <p class="lede">Naslednji zagovor pokrije vaji 1 in 2. Do takrat: GDD in premik, ki ga znaš razložiti.</p>
+      <p class="meta">robi@pritrznik.si · pritrznik.si</p>
+      <aside class="notes">Pustite čas za vprašanja. Pokaži zagon starterja v živo, če je prvo srečanje. Meni (M) za skok na teden.</aside>
+    </section>
+
+    <div class="chrome">
+      <button type="button" id="menuBtn">Meni</button>
+      <span id="chromeLabel">Uvod</span>
+      <span>
+        <button type="button" id="prevBtn" aria-label="Prejšnji">←</button>
+        <span id="count">1 / 1</span>
+        <button type="button" id="nextBtn" aria-label="Naslednji">→</button>
+      </span>
+    </div>
+
+    <div class="overlay" id="menu" role="dialog" aria-label="Meni poglavij">
+      <h3>Poglavja</h3>
+      <div class="menu-list" id="menuList"></div>
+      <p class="help">Tipke: ← → presledek · M meni · O pregled · N opombe · Home / End</p>
+    </div>
+    <div class="overlay" id="overview" role="dialog" aria-label="Pregled slajdov">
+      <h3>Vsi slajdi</h3>
+      <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const bar = document.getElementById("bar");
+  const label = document.getElementById("chromeLabel");
+  const count = document.getElementById("count");
+  const menu = document.getElementById("menu");
+  const overview = document.getElementById("overview");
+  let i = 0;
+
+  const chapters = [];
+  slides.forEach((slide, index) => {
+    const name = slide.dataset.chapter;
+    if (!chapters.length || chapters[chapters.length - 1].name !== name) {
+      chapters.push({ name, index, id: slide.id });
+    }
+  });
+
+  const menuList = document.getElementById("menuList");
+  chapters.forEach((ch) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "item";
+    b.textContent = ch.name;
+    b.addEventListener("click", () => { closeOverlays(); show(ch.index); });
+    menuList.appendChild(b);
+  });
+
+  const grid = document.getElementById("overviewGrid");
+  slides.forEach((slide, index) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "tile";
+    b.innerHTML = "<small>" + slide.dataset.chapter + "</small>" + slide.dataset.title;
+    b.addEventListener("click", () => { closeOverlays(); show(index); });
+    grid.appendChild(b);
+  });
+
+  function closeOverlays() {
+    menu.classList.remove("open");
+    overview.classList.remove("open");
+  }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+    const slide = slides[i];
+    label.textContent = slide.dataset.chapter + " · " + slide.dataset.title;
+    count.textContent = (i + 1) + " / " + slides.length;
+    bar.style.width = ((i + 1) / slides.length * 100) + "%";
+    document.title = "P16 · " + slide.dataset.title;
+    grid.querySelectorAll(".tile").forEach((t, idx) => t.classList.toggle("on", idx === i));
+    if (slide.id) history.replaceState(null, "", "#" + slide.id);
+  }
+
+  function goHash() {
+    const h = location.hash.replace("#", "");
+    if (!h) return;
+    const byId = slides.findIndex((s) => s.id === h);
+    if (byId >= 0) { show(byId); return; }
+    const n = parseInt(h, 10);
+    if (n) show(n - 1);
+  }
+
+  document.getElementById("nextBtn").addEventListener("click", () => show(i + 1));
+  document.getElementById("prevBtn").addEventListener("click", () => show(i - 1));
+  document.getElementById("menuBtn").addEventListener("click", () => {
+    overview.classList.remove("open");
+    menu.classList.toggle("open");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    if (e.key === "Escape") { closeOverlays(); return; }
+    if (e.key === "m" || e.key === "M") {
+      overview.classList.remove("open");
+      menu.classList.toggle("open");
+      return;
+    }
+    if (e.key === "o" || e.key === "O") {
+      menu.classList.remove("open");
+      overview.classList.toggle("open");
+      return;
+    }
+    if (e.key === "n" || e.key === "N") {
+      document.body.classList.toggle("show-notes");
+      return;
+    }
+    if (menu.classList.contains("open") || overview.classList.contains("open")) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); show(i + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp" || e.key === "Backspace") { e.preventDefault(); show(i - 1); }
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+  });
+
+  const frame = document.getElementById("frame");
+  function fit() {
+    const scale = Math.min(frame.clientWidth / 1920, frame.clientHeight / 1080);
+    document.documentElement.style.fontSize = (20 * Math.max(scale, 0.2)) + "px";
+  }
+  fit();
+  window.addEventListener("resize", fit);
+  frame.addEventListener("click", (e) => {
+    if (e.target.closest("button, a, .overlay")) return;
+    if (menu.classList.contains("open") || overview.classList.contains("open")) return;
+    const rect = frame.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    show(x < rect.width * 0.28 ? i - 1 : i + 1);
+  });
+
+  let touchX = null;
+  frame.addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  frame.addEventListener("touchend", (e) => {
+    if (touchX == null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 48) show(i + (dx < 0 ? 1 : -1));
+    touchX = null;
+  }, { passive: true });
+
+  const startHash = location.hash.replace("#", "");
+  let startIndex = 0;
+  if (startHash) {
+    const byId = slides.findIndex((s) => s.id === startHash);
+    if (byId >= 0) startIndex = byId;
+    else {
+      const n = parseInt(startHash, 10);
+      if (n) startIndex = Math.max(0, Math.min(slides.length - 1, n - 1));
+    }
+  }
+  show(startIndex);
+  window.addEventListener("hashchange", goHash);
+})();
+</script>
+</body>
+</html>

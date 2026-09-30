@@ -98,4 +98,5 @@ Seek, 2 tipa, stabilizacija, checklist baze, kratek README “kako igrati skupno
 - Močnejši: runner z rahlim “jitter” ali walker, ki se ne seka med seboj (ločevanje) — opcijsko.  
 - Šibkejši: oba tipa seek, samo različna `speed`/`hp`/`color`.  
 - Preveri ustno: naj razložijo `hypot` pri seek.  
-- Brez Unreal/Unity primerov.
+- Brez Unreal/Unity primerov.  
+- Referenca v `demo/js/` je razdeljena po sistemih. Študentova igra sme ostati v enem `game.js`; ne zahtevaj modulov kot pogoj tedna 8.

@@ -15,9 +15,9 @@ python3 -m http.server 8080
 
 Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 
-**Pomembno:** zaženi strežnik **iz mape `demo/`** (tam sta `index.html` in `game.js`). Če zaženeš iz korena repoja, odpri `http://localhost:8080/demo/`.
+**Pomembno:** zaženi strežnik **iz mape `demo/`** (tam sta `index.html` in `js/`). Če zaženeš iz korena repoja, odpri `http://localhost:8080/demo/`.
 
-`file://` (dvojni klik na HTML) običajno deluje, ker ni modulov — vseeno raje http.server, kot na vajah.
+Igra je v ES modulih (`<script type="module">`). `file://` (dvojni klik na HTML) modulov ne naloži — uporabi http.server, kot na vajah.
 
 Če tipke ne reagirajo: **najprej klikni platno** (vgrajen predogled / iframe pogosto požre tipke, dokler igra nima fokusa). Pod platnom vidiš vrstico `tipke: OK · zadnji: …`, ko dogodki pridejo skozi.
 
@@ -50,13 +50,25 @@ Barvni pravokotniki in krogi so namerni — sprite, zvok in polish niso del skup
 
 ## Datoteke
 
+Logika je razdeljena po sistemih (vanilla JS, ES moduli, brez bundlerja in brez Phaser / Three.js). `js/game.js` je samo zanka in zagon.
+
 | Datoteka | Namen |
 |----------|--------|
 | `index.html` | stran + canvas |
 | `style.css` | centiranje, temno ozadje (isti jezik kot `starter/`) |
-| `game.js` | celotna logika (brez bundlerja, brez Phaser / Three.js) |
+| `js/game.js` | stanja, `startGame`, game loop |
+| `js/config.js` | `CONFIG`, `ENEMY_TYPES`, `WALLS` |
+| `js/world.js` | skupno stanje (igralec, sovražniki, točke, tipke) |
+| `js/input.js` | WASD, puščice, miška |
+| `js/collision.js` | AABB, ovire, premik po oseh |
+| `js/player.js` | premik in i-frames igralca |
+| `js/projectiles.js` | strel proti miški |
+| `js/enemies.js` | valovi in seek |
+| `js/render.js` | risanje, HUD, meni |
 
-Spremenljivke za vajo *change → test*: objekt `CONFIG` in `ENEMY_TYPES` na vrhu `game.js` (hitrost, HP, cooldown, število v valu).
+Spremenljivke za vajo *change → test*: objekt `CONFIG` in `ENEMY_TYPES` v `js/config.js` (hitrost, HP, cooldown). Število v valu je v `queueWave` v `js/enemies.js`.
+
+Študentska igra v tednih 1–8 sme ostati v **enem** `game.js`. Ta razdelitev je vzorec za referenco, ko ena datoteka postane nepregledna.
 
 ## Kaj to ni
 
