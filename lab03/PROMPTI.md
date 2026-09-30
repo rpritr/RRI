@@ -1,6 +1,6 @@
 # Teden 3 — AI prompti in refleksija
 
-Splošna pravila: `../../DIDAKTIKA-AI.md`.  
+Splošna pravila: `../DIDAKTIKA-AI.md`.  
 Ne prosi za cel `game.js` ali fizikalni pogon.
 
 ---

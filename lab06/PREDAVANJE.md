@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** igralec ima HP, ob stiku izgubi življenje z cooldownom (i-frames), ob 0 preklop v `GAME_OVER`, **R** restart.  
-**Gradiva:** `slides.md`, `VAJA.md`, tvoja igra (teden 5).
+**Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 5).
 
 ---
 

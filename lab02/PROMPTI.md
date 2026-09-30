@@ -1,7 +1,7 @@
 # Teden 2 — AI prompti in refleksija
 
 Uporabi ChatGPT / Claude / Cursor chat / podobno.  
-Splošna pravila: `../../DIDAKTIKA-AI.md`.  
+Splošna pravila: `../DIDAKTIKA-AI.md`.  
 Danes **ne** prosi za cel `game.js`, sovražnike ali Phaser.
 
 ---

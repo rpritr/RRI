@@ -1,7 +1,7 @@
 # Teden 8 — Vaja: seek, 2 tipa, milestone skupna baza
 
 **Predviden čas:** ~3–4 ure.  
-**Izhod:** igriva survival igra z seek AI in dvema tipoma sovražnikov; README “kako igrati”; pripravljen prehod v [`projekt/`](../../projekt/).  
+**Izhod:** igriva survival igra z seek AI in dvema tipoma sovražnikov; README “kako igrati”; pripravljen prehod v [`projekt/`](../projekt/).  
 **Gradiva:** tvoja igra (teden 7), `PROMPTI.md`.
 
 ---
@@ -70,7 +70,7 @@ Prompt A: seek + dva tipa, **brez pathfindinga**.
 
 ## Korak 6 — Prehod v projekt (~15 min)
 
-Preberi [`projekt/BRIEF.md`](../../projekt/BRIEF.md).
+Preberi [`projekt/BRIEF.md`](../projekt/BRIEF.md).
 
 Odgovori (oddaja tedna ali list):
 

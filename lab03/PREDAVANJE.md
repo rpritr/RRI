@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** študent zna narisati in razložiti svoj loop (clear → update → draw), ve kaj je `dt`, in ima spremenljivko stanja (`PLAYING` …).  
-**Gradiva:** `slides.md`, `VAJA.md`, `PROMPTI.md`, tvoja igra iz tedna 2.  
+**Gradiva:** `slides.md`, `README.md`, `PROMPTI.md`, tvoja igra iz tedna 2.  
 **Predhodno:** izboljšan premik, README, commiti.
 
 ---
@@ -83,7 +83,7 @@ Opcijsko: `PAUSED` ob tipki P — isti vzorec.
 
 ## 4. Kaj delaš na vaji (5 min)
 
-Glej `VAJA.md`:
+Glej `README.md`:
 
 1. `update(dt)` / `draw()` jasno ločena.  
 2. `dt` razložen + omejen.  

@@ -2,7 +2,7 @@
 
 **Predviden čas:** ~3–4 ure (del 48 h vaj v semestru).  
 **Izhod:** tekoča igra iz `starter/` + osnutek GDD + kratka AI refleksija.  
-**Gradiva:** `../../starter/`, `../../docs/GDD-predloga.md`, `PROMPTI.md`, `../../DIDAKTIKA-AI.md`.
+**Gradiva:** `../starter/`, `../docs/GDD-predloga.md`, `PROMPTI.md`, `../DIDAKTIKA-AI.md`.
 
 Delaj po korakih. Obkljukaj, ko končaš.
 

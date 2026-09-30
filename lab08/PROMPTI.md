@@ -1,6 +1,6 @@
 # Teden 8 — AI prompti in refleksija
 
-Splošna pravila: `../../DIDAKTIKA-AI.md`.  
+Splošna pravila: `../DIDAKTIKA-AI.md`.  
 Po tem tednu so prompti za **lastno igro** v projektu — ne “dodaj 20 polishov na iste zombije”.
 
 ---
@@ -49,7 +49,7 @@ Ne predlagaj Unreal/Unity. Ne predlagaj “samo dodaj sprite
 in meni na isto igro” kot glavni projekt.
 ```
 
-Izberi smer; podrobnosti v [`projekt/`](../../projekt/).
+Izberi smer; podrobnosti v [`projekt/`](../projekt/).
 
 ---
 

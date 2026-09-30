@@ -1,6 +1,6 @@
 # Teden 4 — AI prompti in refleksija
 
-Splošna pravila: `../../DIDAKTIKA-AI.md`.  
+Splošna pravila: `../DIDAKTIKA-AI.md`.  
 Ne prosi za fizikalni engine ali tilemap editor.
 
 ---

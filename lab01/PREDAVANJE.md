@@ -127,7 +127,7 @@ Napovej teden 2: sovražnik bo “sosed” igralca (`x, y, w, h`).
 
 ## 5. Kaj delaš na vaji danes (5 min)
 
-Glej `VAJA.md`. Na kratko:
+Glej `README.md`. Na kratko:
 
 1. Zaženi starter.  
 2. Preberi komentarje v `game.js`.  

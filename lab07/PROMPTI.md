@@ -1,6 +1,6 @@
 # Teden 7 — AI prompti in refleksija
 
-Splošna pravila: `../../DIDAKTIKA-AI.md`.
+Splošna pravila: `../DIDAKTIKA-AI.md`.
 
 ---
 

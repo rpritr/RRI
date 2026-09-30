@@ -100,7 +100,7 @@ Mapa: `starter/`
 3. Osnutek GDD
 4. AI: ideje mehanik → **razloži z lastnimi besedami**
 
-Podrobnosti: `VAJA.md`
+Podrobnosti: `README.md`
 
 ---
 

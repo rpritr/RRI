@@ -31,7 +31,7 @@ Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 | `game.js` | logika igre |
 | `assets/` | prazno v tednu 1; sprite/zvok v **projektni fazi** (glej `../projekt/`) |
 
-Tedni 2–8 nadgrajujejo **tvojo kopijo** te mape, ne predmetni `starter/` na GitHubu. Pregled: [`../TEDENSKI-NACRT.md`](../TEDENSKI-NACRT.md), vaje: [`../tedni/02/`](../tedni/02/) … [`../tedni/08/`](../tedni/08/).
+Tedni 2–8 nadgrajujejo **tvojo kopijo** te mape, ne predmetni `starter/` na GitHubu. Pregled: [`../TEDENSKI-NACRT.md`](../TEDENSKI-NACRT.md), vaje: [`../lab02/`](../lab02/) … [`../lab08/`](../lab08/).
 
 ## Naloga tedna 1
 

@@ -71,7 +71,7 @@ Ti uravnaš meta s številkami.
 **Milestone.**  
 Naprej: lastna igra.
 
-[`projekt/BRIEF.md`](../../projekt/BRIEF.md)
+[`projekt/BRIEF.md`](../projekt/BRIEF.md)
 
 ---
 

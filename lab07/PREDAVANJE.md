@@ -2,7 +2,7 @@
 
 **Trajanje:** ~45–60 min.  
 **Cilj:** uničevanje sovražnikov daje točke; valovi povečajo pritisk; HUD kaže score, val, HP.  
-**Gradiva:** `slides.md`, `VAJA.md`, tvoja igra (teden 6).
+**Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 6).
 
 ---
 

@@ -8,7 +8,7 @@ Po tednu 8 **ni** glavni cilj še več tednov polisha na isti skupni igri. Skupn
 
 Vsak teden 01–08: **ena nova funkcija**. Cikel: *generate → run → understand → change → test → explain* (glej `DIDAKTIKA-AI.md`).
 
-Gradiva: `tedni/01/` … `tedni/08/` (vsak: `PREDAVANJE.md`, `VAJA.md`, `PROMPTI.md`, `slides.md`).  
+Gradiva: `lab01/` … `lab08/` (vsak: `README.md`, `PREDAVANJE.md`, `PROMPTI.md`, `slides.md`).  
 Projekt: [`projekt/`](projekt/).
 
 ---
@@ -28,7 +28,7 @@ Projekt: [`projekt/`](projekt/).
 - AI: prompt za ideje mehanik — potem **razloži** izbrane mehanike z lastnimi besedami.
 
 **Izhod:** tekoči starter + osnutek GDD.  
-**Gradiva:** [`tedni/01/`](tedni/01/)
+**Gradiva:** [`lab01/`](lab01/)
 
 ---
 
@@ -45,7 +45,7 @@ Projekt: [`projekt/`](projekt/).
 - Priprava na teden 3: kje bi živel sovražnik?
 
 **Izhod:** čistejši input + urejen repo.  
-**Gradiva:** [`tedni/02/`](tedni/02/)
+**Gradiva:** [`lab02/`](lab02/)
 
 ---
 
@@ -62,7 +62,7 @@ Projekt: [`projekt/`](projekt/).
 - AI: “razloži moj game loop vrstico po vrstico” — študent preveri in popravi napake v razlagi.
 
 **Izhod:** razumljen loop; priprava na entitete.  
-**Gradiva:** [`tedni/03/`](tedni/03/)
+**Gradiva:** [`lab03/`](lab03/)
 
 ---
 
@@ -78,7 +78,7 @@ Projekt: [`projekt/`](projekt/).
 - Test: igralec ne gre skozi oviro.
 
 **Izhod:** trki delujejo; entitete pripravljene.  
-**Gradiva:** [`tedni/04/`](tedni/04/)
+**Gradiva:** [`lab04/`](lab04/)
 
 ---
 
@@ -94,7 +94,7 @@ Projekt: [`projekt/`](projekt/).
 - (Opcijsko) cooldown med streli.
 
 **Izhod:** igrivo streljanje.  
-**Gradiva:** [`tedni/05/`](tedni/05/)
+**Gradiva:** [`lab05/`](lab05/)
 
 ---
 
@@ -110,7 +110,7 @@ Projekt: [`projekt/`](projekt/).
 - Tipka R = restart.
 
 **Izhod:** zmaga/poraz zanka obstaja.  
-**Gradiva:** [`tedni/06/`](tedni/06/)
+**Gradiva:** [`lab06/`](lab06/)
 
 ---
 
@@ -127,7 +127,7 @@ Projekt: [`projekt/`](projekt/).
 - GDD: dopolni “progressijo”.
 
 **Izhod:** osnovna “survival” zanka.  
-**Gradiva:** [`tedni/07/`](tedni/07/)
+**Gradiva:** [`lab07/`](lab07/)
 
 ---
 
@@ -144,7 +144,7 @@ Projekt: [`projekt/`](projekt/).
 - Stabiliziraj skupno bazo — to je **milestone** pred lastnim projektom.
 
 **Izhod:** **skupna baza zaključena** (igriva survival igra).  
-**Gradiva:** [`tedni/08/`](tedni/08/)
+**Gradiva:** [`lab08/`](lab08/)
 
 ---
 
@@ -169,12 +169,12 @@ Podrobnosti, merila in mejniki: [`projekt/`](projekt/).
 
 | Teden | Tema | Gradiva |
 |------:|------|---------|
-| 1 | intro / GDD / setup | [`tedni/01/`](tedni/01/) |
-| 2 | movement + repo | [`tedni/02/`](tedni/02/) |
-| 3 | game loop, delta, states | [`tedni/03/`](tedni/03/) |
-| 4 | collisions | [`tedni/04/`](tedni/04/) |
-| 5 | shooting → mouse | [`tedni/05/`](tedni/05/) |
-| 6 | health / damage / game over | [`tedni/06/`](tedni/06/) |
-| 7 | score / waves / HUD | [`tedni/07/`](tedni/07/) |
-| 8 | enemy AI + 2 tipa → **skupna baza** | [`tedni/08/`](tedni/08/) |
+| 1 | intro / GDD / setup | [`lab01/`](lab01/) |
+| 2 | movement + repo | [`lab02/`](lab02/) |
+| 3 | game loop, delta, states | [`lab03/`](lab03/) |
+| 4 | collisions | [`lab04/`](lab04/) |
+| 5 | shooting → mouse | [`lab05/`](lab05/) |
+| 6 | health / damage / game over | [`lab06/`](lab06/) |
+| 7 | score / waves / HUD | [`lab07/`](lab07/) |
+| 8 | enemy AI + 2 tipa → **skupna baza** | [`lab08/`](lab08/) |
 | nato | **lastni projekt / lastna igra** | [`projekt/`](projekt/) |

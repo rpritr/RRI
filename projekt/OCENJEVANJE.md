@@ -48,7 +48,7 @@ Uteži niso točke v sistemu — so **prioriteta**. Igrivost + razlaga kode obi�
 
 ## Tedensko (01–08)
 
-Vsak teden ima tabelo “opravil teden” v `tedni/XX/VAJA.md`. To je **formativno**: zamuda se da nadoknaditi, a teden 8 milestone mora stati pred (ali kmalu ob) začetku projekta.
+Vsak teden ima tabelo “opravil teden” v `labXX/README.md`. To je **formativno**: zamuda se da nadoknaditi, a teden 8 milestone mora stati pred (ali kmalu ob) začetku projekta.
 
 ---
 
