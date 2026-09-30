@@ -15,6 +15,12 @@ python3 -m http.server 8080
 
 Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 
+**Pomembno:** zaženi strežnik **iz mape `demo/`** (tam sta `index.html` in `game.js`). Če zaženeš iz korena repoja, odpri `http://localhost:8080/demo/`.
+
+`file://` (dvojni klik na HTML) običajno deluje, ker ni modulov — vseeno raje http.server, kot na vajah.
+
+Če tipke ne reagirajo: **najprej klikni platno** (vgrajen predogled / iframe pogosto požre tipke, dokler igra nima fokusa). Pod platnom vidiš vrstico `tipke: OK · zadnji: …`, ko dogodki pridejo skozi.
+
 (Druge možnosti: VS Code Live Server, `npx serve .` …)
 
 Če že teče starter na 8080, izberi drugo vrata, npr. `python3 -m http.server 8081`.
@@ -23,7 +29,7 @@ Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 
 | Vhod | Dejanje |
 |------|---------|
-| **W A S D** | Premik (diagonala je normalizirana) |
+| **W A S D** / puščice | Premik (diagonala je normalizirana). Na meniju ali game over tudi **začne igro**. |
 | **Miška** | Merjenje; klik ali drži = strel proti kazalcu |
 | **ENTER** / klik | Začetek iz menija ali po game over |
 | **R** | Ponovni zagon (med igro ali ob game over) |

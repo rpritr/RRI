@@ -19,9 +19,18 @@
 
   // --- Platno ---------------------------------------------------------------
   const canvas = document.getElementById("game");
+  if (!canvas) {
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      "<p>Napaka: platna <code>#game</code> ni. Odpri <code>index.html</code> iz mape <code>demo/</code> prek <code>python3 -m http.server</code>.</p>"
+    );
+    return;
+  }
+  canvas.tabIndex = 0;
   const ctx = canvas.getContext("2d");
   const W = canvas.width;
   const H = canvas.height;
+  const statusEl = document.getElementById("input-status");
 
   // --- Stanja (teden 3 / 6) -------------------------------------------------
   const STATE = {
@@ -76,6 +85,8 @@
 
   // --- Vhod -----------------------------------------------------------------
   const keys = { w: false, a: false, s: false, d: false };
+  let lastKeyLabel = "—";
+  let keysHeard = false;
 
   const mouse = {
     x: W / 2,
@@ -83,24 +94,123 @@
     down: false,
   };
 
-  window.addEventListener("keydown", (e) => {
-    const k = e.key.toLowerCase();
-    if (k in keys) {
-      keys[k] = true;
-      e.preventDefault();
+  function setStatus() {
+    if (!statusEl) return;
+    if (!keysHeard) {
+      statusEl.textContent = "Klikni platno, nato WASD ali ENTER";
+      return;
     }
-    if (e.key === "Enter") {
-      if (state === STATE.MENU || state === STATE.GAME_OVER) startGame();
-    }
-    if (k === "r") {
-      if (state === STATE.PLAYING || state === STATE.GAME_OVER) startGame();
-    }
-  });
+    statusEl.textContent = "tipke: OK · zadnji: " + lastKeyLabel;
+  }
 
-  window.addEventListener("keyup", (e) => {
-    const k = e.key.toLowerCase();
-    if (k in keys) keys[k] = false;
+  /**
+   * WASD prek e.code (KeyW …) — deluje tudi na AZERTY/QWERTZ.
+   * Dodatno e.key in puščice.
+   */
+  function moveDirFromEvent(e) {
+    switch (e.code) {
+      case "KeyW":
+      case "ArrowUp":
+        return "w";
+      case "KeyA":
+      case "ArrowLeft":
+        return "a";
+      case "KeyS":
+      case "ArrowDown":
+        return "s";
+      case "KeyD":
+      case "ArrowRight":
+        return "d";
+      default:
+        break;
+    }
+    const k = (e.key || "").toLowerCase();
+    if (k === "w" || k === "a" || k === "s" || k === "d") return k;
+    if (k === "arrowup") return "w";
+    if (k === "arrowleft") return "a";
+    if (k === "arrowdown") return "s";
+    if (k === "arrowright") return "d";
+    return null;
+  }
+
+  function isEnterEvent(e) {
+    return (
+      e.code === "Enter" ||
+      e.code === "NumpadEnter" ||
+      e.key === "Enter" ||
+      e.key === "NumpadEnter"
+    );
+  }
+
+  function isRestartEvent(e) {
+    const k = (e.key || "").toLowerCase();
+    return e.code === "KeyR" || k === "r";
+  }
+
+  function focusCanvas() {
+    try {
+      canvas.focus({ preventScroll: true });
+    } catch (err) {
+      canvas.focus();
+    }
+  }
+
+  function onKeyDown(e) {
+    if (e.p16demo) return;
+    e.p16demo = true;
+
+    keysHeard = true;
+    lastKeyLabel = e.code || e.key || "?";
+    setStatus();
+
+    const dir = moveDirFromEvent(e);
+    if (dir) {
+      keys[dir] = true;
+      e.preventDefault();
+      // Na meniju / game over: WASD (in puščice) začnejo igro, tipka ostane pritisnjena.
+      if (state === STATE.MENU || state === STATE.GAME_OVER) startGame();
+      return;
+    }
+    if (isEnterEvent(e)) {
+      e.preventDefault();
+      if (!e.repeat && (state === STATE.MENU || state === STATE.GAME_OVER)) startGame();
+      return;
+    }
+    if (isRestartEvent(e)) {
+      if (!e.repeat && (state === STATE.PLAYING || state === STATE.GAME_OVER)) startGame();
+    }
+  }
+
+  function onKeyUp(e) {
+    if (e.p16demo) return;
+    e.p16demo = true;
+    const dir = moveDirFromEvent(e);
+    if (dir) keys[dir] = false;
+  }
+
+  function bindKeys(target) {
+    target.addEventListener("keydown", onKeyDown, true);
+    target.addEventListener("keyup", onKeyUp, true);
+  }
+
+  bindKeys(window);
+  bindKeys(document);
+  bindKeys(canvas);
+
+  canvas.addEventListener("pointerdown", (e) => {
+    focusCanvas();
+    if (e.button !== undefined && e.button !== 0) return;
+    const pos = canvasMouse(e);
+    mouse.x = pos.x;
+    mouse.y = pos.y;
+    mouse.down = true;
+    if (state === STATE.MENU || state === STATE.GAME_OVER) startGame();
   });
+  canvas.addEventListener("click", focusCanvas);
+  window.addEventListener("load", focusCanvas);
+  document.addEventListener("DOMContentLoaded", focusCanvas);
+  focusCanvas();
+  setStatus();
 
   canvas.addEventListener("mousemove", (e) => {
     const pos = canvasMouse(e);
@@ -110,6 +220,7 @@
 
   canvas.addEventListener("mousedown", (e) => {
     if (e.button !== 0) return;
+    focusCanvas();
     const pos = canvasMouse(e);
     mouse.x = pos.x;
     mouse.y = pos.y;
@@ -118,6 +229,9 @@
   });
 
   window.addEventListener("mouseup", () => {
+    mouse.down = false;
+  });
+  window.addEventListener("pointerup", () => {
     mouse.down = false;
   });
 
@@ -175,7 +289,9 @@
     spawnTimer = 0;
     waveTimer = 0.4;
     waveBanner = "";
-    keys.w = keys.a = keys.s = keys.d = false;
+    // Ne sprazni keys — pritisnjen WASD z menija mora takoj premikati.
+    focusCanvas();
+    setStatus();
   }
 
   // --- AABB (teden 4) -------------------------------------------------------
@@ -537,7 +653,7 @@
     if (state === STATE.MENU) {
       drawBanner(
         "Zombie Survival",
-        "Referenčna igra · teden 8\n\nWASD  premik     miška  strel\nR  ponovni zagon\n\nPritisni ENTER ali klikni za začetek"
+        "Referenčna igra · teden 8\n\nWASD / puščice  premik (tudi začne igro)\nmiška  strel     R  ponovni zagon\n\nPritisni WASD, ENTER ali klikni"
       );
       return;
     }
@@ -579,4 +695,21 @@
   }
 
   requestAnimationFrame(loop);
+
+  window.__P16 = {
+    getState: function () {
+      return state;
+    },
+    getPlayer: function () {
+      return player
+        ? { x: player.x, y: player.y, w: player.w, h: player.h, hp: player.hp }
+        : null;
+    },
+    getKeys: function () {
+      return { w: keys.w, a: keys.a, s: keys.s, d: keys.d };
+    },
+    getLastKey: function () {
+      return lastKeyLabel;
+    },
+  };
 })();
