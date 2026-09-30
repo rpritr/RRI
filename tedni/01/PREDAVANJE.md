@@ -40,7 +40,7 @@ Vzemi “skok v platformerju”:
 ### Kaj *ni* (še) fokus
 
 - Grafika AAA, story 50 strani, multiplayer mreža.
-- Fokus: **jedrne mehanike**, ki jih boš kodil 12 tednov.
+- Fokus: **jedrne mehanike**, ki jih kodiraš 8 tednov skupaj, nato v lastni igri.
 
 ---
 
@@ -58,8 +58,7 @@ Pet kompetenc (glej `KURIKUL-MAPIRANJE.md`):
 
 **Ritem semestra**
 - Tedni **1–8**: skupna baza (ista igra, skupne mehanike).
-- Tedni **9–10**: asseti + UI polish.
-- Tedni **11–12**: tvoja razširitev + demo.
+- Nato: **lastni projekt / lastna igra** (načrt → vertical slice → polish → demo) — ne dodatni tedni polisha skupne igre kot glavni cilj. Glej `projekt/`.
 
 **Pedagogika:** AI dovoljen, a cikel je obvezen:
 

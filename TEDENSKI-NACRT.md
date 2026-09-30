@@ -1,10 +1,15 @@
-# Tedenski načrt — 12 tednov
+# Tedenski načrt — 8 vaj + lastni projekt
 
 **Skupna igra:** Top-down Zombie Survival  
 **Alternativa:** Dungeon Escape (mehkejša zgodba, iste tehnične teme)  
-**Ritem:** 8 tednov skupna baza → 4 tedni individualne funkcije + demo  
+**Ritem:** **8 tednov skupna baza** (tedni 01–08) → **lastni projekt / lastna igra** (preostanek semestra)
 
-Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → change → test → explain* (glej `DIDAKTIKA-AI.md`).
+Po tednu 8 **ni** glavni cilj še več tednov polisha na isti skupni igri. Skupna baza je milestone; nato vsak naredi **svojo** igro (lahko iz tedna 8 ali na novo).
+
+Vsak teden 01–08: **ena nova funkcija**. Cikel: *generate → run → understand → change → test → explain* (glej `DIDAKTIKA-AI.md`).
+
+Gradiva: `tedni/01/` … `tedni/08/` (vsak: `PREDAVANJE.md`, `VAJA.md`, `PROMPTI.md`, `slides.md`).  
+Projekt: [`projekt/`](projekt/).
 
 ---
 
@@ -22,7 +27,8 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 - Izpolni `docs/GDD-predloga.md` (osnutek: Zombie Survival *ali* Dungeon Escape).
 - AI: prompt za ideje mehanik — potem **razloži** izbrane mehanike z lastnimi besedami.
 
-**Izhod:** tekoči starter + osnutek GDD.
+**Izhod:** tekoči starter + osnutek GDD.  
+**Gradiva:** [`tedni/01/`](tedni/01/)
 
 ---
 
@@ -30,14 +36,16 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 
 **Predavanje**
 - Hitrost, meja platna, tipkovnica (keydown/keyup vs. “tipka drži”).
+- Diagonala, konstante, ločitev vhoda in posodobitve.
 - Git: commit sporočila, veje, `.gitignore`, struktura mape.
 
 **Vaja**
-- Izboljšaj premik (npr. diagonalna normalizacija, hitrost v konstanti).
+- Izboljšaj premik (diagonala, hitrost v konstanti, puščice in/ali sprint).
 - Prvi smiselni commit-i; README v lastnem forku.
 - Priprava na teden 3: kje bi živel sovražnik?
 
-**Izhod:** čistejši input + urejen repo.
+**Izhod:** čistejši input + urejen repo.  
+**Gradiva:** [`tedni/02/`](tedni/02/)
 
 ---
 
@@ -46,21 +54,22 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 **Predavanje**
 - `requestAnimationFrame`, delta time vs. fiksni korak.
 - Zakaj clear + update + draw.
-- Skica stanj: `MENU` / `PLAYING` / `GAME_OVER` (še ne nujno UI).
+- Skica stanj: `MENU` / `PLAYING` / `GAME_OVER` (še ne nujno poln UI).
 
 **Vaja**
 - Prenesi update na delta (ali jasno dokumentiran fiksni korak).
 - Dodaj enostavno spremenljivko stanja (čeprav še samo `PLAYING`).
 - AI: “razloži moj game loop vrstico po vrstico” — študent preveri in popravi napake v razlagi.
 
-**Izhod:** razumljen loop; priprava na entitete.
+**Izhod:** razumljen loop; priprava na entitete.  
+**Gradiva:** [`tedni/03/`](tedni/03/)
 
 ---
 
 ## Teden 4 — Trki: stene / entitete
 
 **Predavanje**
-- AABB (pravokotniki), preprosti krugi; ločitev “detect” in “resolve”.
+- AABB (pravokotniki), preprosti krogi; ločitev “detect” in “resolve”.
 - Stene platna vs. ovire v svetu.
 
 **Vaja**
@@ -68,7 +77,8 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 - Pripravi prazno/entitetno strukturo za sovražnika (pozicija, velikost) — še brez AI.
 - Test: igralec ne gre skozi oviro.
 
-**Izhod:** trki delujejo; entitete pripravljene.
+**Izhod:** trki delujejo; entitete pripravljene.  
+**Gradiva:** [`tedni/04/`](tedni/04/)
 
 ---
 
@@ -83,7 +93,8 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 - Projektili se premikajo; izginejo ob robu.
 - (Opcijsko) cooldown med streli.
 
-**Izhod:** igrivo streljanje.
+**Izhod:** igrivo streljanje.  
+**Gradiva:** [`tedni/05/`](tedni/05/)
 
 ---
 
@@ -98,102 +109,72 @@ Vsak teden: **ena nova funkcija**. Cikel: *generate → run → understand → c
 - Game over zaslon (besedilo na canvasu zadostuje).
 - Tipka R = restart.
 
-**Izhod:** zmaga/poraz zanka obstaja.
+**Izhod:** zmaga/poraz zanka obstaja.  
+**Gradiva:** [`tedni/06/`](tedni/06/)
 
 ---
 
-## Teden 7 — Score, valovi
+## Teden 7 — Score, valovi, HUD
 
 **Predavanje**
 - Napredek: točke, valovi, spawn timing.
 - Težavnost: več sovražnikov / hitrejši.
+- HUD kot feedback (HP, score, val).
 
 **Vaja**
 - Točke ob uničenju; HUD (score, val, HP).
 - Valovi: po X ubitih / času pride naslednji val.
 - GDD: dopolni “progressijo”.
 
-**Izhod:** osnovna “survival” zanka.
+**Izhod:** osnovna “survival” zanka.  
+**Gradiva:** [`tedni/07/`](tedni/07/)
 
 ---
 
-## Teden 8 — AI sovražnikov (sledenje) + začetek variant
+## Teden 8 — AI sovražnikov (sledenje) + 2 tipa — skupna baza
 
 **Predavanje**
 - Seek / follow igralca; omejitev hitrosti.
 - Variante: počasni tank, hitri runner (še preprosto).
+- Kaj pomeni milestone “skupna baza” in kaj sledi (lastna igra).
 
 **Vaja**
 - Sovražniki sledijo igralcu.
 - Vsaj 2 tipa (različna hitrost/HP/barva).
-- Stabiliziraj skupno baza — to je “milestone” pred individualnim delom.
+- Stabiliziraj skupno bazo — to je **milestone** pred lastnim projektom.
 
-**Izhod:** **skupna baza zaključena** (igralna survival igra).
-
----
-
-## Teden 9 — Spritei, zvok, asseti
-
-**Predavanje**
-- Ločitev `assets/`; load slik; frame / enostaven sprite.
-- Zvok: strel, zadetek, game over (kratki clipi).
-
-**Vaja**
-- Zamenjaj barvne kvadrate s spritei *ali* dodaj vsaj en sprite + en zvok.
-- Dokumentiraj vire assetov (licenca!).
-
-**Izhod:** vizualno/avditivno bogatejša igra (kompetenca assetov).
+**Izhod:** **skupna baza zaključena** (igriva survival igra).  
+**Gradiva:** [`tedni/08/`](tedni/08/)
 
 ---
 
-## Teden 10 — UI meniji + polish
+## Projektna faza — Lastna igra
 
-**Predavanje**
-- Menu, pause, HUD layout; berljivost.
-- Polish: particle-ji (preprosto), shake, barve, feedback.
+Po tednu 8 študent **ne** nadaljuje z polishom skupne igre kot glavnim ciljem. Naredi **lastno igro**.
 
-**Vaja**
-- Začetni meni (Start) + morebiti Pause (Esc).
-- Polish 1–2 detajla (ne 20).
-- Priprava seznama individualnih idej za 11–12.
+Lahko:
+- izhaja iz kode tedna 8 (nova tema, nove mehanike, svoj pečat), **ali**
+- začne novo Canvas + vanilla JS igro.
 
-**Izhod:** urejen vstop v igro.
+Obvezno mora pokazati obvladovanje: **game loop, vhod, trki, entitete**.
 
----
+**Mejniki (priporočeno):** načrt → vertical slice → polish → demo.  
+**Oddaja:** igriva igra + README + GDD + kratka AI-vs-lastno-delo refleksija + demo.
 
-## Tedna 11–12 — Individualne funkcije + demo / dokumentacija
-
-**Predavanje (11)**
-- Kako izbrati *eno* smiselno razširitev (power-up, boss, shop, proceduralni zemljevid, coop lokalno …).
-- Merila: igrivost, koda, razlaga.
-
-**Vaja (11)**
-- Implementacija lastne funkcije; AI dovoljen, a moraš **razložiti** in **spremeniti**.
-
-**Predavanje (12)**
-- Kratke predstavitve; kaj gledamo pri oceni.
-- Dokumentacija: README + posodobljen GDD.
-
-**Vaja (12)**
-- Demo (5–8 min), Q&A.
-- Oddaja: repo + GDD + kratek “kaj sem naredil sam / z AI”.
-
-**Izhod:** ocenljiva, igriva igra z individualnim pečatom.
+Podrobnosti, merila in mejniki: [`projekt/`](projekt/).
 
 ---
 
-## Hitri pregled uskladitve (ChatGPT progresija)
+## Hitri pregled
 
-| Teden | Tema |
-|------:|------|
-| 1 | intro / GDD / setup |
-| 2 | movement + repo |
-| 3 | game loop, delta, states |
-| 4 | collisions |
-| 5 | shooting → mouse |
-| 6 | health / damage / game over |
-| 7 | score / waves |
-| 8 | enemy AI + variants |
-| 9 | sprites / sound / assets |
-| 10 | UI menus + polish |
-| 11–12 | individual + demo / docs |
+| Teden | Tema | Gradiva |
+|------:|------|---------|
+| 1 | intro / GDD / setup | [`tedni/01/`](tedni/01/) |
+| 2 | movement + repo | [`tedni/02/`](tedni/02/) |
+| 3 | game loop, delta, states | [`tedni/03/`](tedni/03/) |
+| 4 | collisions | [`tedni/04/`](tedni/04/) |
+| 5 | shooting → mouse | [`tedni/05/`](tedni/05/) |
+| 6 | health / damage / game over | [`tedni/06/`](tedni/06/) |
+| 7 | score / waves / HUD | [`tedni/07/`](tedni/07/) |
+| 8 | enemy AI + 2 tipa → **skupna baza** | [`tedni/08/`](tedni/08/) |
+| nato | **lastni projekt / lastna igra** | [`projekt/`](projekt/) |

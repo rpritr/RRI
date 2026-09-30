@@ -77,4 +77,4 @@ Odgovori našteto (lahko v isti datoteki kot GDD):
 - “Dodaj Phaser.”  
 - “Naredi multiplayer.”  
 
-To pokvari učenje in teden 1 cilje. Velike feature-je shranimo za tedne 11–12 — in še takrat po kosih.
+To pokvari učenje in teden 1 cilje. Večjo lastno igro shranimo za **projektno fazo** po tednu 8 — in še takrat po kosih.

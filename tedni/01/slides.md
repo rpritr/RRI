@@ -34,10 +34,9 @@ Animacija + naključje ≠ nujno igra.
 # Semester v eni sliki
 
 - **1–8** skupna baza (Zombie Survival)
-- **9–10** asseti + UI
-- **11–12** tvoja razširitev + demo
+- **nato** lastna igra (projekt)
 
-CPI: mehanike → igra → “engine” (Canvas) → asseti → celota
+CPI: mehanike → igra → “engine” (Canvas) → asseti (v projektu) → celota
 
 ---
 

@@ -68,12 +68,12 @@ Kopiraj in prilagodi. Vedno dodaj kontekst: “imam Canvas 2D, vanilla JS, igral
 ### Teden 8 — AI
 > Sovražnik naj sledi igralcu s konstantno hitrostjo (seek). Dva tipa: `walker` (počasno) in `runner` (hitro, manj HP). Brez pathfindinga.
 
-### Tedni 9–10
-> Seznam 5 majhnih polish idej za Canvas igro (max 1 ura dela vsaka).  
-> Kako naložiti `Image` in narisati sprite namesto `fillRect` — minimalen primer.
+### Projektna faza — lastna igra (ne polish tednov 9–12 na isti igri)
+> Predlagaj 8 idej za LASTNO Canvas igro (lahko nova tema), doable v preostanku semestra. Označi težavnost 1–5. Ne Unreal/Phaser. Ne “samo sprite + meni na isto zombie igro” kot celoten projekt.
 
-### Tedni 11–12 — individualno
-> Predlagaj 8 individualnih feature-jev, ki so doable v ~2 tednih na moji bazni zombie igri. Označi težavnost 1–5.
+> Kako naložiti `Image` in narisati sprite namesto `fillRect` — minimalen primer. Potem: kje v README zapišem vir in licenco?
+
+> Seznam 5 majhnih polish idej (max 1 ura vsaka) za **mojo** igro po vertical slice-u — ne 20 efektov.
 
 ## Prompt, ki ga učitelj pogosto doda
 

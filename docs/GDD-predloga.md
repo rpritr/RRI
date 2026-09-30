@@ -1,7 +1,8 @@
 # Game Design Document — predloga (P16)
 
 Izpolni med tednom 1 in dopolnjuj skozi semester.  
-Skupna tema: **Top-down Zombie Survival** (alternativa: **Dungeon Escape**).
+Tedni 01–08 (skupna baza): **Top-down Zombie Survival** (alternativa: **Dungeon Escape**).  
+Projektna faza: **lastna igra** — posodobi ta GDD (ali naredi novega), da se ujema s tem, kar res oddajaš.
 
 ---
 
@@ -88,11 +89,15 @@ Za **Dungeon Escape**: namesto valov opiši sobe, ključe, izhod.
 - Brez Phaser / Three.js (dogovor predmeta)
 - Znane omejitve:
 
-## 12. Individualna razširitev (tedni 11–12)
+## 12. Lastna igra (projektna faza)
 
-- Ideja:
-- Zakaj je doable v ~2 tednih:
-- Merilo “končano”:
+Po tednu 8: lastna igra, ne dodatni tedni polisha skupne baze kot glavni cilj. Glej `projekt/BRIEF.md`.
+
+- Izhodišče: baza tedna 8 / nova Canvas igra:
+- Ideja / pitch:
+- Zakaj je doable v preostanku semestra:
+- Merilo “končano” (vertical slice + demo):
+- Asseti (sprite/zvok, vir, licenca):
 
 ## 13. Tveganja in plan B
 
@@ -108,4 +113,4 @@ Za **Dungeon Escape**: namesto valov opiši sobe, ključe, izhod.
 
 ---
 
-*Oddaja: ta GDD + povezava do repozitorija. Posodobi pred demom v tednu 12.*
+*Oddaja: ta GDD + povezava do repozitorija. Posodobi pred demom lastne igre (`projekt/`).*
