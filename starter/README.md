@@ -29,7 +29,9 @@ Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 | `index.html` | stran + canvas |
 | `style.css` | centiranje, temno ozadje |
 | `game.js` | logika igre |
-| `assets/` | sem daj sprite/zvok od tedna 9 naprej |
+| `assets/` | prazno v tednu 1; sprite/zvok v **projektni fazi** (glej `../projekt/`) |
+
+Tedni 2–8 nadgrajujejo **tvojo kopijo** te mape, ne predmetni `starter/` na GitHubu. Pregled: [`../TEDENSKI-NACRT.md`](../TEDENSKI-NACRT.md), vaje: [`../tedni/02/`](../tedni/02/) … [`../tedni/08/`](../tedni/08/).
 
 ## Naloga tedna 1
 
