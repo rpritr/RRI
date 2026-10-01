@@ -60,10 +60,10 @@ Kopiraj in prilagodi. Vedno dodaj kontekst: “imam Canvas 2D, vanilla JS, igral
 > Ob kliku miške ustvari projektil na položaju igralca, smer proti `mouse.x/y`. Hitrost konstanta. Posodobi in odstrani, ko zapusti canvas.
 
 ### Teden 6 — HP
-> Dodaj `hp`, `maxHp`, `hurtCooldown`. Ob stiku s sovražnikom zmanjšaj hp, nastavi cooldown, ob 0 preklopi `state = 'GAME_OVER'`.
+> Dodaj `hp`, `maxHp`, `hurtTimer`. Ob stiku s sovražnikom zmanjšaj hp samo, če je `hurtTimer <= 0`, nato nastavi `hurtTimer`. Vsak update: `hurtTimer -= dt`. Ob 0 preklopi `state = 'GAME_OVER'`.
 
 ### Teden 7 — valovi
-> Predlagaj enostaven wave sistem: `wave`, `enemiesRemaining`, spawn N zombiejev, ko so mrtvi → `wave++` in težje (več / hitreje). Samo podatkovni model + pseudokoda.
+> Predlagaj enostaven wave sistem: `wave`, `enemies[]`, spawn N zombiejev na robu. Ko je `enemies.length === 0`, pokliči `spawnWave(wave + 1)` z več sovražniki. Samo podatkovni model + pseudokoda.
 
 ### Teden 8 — AI
 > Sovražnik naj sledi igralcu s konstantno hitrostjo (seek). Dva tipa: `walker` (počasno) in `runner` (hitro, manj HP). Brez pathfindinga.

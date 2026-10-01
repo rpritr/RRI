@@ -146,7 +146,7 @@ Glej `README.md`. Na kratko:
 - Canvas = namerno “nizko”, da se naučiš.  
 - AI = orodje; **razlaga** je tvoja.
 
-**Domača misel do tedna 2:** Kje v `game.js` bi živel sovražnik?
+**Domača misel do tedna 2:** Kje bo živel sovražnik, ko se koda razdeli v `js/` (kot `demo/js/`)?
 
 ---
 

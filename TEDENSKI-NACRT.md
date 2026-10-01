@@ -40,6 +40,7 @@ Projekt: [`projekt/`](projekt/).
 - Git: commit sporočila, veje, `.gitignore`, struktura mape.
 
 **Vaja**
+- Razdeli igro v `js/` kot `demo/js/` (`config`, `world`, `input`, `player`, `render`, `game`).
 - Izboljšaj premik (diagonala, hitrost v konstanti, puščice in/ali sprint).
 - Prvi smiselni commit-i; README v lastnem forku.
 - Priprava na teden 3: kje bi živel sovražnik?
@@ -86,7 +87,7 @@ Projekt: [`projekt/`](projekt/).
 
 **Predavanje**
 - Svetovne vs. zaslonske koordinate; kot / smer vektorja.
-- Projektili: spawn, hitrost, življenjska doba, odstranjevanje.
+- Projektili: pravokotnik `{x,y,w,h}`, smer proti miški, odstranjevanje ob robu.
 
 **Vaja**
 - Klik / hold → strel v smeri miške.
@@ -101,7 +102,7 @@ Projekt: [`projekt/`](projekt/).
 ## Teden 6 — Zdravje, škoda, game over
 
 **Predavanje**
-- HP, damage cooldown (i-frames), feedback (barva, flash).
+- HP, pavza po zadetku (`hurtTimer`), feedback (drugačna barva).
 - Prehod v `GAME_OVER` in restart.
 
 **Vaja**

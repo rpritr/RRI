@@ -38,35 +38,34 @@ len = hypot(vx, vy)
 vx /= len; vy /= len
 ```
 
-Kot `atan2(vy, vx)` je uporaben za sprite/rotacijo kasneje; za premik krogle zadostuje **enotski vektor**.
+Za premik krogle zadostuje **enotski vektor**.
 
-Spawn: središče igralca, ne levi-zgornji kot — sicer krogla izgleda, da izhaja iz ramena kvadrata.
+Smer računaj od središča igralca. V polje shrani levi-zgornji kot, da ostane `{x, y, w, h}` kot pri vseh ostalih.
 
 ---
 
 ## 3. Projektili kot seznam (10–12 min)
 
 ```
-bullets[] = { x, y, vx, vy, r, life }
+bullets[] = { x, y, w, h, vx, vy }
 ```
 
 Vsak frejm:
 
-- `x += vx * BULLET_SPEED * dt` (če sta `vx,vy` enotska)
-- `life -= dt` (opcijsko)
-- odstrani, če ven iz platna **ali** `life <= 0`
+- `x += vx * BULLET_SPEED * dt` (če sta `vx, vy` enotska)
+- odstrani, če je krogla ven iz platna
 
-Odstranjevanje: zanka **od konca** ali `filter` — pazljivo, če med zanko `splice`.
+Odstranjevanje: zanka **od konca** (`i--`), nato `splice`.
 
-**Cooldown:** `lastShot` + `SHOT_COOLDOWN` (npr. 0.2 s), da hold ne naredi 200 krogle/s.
+**Cooldown:** `shotTimer`. Po strelu ga nastavi na `BULLET_COOLDOWN` (npr. 0.25 s) in vsak frejm odštej `dt`. Hold sicer naredi več sto krogle na sekundo.
 
-Krogla–zid: opcijsko (AABB ali krog vs. wall). Minimalno: izgine ob robu platna.
+Krogla–zid: isti `aabbOverlap`. Če se prekrivata, krogla izgine. Minimalno za ta teden: izgine ob robu platna.
 
 ---
 
 ## 4. Feedback (5 min)
 
-- Majhen krog ali kvadrat.  
+- Majhen kvadrat (`fillRect`).  
 - (Opcijsko) črta “aim” od igralca do miške samo za debug.  
 - GDD: vhod = klik/hold, pravilo = cooldown + smer, feedback = projektil + kasneje zvok (projekt).
 
@@ -94,6 +93,6 @@ Krogla–zid: opcijsko (AABB ali krog vs. wall). Minimalno: izgine ob robu platn
 
 ## Opombe za učitelja
 
-- `pointerdown` na canvas + `preventDefault`, da ni drag-slike.  
-- Če hold naredi kaoso: vsili cooldown.  
-- Ni need hitscan — projektili so učni cilj.
+- `mousedown` / `mousemove` na canvas, `mouseup` na `window` (da strel preneha, če gumb spustiš zunaj platna).
+- Če hold naredi kaoso: vsili `shotTimer`.
+- Krogla je pravokotnik, ne žarek (hitscan).

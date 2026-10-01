@@ -33,7 +33,7 @@ Cilj je igralec.
 | HP | visok | nizek |
 | barva | različna | različna |
 
-`type` na entiteti.  
+`kind` na entiteti, številke v `KINDS`.  
 En `updateEnemy`.
 
 ---

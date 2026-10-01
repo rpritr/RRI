@@ -25,7 +25,7 @@ Po **8 skupnih vajah** vsak naredi **lastno igro** (glej [`projekt/`](projekt/))
 | Plast | Izbira |
 |-------|--------|
 | Render | HTML5 Canvas 2D |
-| Jezik | Vanilla JavaScript (ES modules po potrebi) |
+| Jezik | Vanilla JavaScript (`starter/` ena datoteka; od tedna 2 ista razdelitev kot `demo/js/`) |
 | Zvok / asseti | Web Audio / `<audio>`, PNG/SVG |
 | Frameworki | **Ne** Phaser / Three.js (za zdaj) — razumevanje osnove pred abstrakcijo |
 
@@ -68,7 +68,7 @@ Odpri `http://localhost:8080`. To je **cilj** tednov 01–08, ne koda za prilepi
 ├── lab01/ … lab08/        ← predavanje, vaja, prompti, slajdi
 ├── projekt/               ← brief, mejniki, ocenjevanje lastne igre
 ├── starter/               ← teden 1: igriva osnova
-└── demo/                  ← referenčna igra (milestone tedna 8, moduli v demo/js/)
+└── demo/                  ← referenčna igra (milestone tedna 8, sistemi v `demo/js/`)
 ```
 
 ## Tedenska gradiva

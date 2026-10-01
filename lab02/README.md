@@ -2,7 +2,7 @@
 
 **Predviden čas:** ~3–4 ure.  
 **Izhod:** izboljšan premik v **tvoji kopiji** igre + README + smiselni commit-i.  
-**Gradiva:** tvoja kopija `starter/` (teden 1), `PROMPTI.md`, `../DIDAKTIKA-AI.md`.
+**Gradiva:** tvoja kopija `starter/` (teden 1), `PROMPTI.md`, `../DIDAKTIKA-AI.md`, vzorec imen v [`demo/js/`](../demo/js/).
 
 Delaj po korakih. Obkljukaj, ko končaš. Ne prepisuj predmetnega `starter/` na GitHubu — to je tvoja igra od danes naprej.
 
@@ -20,7 +20,7 @@ Delaj po korakih. Obkljukaj, ko končaš. Ne prepisuj predmetnega `starter/` na 
 
 ## Korak 1 — Preberi svoj `updatePlayer` (~20 min)
 
-Odpri `game.js` in preveri (starter to že ima — *razumi*, ne zbriši):
+Odpri še nerazdeljen `game.js` iz tedna 1 in preveri (starter to že ima — *razumi*, ne zbriši):
 
 | Kaj | Zakaj |
 |-----|--------|
@@ -34,13 +34,38 @@ Odpri `game.js` in preveri (starter to že ima — *razumi*, ne zbriši):
 
 ---
 
-## Korak 2 — Izboljšaj premik (~50–70 min)
+## Korak 2 — Iste datoteke kot demo (~40–50 min)
+
+Starter je ena `game.js`. Od danes je tvoja igra razdeljena kot [`demo/js/`](../demo/js/). Ta teden ustvari samo datoteke, ki jih že rabiš. Ovir, strelov in sovražnikov še ni — demo jih ima, ti jih ne kopiraj.
+
+| Datoteka | Kaj prestaviš iz starterja |
+|----------|----------------------------|
+| `js/config.js` | `PLAYER_SPEED` |
+| `js/world.js` | objekt `world`: canvas, `W`, `H`, `player`, `keys` |
+| `js/input.js` | `keydown` / `keyup` (samo zapišeta `world.keys`) |
+| `js/player.js` | `updatePlayer` |
+| `js/render.js` | `draw` |
+| `js/game.js` | `loop` |
+
+V `index.html` zamenjaj skripto:
+
+```html
+<script type="module" src="js/game.js"></script>
+```
+
+- [ ] Zaženeš s `python3 -m http.server` v mapi igre. `file://` modulov ne naloži.
+- [ ] WASD še dela. Igralec je še na platnu.
+- [ ] `export` / `import` veže datoteke. Skupne stvari so na `world`, ker `let` iz ene datoteke v drugi ni viden.
+
+---
+
+## Korak 3 — Izboljšaj premik (~50–70 min)
 
 Naredi **vsaj dve** od tega (priporočeno vse tri, če gre):
 
-1. **Konstante na vrh** — npr. `const PLAYER_SPEED = 220;` in (če sprint) `SPRINT_MULTIPLIER`. GDD naj se ujema s številkami.  
-2. **Puščice** — `ArrowUp/Down/Left/Right` naj premikajo enako kot WASD (isti `dx`/`dy`). Pazljivo na `e.key`.  
-3. **Sprint** — ob držanju Shift je hitrost večja (npr. ×1.6). V `keydown` ne pozabi `e.preventDefault()`, kjer je smiselno.
+1. **Konstanta** v `js/config.js`: `PLAYER_SPEED` (in `SPRINT_MULTIPLIER`, če narediš sprint). GDD naj se ujema s številkami.
+2. **Puščice** v `js/input.js`: `ArrowUp/Down/Left/Right` nastavijo ista `world.keys` kot WASD.
+3. **Sprint** v `js/player.js`: ob držanju Shift je hitrost večja (npr. ×1.6). V `keydown` ne pozabi `e.preventDefault()`, kjer je smiselno.
 
 Opcijsko (če si hiter):
 
@@ -53,7 +78,7 @@ Opcijsko (če si hiter):
 
 ---
 
-## Korak 3 — README v lastnem forku (~30–40 min)
+## Korak 4 — README v lastnem forku (~30–40 min)
 
 V korenu **svoje** mape/igre napiši ali dopolni `README.md`:
 
@@ -67,7 +92,7 @@ To ni marketinški tekst. Naj sošolec po README zažene igro brez Slack sporoč
 
 ---
 
-## Korak 4 — Git higiene (~30–40 min)
+## Korak 5 — Git higiene (~30–40 min)
 
 - [ ] `.gitignore` pokriva vsaj: `node_modules/`, `.env`, `.DS_Store` (lahko skopiraš vzorec iz predmetnega repoja — **preberi**, kaj pomeni).
 - [ ] **Vsaj 2 commita** z razumljivim sporočilom, npr.:
@@ -79,7 +104,7 @@ To ni marketinški tekst. Naj sošolec po README zažene igro brez Slack sporoč
 
 ---
 
-## Korak 5 — AI: samo `updatePlayer` (~30–40 min)
+## Korak 6 — AI: samo `updatePlayer` (~30–40 min)
 
 Uporabi **Prompt A** v `PROMPTI.md`. Pravila:
 
@@ -92,7 +117,7 @@ Cikel: **generate → run → understand → change → test → explain**.
 
 ---
 
-## Korak 6 — Zapri teden (~15 min)
+## Korak 7 — Zapri teden (~15 min)
 
 - [ ] Igra teče po osvežitvi.
 - [ ] README + commiti.
@@ -110,6 +135,7 @@ Odgovori (1–4 stavki):
 
 | Merilo | OK |
 |--------|----|
+| Koda je v `js/config.js`, `world.js`, `input.js`, `player.js`, `render.js`, `game.js` | |
 | Premik izboljšan (konstante in/ali puščice in/ali sprint), diagonala OK | |
 | Igralec ostane na platnu | |
 | README z zagonom in kontrolami | |

@@ -22,16 +22,16 @@ Po tem tednu glavni fokus **ni** polish iste zombie igre. Naslednji korak je [`p
 Enotski vektor proti igralcu, kot pri krogli, ampak cilj je igralec:
 
 ```
-dx = playerCenterX - enemy.x
-dy = playerCenterY - enemy.y
+dx = playerCenterX - enemyCenterX
+dy = playerCenterY - enemyCenterY
 len = hypot(dx, dy)
 dx /= len; dy /= len
-enemy.x += dx * enemy.speed * dt
+premik = dx * enemy.speed * dt   // nato moveWithWalls, ne goli x +=
 ```
 
 - Omejitev hitrosti = `enemy.speed` (px/s), ne “skok na igralca”.
 - `len === 0`: ne deli z 0.
-- Trk z ovirami: ista AABB resolve kot igralec (priporočeno, sicer clipajo zidove). Če zmanjka časa: seek brez obida zidov je sprejemljiv, **dokumentiraj** omejitev.
+- Trk z ovirami: isti `moveWithWalls` kot igralec. Obhoda zidov ni — sovražnik se ustavi. To zapiši v README.
 
 To ni “AI knjižnica”. To je vektor.
 
@@ -39,7 +39,7 @@ To ni “AI knjižnica”. To je vektor.
 
 ## 2. Dva tipa (10–12 min)
 
-Tabela, ne copy-paste dveh skoraj istih razredov — `type` ali `kind`:
+Tabela podatkov, ne dve kopiji funkcije. Polje `kind`:
 
 | Tip | Hitrost | HP | Barva | Score |
 |-----|---------|----|-------|-------|
@@ -47,7 +47,7 @@ Tabela, ne copy-paste dveh skoraj istih razredov — `type` ali `kind`:
 | **runner** | hitri | manj | npr. oranžen | …
 
 Spawn valov: mešanica (npr. val 1 sami walkerji, val 2+ runnerji).  
-Isti `updateEnemy` veja na `type`.
+Isti `updateEnemy` za oba. `kind` samo izbere številke iz `KINDS`.
 
 GDD §6 naj se ujema.
 
@@ -62,7 +62,7 @@ Igralec lahko:
 3. trči v ovire,  
 4. izgubi HP in umre, restart R,  
 5. dobi točke, vidi HUD, dočaka naslednji val,  
-6. vidi **2 vedenji** sovražnikov (seek + različni stats).
+6. vidi **2 tipa** (ista seek logika, različna hitrost, HP in barva).
 
 To je dovolj za **kompetence 1–3 in del 5**. Asseti (sprite/zvok) in polna “svoja” igra so **projekt**.
 
@@ -95,8 +95,6 @@ Seek, 2 tipa, stabilizacija, checklist baze, kratek README “kako igrati skupno
 
 ## Opombe za učitelja
 
-- Močnejši: runner z rahlim “jitter” ali walker, ki se ne seka med seboj (ločevanje) — opcijsko.  
-- Šibkejši: oba tipa seek, samo različna `speed`/`hp`/`color`.  
-- Preveri ustno: naj razložijo `hypot` pri seek.  
-- Brez Unreal/Unity primerov.  
-- Referenca v `demo/js/` je razdeljena po sistemih. Študentova igra sme ostati v enem `game.js`; ne zahtevaj modulov kot pogoj tedna 8.
+- Oba tipa kličeta isti `updateEnemy`. Razlika je samo v `speed`, `hp` in `color`.
+- Preveri ustno: naj razložijo, zakaj delijo z `hypot`.
+- Referenca in študentska igra sta v istih datotekah: [`demo/js/`](../demo/js/). `updateEnemy` je v `enemies.js`, `KINDS` v `config.js`.

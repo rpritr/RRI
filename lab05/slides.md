@@ -20,15 +20,14 @@ v = miška − središče igralca
 v = v / |v|
 ```
 
-`atan2` je za kot / sprite.  
-Premik krogle: enotski vektor × hitrost × `dt`.
+Premik krogle: enotski vektor × `BULLET_SPEED` × `dt`.
 
 ---
 
 # Seznam krogle
 
 ```
-bullets[] = { x, y, vx, vy, r }
+bullets[] = { x, y, w, h, vx, vy }
 ```
 
 Spawn. Update.  
@@ -50,7 +49,7 @@ GDD = koda.
 
 # Feedback
 
-Majhen krog.  
+Majhen kvadrat (`fillRect`).  
 Debug: točka miške na platnu.
 
 Zvok / sprite = **projekt**, ne obveza tedna 5.
@@ -75,7 +74,7 @@ Vektor, ne magija.
 
 Dotik vsak frejm ≠ 1 HP.
 
-Teden 6: **HP, i-frames, GAME_OVER**.
+Teden 6: **HP, hurtTimer, GAME_OVER**.
 
 ---
 

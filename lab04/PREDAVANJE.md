@@ -27,7 +27,7 @@ a.y < b.y + b.h &&
 a.y + a.h > b.y
 ```
 
-Krogi (opcijsko, za kasneje): `(dx*dx + dy*dy) < (ra+rb)²`. Za ovire tedna 4 ostani pri AABB.
+Igralec, ovira, krogla in sovražnik so vsi pravokotniki. En `aabbOverlap` zadošča za cel semester.
 
 **Detect ≠ resolve**
 
@@ -41,13 +41,12 @@ Brez resolve: veš, da si v zidu, a še vedno si v zidu.
 
 ## 2. Razrešitev — preprosto in dovolj (10–12 min)
 
-Tri šolske strategije (izberi eno in jo **razloži**):
+Na vaji naredimo **eno** razrešitev, po oseh:
 
-1. **Razveljavi celoten premik**, če novi AABB seka oviro (lahko “lepi” na vogalih).  
-2. **Po oseh:** najprej `x`, preveri stene, nato `y` (boljši občutek ob drsenju ob zidu).  
-3. **Najmanjši potisk ven** (več kode) — ni nujen.
+1. Premakni `x`. Če `aabbOverlap` z zidom, razveljavi samo `x`.
+2. Premakni `y`. Če prekrivanje, razveljavi samo `y`.
 
-Priporočilo vaje: **osi**. Na tabli en zid in igralec, ki gre v desno.
+Tako igralec drsi ob zidu. Na tabli en zid in igralec, ki gre v desno.
 
 Stene platna lahko ostanejo clamp; **ovira** je objekt v `walls[]`.
 
@@ -58,7 +57,7 @@ Stene platna lahko ostanejo clamp; **ovira** je objekt v `walls[]`.
 Sovražnik danes **ne sledi**. Mora pa obstajati kot entiteta:
 
 ```
-{ x, y, w, h, color }  // kasneje: hp, type, speed
+{ x, y, w, h, color }  // kasneje: hp, kind, speed
 ```
 
 Risanje: `fillRect` kot igralec (druga barva).  
@@ -93,12 +92,11 @@ Debug: ob trku obarvaj oviro / izpiši `HIT`.
 - Isti AABB bo teden 5 (krogla–zombie) in teden 6 (dotik → škoda).  
 - AI sovražnika **ni** danes.
 
-**Domača misel:** Ali naj krogla uporablja krog ali majhen AABB? (Oboje OK, če si dosleden.)
+**Domača misel:** Krogla v tednu 5 bo isti pravokotnik `{x,y,w,h}` in isti `aabbOverlap`.
 
 ---
 
 ## Opombe za učitelja
 
-- Rotirani pravokotniki in SAT so **preveč** za ta teden.  
-- Če kdo že dela tilemap: isti AABB na celice.  
-- Dungeon Escape: ovire = stene labirinta; ista funkcija.
+- Rotacija, krogi in “potisk ven po najkrajši osi” niso del te vaje.
+- Dungeon Escape: ovire = stene labirinta; ista funkcija `aabbOverlap`.

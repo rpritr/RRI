@@ -24,13 +24,9 @@ Ista AABB ideja kot teden 4.
 
 # Valovi
 
-Eno pravilo, ne tri naenkrat:
+Eno pravilo:
 
-- arena prazna, **ali**
-- čas, **ali**
-- K ubitih
-
-Potem `wave++` in težje (več / hitreje).
+Ko je `enemies.length === 0`: `spawnWave(wave + 1)`, več sovražnikov.
 
 ---
 

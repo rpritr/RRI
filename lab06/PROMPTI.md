@@ -24,8 +24,8 @@ Spremeni številke. Ne sprejmi, da AI doda seek ali inventory.
 
 ```
 Predlagaj 3 preproste vizualne feedbacke za zadetek igralca
-na Canvas 2D (brez slik): barva, flash, palica HP.
-Vsak max 10 vrstic ideje. Brez particle sistema.
+na Canvas 2D (brez slik): drugačna barva, besedilo HP, krajši kvadratek.
+Vsak max 10 vrstic ideje. Brez particle sistema in brez utripanja.
 ```
 
 Implementiraj **enega** in ga prilagodi.
@@ -46,7 +46,7 @@ Ne piši nove igre.
 ## Pričakovana refleksija
 
 1. Koliko HP in kakšen `HURT_COOLDOWN` — zakaj te številke?  
-2. Kaj bi se zgodilo brez i-frames (en stavek + si poskusil?)?  
+2. Kaj bi se zgodilo brez `hurtTimer` (en stavek + si poskusil?)?  
 3. Kaj `resetGame` ponastavi in kaj si **zavestno** pustil (če kaj)?  
 4. AI napaka ali odvečen feature, ki si ga zavrnil.
 

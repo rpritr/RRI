@@ -2,9 +2,19 @@
 
 **Predviden čas:** ~3–4 ure.  
 **Izhod:** igriva survival igra z seek AI in dvema tipoma sovražnikov; README “kako igrati”; pripravljen prehod v [`projekt/`](../projekt/).  
-**Gradiva:** tvoja igra (teden 7), `PROMPTI.md`, referenca [`demo/`](../demo/).
+**Gradiva:** tvoja igra (teden 7), `PROMPTI.md`, referenca [`demo/js/`](../demo/js/).
 
-Referenčna igra je razdeljena v `demo/js/` (vhod, trki, igralec, streli, sovražniki, risanje, zanka). **Tvoja oddaja sme ostati v enem `game.js`.** Razdelitev je vzorec za trenutek, ko datoteka postane nepregledna — ni zahteva tega tedna. Zagon reference: `python3 -m http.server` v mapi `demo/` (moduli ne tečejo prek `file://`).
+Tvoja mapa `js/` naj se ujema z referenco. Ta teden dopolniš samo še seek in dva tipa:
+
+| Datoteka | Kaj |
+|----------|-----|
+| `js/config.js` | `KINDS`: `walker` in `runner` (`speed`, `hp`, `color`, `points`) |
+| `js/enemies.js` | `updateEnemy` — isti seek za oba; `spawnWave` od vala 2 doda runnerje |
+| `js/game.js` | v `update` kliče `updateEnemy` za vsakega v `world.enemies` |
+| `js/collision.js` | premik sovražnika gre skozi `moveWithWalls` |
+| `js/render.js` | palica nad sovražnikom, če je `maxHp > 1` |
+
+Zagon reference: `python3 -m http.server` v mapi `demo/`.
 
 ---
 
@@ -16,18 +26,20 @@ Referenčna igra je razdeljena v `demo/js/` (vhod, trki, igralec, streli, sovra�
 
 ## Korak 1 — Seek (~40–50 min)
 
-- [ ] `updateEnemy(e, dt)`: vektor proti središču igralca, normalizacija, `e.speed * dt`.
-- [ ] Vsi aktivni sovražniki v PLAYING kličejo to (ali veja po tipu, ista smer).
-- [ ] Test: stoji pri miru — pridejo do tebe. Odmakni se — sledijo.
+- [ ] `updateEnemy(e, dt)`: vektor od središča sovražnika do središča igralca, deli z `Math.hypot`, premakni z `e.speed * dt`.
+- [ ] Vsak sovražnik v `PLAYING` kliče isto funkcijo. Tip ne menja smeri, samo številke.
+- [ ] Premik gre skozi `moveWithWalls` (isto kot igralec).
+- [ ] Test: stojiš pri miru — pridejo do tebe. Odmakneš se — sledijo.
 
-Ovire: poskusi isti resolve kot igralec. Če runner “obtiči”, zabeleži v README kot znano omejitev (pathfinding ni zahteva).
+Pathfindinga ni. Sovražnik se ob zidu ustavi. To zapiši v README kot znano omejitev.
 
 ---
 
 ## Korak 2 — Dva tipa (~40–50 min)
 
-- [ ] `walker` in `runner` (imena lahko prilagodiš): različna **hitrost**, **HP**, **barva**.
-- [ ] Spawn valov uporablja oba (vsaj od vala 2).
+- [ ] Objekt `KINDS` (ali podobno): `walker` in `runner` z različno **hitrostjo**, **HP**, **barvo**, **points**.
+- [ ] `spawnWave` od vala 2 doda oba. Val 1 je lahko samo walker.
+- [ ] V `js/render.js`: nad walkerjem (več HP) kratka palica `hp / maxHp`. Runner z 1 HP je nima.
 - [ ] GDD §6 tabela izpolnjena.
 
 Test: vizualno ločiš tipa v 2 sekundah igranja.
@@ -41,7 +53,7 @@ Prehodi checklist **skupna baza**:
 - [ ] Premik + clamp / ovire
 - [ ] Loop + `dt` + `state`
 - [ ] Strel proti miški
-- [ ] HP, i-frames, GAME_OVER, R
+- [ ] HP, `hurtTimer`, GAME_OVER, R → `resetGame`
 - [ ] Score, valovi, HUD
 - [ ] Seek + 2 tipa
 - [ ] Ni očitnih crashov v konzoli (F12) pri 2–3 minutah igre

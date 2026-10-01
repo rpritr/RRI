@@ -1,7 +1,7 @@
 # Teden 6 — Predavanje: zdravje, škoda, game over
 
 **Trajanje:** ~45–60 min.  
-**Cilj:** igralec ima HP, ob stiku izgubi življenje z cooldownom (i-frames), ob 0 preklop v `GAME_OVER`, **R** restart.  
+**Cilj:** igralec ima HP, ob stiku izgubi življenje šele po pavzi (`hurtTimer`), ob 0 preklop v `GAME_OVER`, **R** kliče `resetGame`.  
 **Gradiva:** `slides.md`, `README.md`, tvoja igra (teden 5).
 
 ---
@@ -9,7 +9,7 @@
 ## 0. Odprtje (3 min)
 
 - Vprašanje: “Sovražnik se prekriva z mano 1 sekundo pri 60 FPS. Kolikokrat dobim škodo, če vsak frejm odštejem 1 HP?”
-- Odgovor: ~60× — zato **hurt cooldown / i-frames**, ne samo `hp--`.
+- Odgovor: ~60× — zato `hurtTimer`, ne samo `hp--` vsak frejm.
 - Danes sklenemo zanko **poraza**. Zmaga/valovi so teden 7.
 
 ---
@@ -23,15 +23,14 @@ player.hurtTimer  // sekunde do naslednje dovoljene škode
 
 Feedback:
 
-- število ali palica (teden 7 HUD lahko polepša; danes `fillText` zadostuje),
-- flash barve igralca, ko `hurtTimer > 0`,
-- (opcijsko) kratka “nevidnost”.
+- palica v `js/render.js`: `fillRect` širine `hp / maxHp` (besedilo brez palice se na platnu izgubi),
+- drugačna barva igralca, dokler je `hurtTimer > 0`.
 
 GDD: pravilo škode + feedback. Številke v kodi = številke v dokumentu.
 
 ---
 
-## 2. I-frames / damage cooldown (10–12 min)
+## 2. Pavza po zadetku (10–12 min)
 
 Ob overlap z nevarnostjo (dummy enemy **ali** rdeča cona):
 
@@ -72,7 +71,7 @@ Funkcija `resetGame()` — eno mesto, manj bugov. Pripravi na teden 7 (score/wav
 ## 4. Vaja danes (5 min)
 
 1. HP + izpis.  
-2. Škoda ob stiku + i-frames + flash.  
+2. Škoda ob stiku + `hurtTimer` + drugačna barva.  
 3. GAME_OVER + R.  
 4. AI: samo HP/hurt/state kos; ti spremeniš `maxHp` ali cooldown.
 
@@ -80,7 +79,7 @@ Funkcija `resetGame()` — eno mesto, manj bugov. Pripravi na teden 7 (score/wav
 
 ## 5. Zapiranje (3 min)
 
-- Škoda brez i-frames = instant smrt ob dotiku.  
+- Škoda brez `hurtTimer` = smrt v enem dotiku, ker se trk ponovi vsak frejm.  
 - Restart je del zanke, ne F5.  
 - Naslednji teden: smrt **sovražnika** da točke, ne samo tvoja smrt.
 

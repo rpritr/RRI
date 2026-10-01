@@ -4,6 +4,17 @@
 **Izhod:** igralec ne gre skozi vsaj eno oviro; sovražnik obstaja kot `{x,y,w,h}` (brez AI).  
 **Gradiva:** tvoja igra (teden 3), `PROMPTI.md`.
 
+Nova datoteka tega tedna je `js/collision.js`. Ostalo dodajaš v obstoječe:
+
+| Datoteka | Kaj |
+|----------|-----|
+| `js/collision.js` | `aabbOverlap`, `hitsWall`, `moveWithWalls` |
+| `js/config.js` | tabela `walls` |
+| `js/player.js` | premik gre skozi `moveWithWalls` |
+| `js/enemies.js` | dummy sovražnik `{x,y,w,h}` na `world.enemies` — še brez hoje |
+| `js/render.js` | nariši ovire in sovražnika |
+| `js/world.js` | `world.enemies = []` |
+
 ---
 
 ## Korak 0 (~10 min)
@@ -37,15 +48,9 @@ Ne uporabljaj knjižnice za trke.
 
 ## Korak 2 — Vsaj ena ovira (~40–50 min)
 
-- [ ] Tabela `walls` (lahko ena sama): `{ x, y, w, h, color }`.
-- [ ] Nariši jo v `draw` (npr. siva).
-- [ ] Po premiku igralca (ali po oseh): če `aabbOverlap(player, wall)`, **resolve**.
-
-Priporočen resolve (osi):
-
-1. Shrani `prevX`, `prevY`.  
-2. Premakni `x`, če prekrivanje z zidom → `x = prevX`.  
-3. Premakni `y`, če prekrivanje → `y = prevY`.
+- [ ] Tabela `walls` v `js/config.js` (lahko ena sama): `{ x, y, w, h }`.
+- [ ] Nariši jo v `js/render.js` (npr. siva).
+- [ ] `moveWithWalls` v `js/collision.js`: najprej `x`, če zadene zid razveljavi `x`, nato `y`. `updatePlayer` v `js/player.js` kliče to funkcijo.
 
 - [ ] Test: zaleti se z leve, desne, zgoraj, spodaj — **ne gre skozi**.
 - [ ] Test: drsi ob zidu (premik vzporedno s steno) — po možnosti deluje (osi).
@@ -58,8 +63,8 @@ Clamp na rob platna **ostane** — to so meje sveta, ne `walls`.
 
 ## Korak 3 — Entiteta sovražnika (brez AI) (~30–40 min)
 
-- [ ] Objekt `enemy` ali `enemies[0]`: `x, y, w, h, color` (npr. zelena/rdeča).
-- [ ] Nariši ga. **Ne** sledi igralcu (teden 8).
+- [ ] V `js/enemies.js` dodaj enega v `world.enemies`: `x, y, w, h, color` (npr. zelena).
+- [ ] Nariši ga v `js/render.js`. **Ne** kliči seeka (teden 8, `updateEnemy`).
 - [ ] Lahko stoji v kotu ali na fiksni točki.
 
 Opcijsko: če `aabbOverlap(player, enemy)`, spremeni barvo igralca za en frejm (samo feedback — HP je teden 6).

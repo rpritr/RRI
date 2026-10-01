@@ -112,7 +112,7 @@
     if (dt > 0.05) dt = 0.05; // max ~20 FPS ekvivalent skoka
 
     updatePlayer(dt);
-    // Teden 2: tukaj updateEnemy(dt);
+    // Kasneje (teden 4+): tukaj posodobiš tudi sovražnike in strele.
     draw();
 
     requestAnimationFrame(loop);

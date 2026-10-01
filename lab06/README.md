@@ -1,8 +1,18 @@
 # Teden 6 — Vaja: HP, škoda, game over
 
 **Predviden čas:** ~3–4 ure.  
-**Izhod:** stik z nevarnostjo zmanjša HP (z i-frames); ob 0 game over; R restart.  
+**Izhod:** stik z nevarnostjo zmanjša HP (z `hurtTimer`); ob 0 game over; R kliče `resetGame`.  
 **Gradiva:** tvoja igra (teden 5), `PROMPTI.md`.
+
+| Datoteka | Kaj |
+|----------|-----|
+| `js/player.js` | `hp`, `maxHp`, `hurtTimer`; v `updatePlayer` odštej `hurtTimer` |
+| `js/config.js` | `PLAYER_MAX_HP`, `HURT_COOLDOWN` |
+| `js/enemies.js` | ob `aabbOverlap` z igralcem in `hurtTimer <= 0` zmanjšaj HP |
+| `js/game.js` | `resetGame` postavi igralca, prazne sezname in `world.state = "PLAYING"` |
+| `js/render.js` | palica HP (`fillRect`, širina `hp / maxHp`); ob `GAME_OVER` besedilo na platnu |
+| `js/input.js` | tipka **R** kliče `resetGame` |
+| `js/world.js` | `world.state` dobi vrednost `"GAME_OVER"` |
 
 ---
 
@@ -15,19 +25,19 @@
 
 ## Korak 1 — HP (~25–35 min)
 
-- [ ] `player.hp` in `player.maxHp` (npr. 3 ali 100 — bodi dosleden).
-- [ ] V `draw` (PLAYING): izpis `HP: n` ali preprosta palica (`fillRect` širine `hp/maxHp`).
+- [ ] `player.hp` in `player.maxHp` (npr. 5 — bodi dosleden z `PLAYER_MAX_HP` v `js/config.js`).
+- [ ] V `js/render.js`, med `PLAYING`: palica zdravja. Temno ozadje, nanj zelen `fillRect` širine `barW * (player.hp / player.maxHp)`. Ko pade HP, se palica skrajša. Besedilo samo po sebi ni dovolj.
 - [ ] GDD: zapiši začetni HP.
 
 ---
 
-## Korak 2 — Škoda + i-frames (~40–50 min)
+## Korak 2 — Škoda + pavza (`hurtTimer`) (~40–50 min)
 
 Nevarnost: dummy `enemy` in/ali `hazard` `{x,y,w,h}`.
 
 - [ ] `hurtTimer` (sekunde). Vsak frejm v PLAYING: zmanjšaj z `dt`.
 - [ ] Če `aabbOverlap(player, nevarnost)` in `hurtTimer <= 0`: odštej HP, nastavi `hurtTimer`.
-- [ ] Med i-frames: drugačna barva / utripanje igralca.
+- [ ] Dokler je `hurtTimer > 0`: igralec ima drugačno barvo (utripanje ni potrebno).
 
 Test: stoj na nevarnosti 2 s — umreš postopoma, ne v 3 frejmih (razen če imaš 3 HP in kratek cooldown — prilagodi številke).
 
@@ -67,7 +77,7 @@ Test: umri, pritisni R, igraj znova **brez** osvežitve strani.
 Prompt A: hp, hurtTimer, preklop state.
 
 - [ ] Spremeni `maxHp` **ali** `HURT_COOLDOWN` in opiši občutek (lažje/težje).
-- [ ] Commit: `teden 6: HP, i-frames, GAME_OVER + R`.
+- [ ] Commit: `teden 6: HP, hurtTimer, GAME_OVER + R`.
 
 ---
 
@@ -85,8 +95,8 @@ Prompt A: hp, hurtTimer, preklop state.
 
 | Merilo | OK |
 |--------|----|
-| HP se vidi med igro | |
-| Stik z nevarnostjo zmanjša HP; i-frames preprečijo instant smrt | |
+| Palica HP se med igro vidi in krajša ob zadetku | |
+| Stik zmanjša HP; `hurtTimer` prepreči škodo vsak frejm | |
 | `GAME_OVER` na canvasu | |
 | R restart brez F5 (`resetGame`) | |
 | AI + lastna sprememba številk + razlaga | |

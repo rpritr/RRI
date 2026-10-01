@@ -4,6 +4,16 @@
 **Izhod:** točke ob uničenju, vsaj 2 vala, HUD (score, val, HP).  
 **Gradiva:** tvoja igra (teden 6), `PROMPTI.md`, svoj GDD.
 
+| Datoteka | Kaj |
+|----------|-----|
+| `js/bullets.js` | trk s sovražnikom: `hp`, ob `hp <= 0` odstrani in prištej `points` k `world.score` |
+| `js/enemies.js` | `spawnWave(n)` — več sovražnikov na robu; klic, ko je `world.enemies.length === 0` |
+| `js/render.js` | HUD: palica HP iz tedna 6 ostane; zraven `fillText` za točke in val |
+| `js/game.js` | `resetGame` ponastavi `score`, `wave` in pokliče `spawnWave(1)` |
+| `js/world.js` | `world.score`, `world.wave` |
+
+Seek (`updateEnemy`) je še vedno teden 8. Danes sovražniki smejo stati.
+
 ---
 
 ## Korak 0 (~10 min)
@@ -27,12 +37,12 @@ Test: ustreli dummy — izgine (ali umre), score zraste, v HUD se vidi.
 
 ## Korak 2 — Valovi (~50–70 min)
 
-- [ ] `wave` začne pri 1.
-- [ ] Funkcija `spawnWave(n)` doda N sovražnikov (rob platna, ne prek igralca).
-- [ ] Jasno **pravilo** naslednjega vala (prazna arena *ali* čas *ali* ubiti) — zapiši v komentar in GDD.
-- [ ] Val 2 je težji: več N in/ali drugačen spawn.
+- [ ] `wave` začne pri 1. Funkcija `spawnWave(n)` nastavi `wave = n` in napolni `enemies`.
+- [ ] Spawn na robu platna, ne v zidu in ne na igralcu.
+- [ ] Naslednji val: ko je `enemies.length === 0`, pokliči `spawnWave(wave + 1)`. To pravilo zapiši v komentar in v GDD.
+- [ ] Val 2 ima več sovražnikov kot val 1 (npr. `2 + wave`).
 
-Premik sovražnikov: statik, naključna smer, ali že grob follow — zabeleži, kaj uporabljaš. Seek + 2 tipa je **teden 8**.
+Sovražniki smejo stati. Seek in dva tipa sta **teden 8**.
 
 - [ ] `resetGame` ponastavi `score`, `wave`, `enemies`.
 
@@ -40,9 +50,9 @@ Premik sovražnikov: statik, naključna smer, ali že grob follow — zabeleži,
 
 ## Korak 3 — HUD (~25–35 min)
 
-- [ ] Med PLAYING: HP, score, wave (canvas `fillText` zadostuje).
-- [ ] GAME_OVER: končni score viden.
-- [ ] Besedilo berljivo na temnem ozadju.
+- [ ] Med PLAYING: palica HP (teden 6) plus točke in val (`fillText`) na temnem pravokotniku, da se berejo.
+- [ ] GAME_OVER: končne točke vidne.
+- [ ] Palica se ujema s `player.hp` — če zadeneš, se takoj skrajša.
 
 Ne delaj HTML CSS menija namesto zanke — če dodaš HTML HUD, naj se ujema s `state`.
 

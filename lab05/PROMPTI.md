@@ -8,10 +8,12 @@ Splošna pravila: `../DIDAKTIKA-AI.md`.
 
 ```
 Canvas 2D, vanilla JS. Igralec ima x,y,w,h. Miška mouse.x/y je že
-v koordinatah canvasa. Ob klicu shoot() ustvari projektil na središču
-igralca, smer proti miški, konstantna hitrost. Posodobi v update(dt)
-in odstrani, ko zapusti canvas (0..W, 0..H).
-Samo spawn + update/remove, ne cele igre.
+v koordinatah canvasa. Funkcija shoot() ustvari pravokotnik
+{ x, y, w, h, vx, vy }: smer od središča igralca proti miški,
+vx in vy sta enotski vektor. x,y sta levi-zgornji kot.
+updateBullets(dt) premakne z BULLET_SPEED * dt in odstrani,
+ko zapusti canvas (0..W, 0..H). Zanka od konca.
+Samo shoot + updateBullets, ne cele igre.
 Komentarji v slovenščini. Na koncu vprašaj, zakaj delimo z hypot.
 ```
 
@@ -33,8 +35,9 @@ Primerjaj s **svojo** pretvorbo. Če AI pozabi CSS scale, to zapiši.
 ## Prompt C — cooldown
 
 ```
-Dodaj shotCooldown: ne smem streljati pogosteje kot vsakih 0.2 s.
-Pokaži shotTimer -= dt vzorec. Samo ta kos. Ne dodaj orozij in inventory.
+Dodaj shotTimer: ne smem streljati pogosteje kot vsakih 0.25 s.
+Po shoot() nastavi shotTimer = BULLET_COOLDOWN, v update ga zmanjšaj z dt.
+Samo ta kos. Ne dodaj orožij in inventory.
 ```
 
 Spremeni 0.2 na svojo vrednost; v GDD naj se ujema.

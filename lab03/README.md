@@ -4,12 +4,21 @@
 **Izhod:** razumljen in urejen game loop; spremenljivka stanja; zapisano, ali uporabljaš delta ali fiksni korak.  
 **Gradiva:** tvoja igra (teden 2), `PROMPTI.md`.
 
+Datoteke so že tiste iz tedna 2. Ta teden:
+
+| Datoteka | Kaj |
+|----------|-----|
+| `js/game.js` | `loop`, `update(dt)` |
+| `js/world.js` | `world.state` (`"MENU"` / `"PLAYING"`, kasneje `"GAME_OVER"`) |
+| `js/render.js` | `draw` — samo risanje |
+| `js/player.js` | `updatePlayer` kliče `update`, ne `loop` |
+
 ---
 
 ## Korak 0 — Zaženi, kjer si ostal (~10 min)
 
 - [ ] Premik iz tedna 2 še dela.
-- [ ] Veš, kje je `loop`, `lastTime`, `updatePlayer`, `draw`.
+- [ ] Veš, kje je `loop` (`js/game.js`), `updatePlayer` (`js/player.js`) in `draw` (`js/render.js`).
 
 ---
 
@@ -45,7 +54,7 @@ Ne dodajaj novih mehanik “ker sem že tu”. Ena funkcija tedna = jasna zanka.
 - [ ] `dt` je v **sekundah** (ne ms).
 - [ ] Prvi frejm ne sme dati ogromnega `dt` (`if (!lastTime) …`).
 - [ ] Obstaja zgornja meja (npr. `if (dt > 0.05) dt = 0.05`) **ali** zavestno izključen update po dolgem pauzi.
-- [ ] V README ali komentarju na vrhu `game.js`: **“Uporabljam delta time; max dt = …”** *ali* opis fiksnega koraka, če si ga res naredil.
+- [ ] V README ali komentarju na vrhu `js/game.js`: **“Uporabljam delta time; max dt = …”** *ali* opis fiksnega koraka, če si ga res naredil.
 
 Test:
 
@@ -55,9 +64,9 @@ Test:
 
 ## Korak 4 — Spremenljivka `state` (~30–40 min)
 
-- [ ] `let state = "PLAYING";` (ali `'MENU'` z takojšnjim preklopom v PLAYING ob tipki, če hočeš skico menija).
-- [ ] V `update`: če `state !== "PLAYING"`, ne premikaj sveta (lahko še bereš tipko za preklop).
-- [ ] V `draw`: izpiši stanje (npr. `ctx.fillText(state, 12, 24)`) — debug, ni treba lepote.
+- [ ] `world.state = "PLAYING"` v `js/world.js` (ali `"MENU"` z preklopom v `PLAYING` ob tipki).
+- [ ] V `update` v `js/game.js`: če `world.state !== "PLAYING"`, ne kliči `updatePlayer`.
+- [ ] V `draw` v `js/render.js`: izpiši stanje (npr. `ctx.fillText(world.state, 12, 24)`).
 
 Opcijsko:
 

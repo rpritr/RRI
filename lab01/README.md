@@ -49,9 +49,11 @@ Odpri `game.js` in poišči:
 | `loop(timestamp)` | delta time + rAF |
 
 - [ ] Z lastnimi besedami (2–3 stavki) zapiši: *kaj je `dt` in zakaj ga množimo s `speed`?*
-- [ ] Najdi vrstico, kjer bi naslednji teden klical `updateEnemy` (v kodi je že komentar).
+- [ ] Najdi komentar v `loop`, kjer bi kasneje dodal posodobitev sovražnikov in strelov.
 
 **Ne rabiš** danes razumeti vsega — rabiš vedeti, *kje* živijo deli sistema.
+
+Ta teden je vse v `starter/game.js`. Od tedna 2 ista logika živi v mapi `js/`, enako kot referenca [`demo/js/`](../demo/js/) (ena datoteka na sistem).
 
 ---
 
@@ -118,7 +120,7 @@ Cikel danes: **generate → understand → change (izbor/prilagoditev) → expla
 
 Odgovori na list (1–3 stavki):
 
-> Kje v `game.js` bi dodal sovražnika (`x, y, w, h`)? Kaj bi risal v `draw()`?
+> Kje bi živel sovražnik (`x, y, w, h`), ko bo koda v `js/enemies.js`, risanje pa v `js/render.js`?
 
 ---
 

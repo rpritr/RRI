@@ -9,8 +9,8 @@
 ## 0. Odprtje (3 min)
 
 - Survival brez napredka = “hodim naokoli”. **Progressija** je mehanika.
-- Vprašanje: “Kdaj se začne val 2 — ko ubiješ vse, ali ko mine čas?”
-- Oba sta veljavna; izberi **eno** pravilo in ga zapiši v GDD.
+- Vprašanje: “Kdaj se začne val 2?”
+- Pravilo te vaje: ko je arena prazna (`enemies.length === 0`), pokliči `spawnWave(wave + 1)`.
 
 Po tem tednu imaš osnovno survival zanko. Teden 8 doda seek + 2 tipa (skupna baza). Lastna igra pride **po** tednu 8, ne kot polish iste mape.
 
@@ -22,7 +22,7 @@ Po tem tednu imaš osnovno survival zanko. Teden 8 doda seek + 2 tipa (skupna ba
 score += POINTS_PER_KILL
 ```
 
-Pogoj kill: overlap krogla–sovražnik (AABB ali krog). Odstrani kroglo in sovražnika (ali `hp` sovražnika → 0).
+Pogoj kill: `aabbOverlap` krogla–sovražnik. Krogla izgine. Sovražniku zmanjšaj `hp`; ko je `hp <= 0`, ga odstrani in prištej `points`.
 
 Dummy iz tedna 4 mora postati **uničljiv**. Če je samo en in stoji: po smrti spawnaj naslednjega (že mini-val).
 
@@ -30,26 +30,18 @@ Dummy iz tedna 4 mora postati **uničljiv**. Če je samo en in stoji: po smrti s
 
 ## 2. Valovi (12–15 min)
 
-Minimalni model:
-
 ```
 wave = 1
-enemiesRemaining  // ali enemies.length
+enemies = []
 ```
 
-Pravilo (izberi in dokumentiraj):
+Ko je `enemies.length === 0` in je `state === "PLAYING"`, pokliči `spawnWave(wave + 1)`.
 
-| Sprožilec | Primer |
-|-----------|--------|
-| Arena prazna | `enemies.length === 0` → `wave++`, spawn N |
-| Števec ubitih | vsakih K ubitih nov val |
-| Čas | vsakih T sekund, tudi če stari še živijo |
+Težavnost: več sovražnikov. V referenci je walkerjev `2 + wave`. Hitrost in drugi tip prideta v tednu 8.
 
-Težavnost: `N = BASE + wave` in/ali večja hitrost (hitrost seek je teden 8; danes lahko hitrejši **drift** ali več spawnov).
+Spawn: nekaj fiksnih točk na robu platna. Preskoči točko, ki je v zidu ali preblizu igralca.
 
-Spawn: naključni rob platna, ne na igralcu (preveri razdaljo).
-
-Sovražniki smejo stati ali imeti preprost naključni `vx,vy`. **Seek ni obvezen danes** — če ga dodaš zgodaj, teden 8 ga utrdi in razdeli na 2 tipa.
+Sovražniki danes smejo stati. **Seek ni obvezen** — teden 8 doda `updateEnemy` in tipa `walker` / `runner`.
 
 ---
 

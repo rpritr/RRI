@@ -1,38 +1,23 @@
 /**
- * Igralec (tedna 2 in 6): WASD, clamp, i-frames.
+ * Igralec (tedna 2 in 6): WASD, diagonala, clamp, hurtTimer.
  */
-import { CONFIG } from "./config.js";
+import { PLAYER_MAX_HP, PLAYER_SIZE, PLAYER_SPEED } from "./config.js";
+import { moveWithWalls } from "./collision.js";
 import { world } from "./world.js";
-import {
-  clampToCanvas,
-  hitsAnyWall,
-  moveWithWalls,
-  unstickFromWalls,
-} from "./collision.js";
 
 export function resetPlayer() {
-  const size = CONFIG.playerSize;
-  // Spawn nad pasom ovir (~y=250). Središče platna je prekrivalo staro
-  // steno in AABB je razveljavil vsak WASD korak.
-  const p = {
+  const size = PLAYER_SIZE;
+  return {
     x: world.W / 2 - size / 2,
-    y: 168,
+    y: world.H / 2 - size / 2,
     w: size,
     h: size,
-    speed: CONFIG.playerSpeed,
+    speed: PLAYER_SPEED,
     color: "#3b82f6",
-    hp: CONFIG.playerMaxHp,
-    maxHp: CONFIG.playerMaxHp,
-    hurtCooldown: 0,
+    hp: PLAYER_MAX_HP,
+    maxHp: PLAYER_MAX_HP,
+    hurtTimer: 0,
   };
-  if (hitsAnyWall(p)) {
-    unstickFromWalls(p);
-  }
-  if (hitsAnyWall(p)) {
-    p.x = 80;
-    p.y = 80;
-  }
-  return p;
 }
 
 export function updatePlayer(dt) {
@@ -52,7 +37,5 @@ export function updatePlayer(dt) {
   }
 
   moveWithWalls(player, dx * player.speed * dt, dy * player.speed * dt);
-  clampToCanvas(player);
-
-  if (player.hurtCooldown > 0) player.hurtCooldown -= dt;
+  if (player.hurtTimer > 0) player.hurtTimer -= dt;
 }

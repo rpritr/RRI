@@ -9,7 +9,7 @@ Overlap 1 s pri 60 FPS
 + `hp--` vsak frejm  
 = instant smrt.
 
-Zato **hurtTimer** (i-frames).
+Zato **hurtTimer** (pavza po zadetku).
 
 ---
 
@@ -23,6 +23,9 @@ state
 
 Številke v GDD = številke v kodi.
 
+Palica: `fillRect` širine `hp / maxHp`.  
+Besedilo samo po sebi se ne vidi.
+
 ---
 
 # Ob stiku
@@ -30,7 +33,7 @@ state
 Če `hurtTimer <= 0`:
 - odštej HP
 - nastavi cooldown
-- flash barve
+- drugačna barva, dokler je `hurtTimer > 0`
 
 Sovražnik sme stati.  
 Lov = teden 8.

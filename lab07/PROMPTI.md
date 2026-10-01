@@ -8,14 +8,14 @@ Splošna pravila: `../DIDAKTIKA-AI.md`.
 
 ```
 Predlagaj enostaven wave sistem za Canvas vanilla JS:
-polja wave, enemies[] (vsak x,y,w,h,hp), score.
-Spawn N zombiejev na robu, ko so vsi mrtvi → wave++ in N več.
-Samo podatkovni model + pseudokoda spawnWave / onEnemyKilled.
-Brez pathfindinga, brez cele datoteke. Slovenščina.
-Na koncu vprašaj me, kako preprečim spawn na igralcu.
+polja wave, enemies[] (vsak x,y,w,h,hp,points), score.
+Funkcija spawnWave(n) postavi N sovražnikov na rob platna.
+Ko je enemies.length === 0, pokliči spawnWave(wave + 1) z večjim N.
+Samo podatkovni model + pseudokoda. Brez pathfindinga, brez cele datoteke.
+Slovenščina. Na koncu vprašaj me, kako preprečim spawn v zidu.
 ```
 
-Implementiraj po **svojem** pravilu (lahko čas namesto “vsi mrtvi”). Spremeni N.
+Implementiraj to pravilo. Spremeni N in zapiši občutek.
 
 ---
 
