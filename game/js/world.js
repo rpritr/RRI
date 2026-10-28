@@ -1,3 +1,5 @@
+import { GAME_STATES } from "./config.js";
+
 // --- Platno -----------------------------------------------------------------
 const canvas = document.getElementById("game");
 
@@ -7,6 +9,7 @@ export const world = {
 	ctx: canvas.getContext("2d"),
 	W: canvas.width,
 	H: canvas.height,
+	state: GAME_STATES.PLAYING,
 	// Igralca ustvari glavna datoteka game.js.
 	player: null,
 	// true = tipka je trenutno pritisnjena.

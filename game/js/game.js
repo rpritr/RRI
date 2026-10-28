@@ -5,6 +5,7 @@
  * Cilj: igralec (moder pravokotnik) + WASD + zanka igre.
  * Teden 2+: tukaj dodamo sovražnika, trke, strele …
  */
+import { GAME_STATES } from "./config.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
 import { draw } from "./render.js";
@@ -20,20 +21,22 @@ let lastTime = 0;
  * Glavna zanka: requestAnimationFrame kliče to funkcijo vsak frejm.
  * @param {number} timestamp - Čas iz rAF v milisekundah.
  */
-function loop(timestamp) {
+function update(timestamp) {
 	// Prvi frejm: nastavi lastTime, da dt ni ogromen.
 	if (!lastTime) lastTime = timestamp;
 
 	// dt v sekundah; omejimo ga, da ob vrnitvi iz zavihka ne "skoči".
 	let dt = (timestamp - lastTime) / 1000;
 	lastTime = timestamp;
-	if (dt > 0.05) dt = 0.05; // Največji skok ustreza približno 20 FPS.
+	dt = Math.min(dt, 0.05); // Največji skok ustreza približno 20 FPS.
 
-	updatePlayer(dt);
+	if (world.state === GAME_STATES.PLAYING) {
+		updatePlayer(dt);
+	}
 	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike in strele.
 	draw();
-	requestAnimationFrame(loop);
+	requestAnimationFrame(update);
 }
 
 // --- Začetek ---------------------------------------------------------------
-requestAnimationFrame(loop);
+requestAnimationFrame(update);
