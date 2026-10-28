@@ -28,15 +28,20 @@ Odpri brskalnik: [http://localhost:8080](http://localhost:8080)
 |----------|--------|
 | `index.html` | stran + canvas |
 | `style.css` | centiranje, temno ozadje |
-| `game.js` | logika igre |
+| `js/config.js` | konstante igralca |
+| `js/world.js` | stanje igre in platno |
+| `js/input.js` | branje tipk |
+| `js/player.js` | ustvarjanje in premikanje igralca |
+| `js/render.js` | risanje igre |
+| `js/game.js` | glavna zanka igre |
 | `assets/` | prazno v tednu 1; sprite/zvok v **projektni fazi** (glej `../projekt/`) |
 
 Tedni 2–8 nadgrajujejo **tvojo kopijo** te mape, ne predmetni `starter/` na GitHubu. Pregled: [`../TEDENSKI-NACRT.md`](../TEDENSKI-NACRT.md), vaje: [`../lab02/`](../lab02/) … [`../lab08/`](../lab08/).
 
 ## Naloga tedna 1
 
-1. Zaženi igro in preveri WASD.
-2. Preberi komentarje v `game.js` (slovenščina).
+1. Zaženi igro in preveri WASD ter sprint s tipko Shift.
+2. Oglej si module v `js/` in preveri premikanje igralca.
 3. Izpolni osnutek GDD: `../docs/GDD-predloga.md` (Zombie Survival ali Dungeon Escape).
 4. (Opcijsko) spremeni barvo ali hitrost igralca — in v enem stavku razloži, *kaj* si spremenil.
 
