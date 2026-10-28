@@ -5,6 +5,7 @@
  * Cilj: igralec (moder pravokotnik) + WASD + zanka igre.
  * Teden 2+: tukaj dodamo sovražnika, trke, strele …
  */
+import { GAME_STATES } from "./config.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
 import { draw } from "./render.js";
@@ -29,7 +30,9 @@ function update(timestamp) {
 	lastTime = timestamp;
 	dt = Math.min(dt, 0.05); // Največji skok ustreza približno 20 FPS.
 
-	updatePlayer(dt);
+	if (world.state === GAME_STATES.PLAYING) {
+		updatePlayer(dt);
+	}
 	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike in strele.
 	draw();
 	requestAnimationFrame(update);
