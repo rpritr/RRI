@@ -13,6 +13,8 @@ export const world = {
 	// Igralca ustvari glavna datoteka game.js.
 	player: null,
 	enemies: [],
+	bullets: [],
 	// true = tipka je trenutno pritisnjena.
 	keys: { w: false, a: false, s: false, d: false, shift: false },
+	mouse: { x: 0, y: 0 },
 };

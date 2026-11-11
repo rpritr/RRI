@@ -15,6 +15,10 @@ export const PLAYER_SIZE = 32;
 // Modra barva igralca.
 export const PLAYER_COLOR = "#3b82f6";
 
+// Hitrost projektila v pikslih na sekundo.
+export const BULLET_SPEED = 500;
+export const BULLET_SIZE = 6;
+
 export const walls = [
 	{ x: 100, y: 100, w: 200, h: 24 },
 	{ x: 450, y: 80, w: 24, h: 160 },

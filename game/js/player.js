@@ -18,6 +18,7 @@ export function createPlayer() {
 		color: PLAYER_COLOR,
 		enemyCollision: false,
 		flashRed: false,
+		shotTimer: 0,
 	};
 }
 
