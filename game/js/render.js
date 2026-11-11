@@ -16,8 +16,9 @@ export function draw() {
 
 	// Sovražniki.
 	for (const enemy of enemies) {
-		ctx.fillStyle = enemy.color;
+		ctx.fillStyle = enemy.flashRed ? "#ef4444" : enemy.color;
 		ctx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
+		enemy.flashRed = false;
 	}
 
 	// Projektili.
@@ -35,8 +36,4 @@ export function draw() {
 	ctx.fillStyle = "#93c5fd";
 	ctx.fillRect(player.x + 8, player.y + 8, 6, 6);
 	ctx.fillRect(player.x + 18, player.y + 8, 6, 6);
-
-	// Kazalec miške.
-	ctx.fillStyle = "#ffffff";
-	ctx.fillRect(world.mouse.x - 3, world.mouse.y - 3, 6, 6);
 }
