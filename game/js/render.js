@@ -3,7 +3,7 @@ import { world } from "./world.js";
 
 // --- Risanje ----------------------------------------------------------------
 export function draw() {
-	const { ctx, W, H, player, enemies } = world;
+	const { ctx, W, H, player, enemies, bullets } = world;
 	// Počisti platno (temno ozadje — dopolnjuje CSS).
 	ctx.fillStyle = "#1a1d23";
 	ctx.fillRect(0, 0, W, H);
@@ -16,8 +16,15 @@ export function draw() {
 
 	// Sovražniki.
 	for (const enemy of enemies) {
-		ctx.fillStyle = enemy.color;
+		ctx.fillStyle = enemy.flashRed ? "#ef4444" : enemy.color;
 		ctx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
+		enemy.flashRed = false;
+	}
+
+	// Projektili.
+	ctx.fillStyle = "#facc15";
+	for (const bullet of bullets) {
+		ctx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
 	}
 
 	// Igralec.

@@ -1,4 +1,5 @@
 import { GAME_STATES } from "./config.js";
+import { shootBullet } from "./bullets.js";
 import { world } from "./world.js";
 
 function normalizeKey(key) {
@@ -18,6 +19,22 @@ function normalizeKey(key) {
 
 // --- Tipkovnica -------------------------------------------------------------
 export function bindInput() {
+	function updateMousePosition(event) {
+		const rect = world.canvas.getBoundingClientRect();
+		world.mouse.x =
+			(event.clientX - rect.left - world.canvas.clientLeft) *
+			(world.canvas.width / world.canvas.clientWidth);
+		world.mouse.y =
+			(event.clientY - rect.top - world.canvas.clientTop) *
+			(world.canvas.height / world.canvas.clientHeight);
+	}
+
+	world.canvas.addEventListener("mousemove", updateMousePosition);
+	world.canvas.addEventListener("click", (event) => {
+		updateMousePosition(event);
+		shootBullet();
+	});
+
 	window.addEventListener("keydown", (event) => {
 		const key = normalizeKey(event.key.toLowerCase());
 		if (key === "p" && !event.repeat) {

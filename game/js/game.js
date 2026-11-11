@@ -3,9 +3,10 @@
  * HTML Canvas + vanilla JS, brez knjižnic.
  *
  * Cilj: igralec (moder pravokotnik) + WASD + zanka igre.
- * Teden 2+: tukaj dodamo sovražnika, trke, strele …
+ * Teden 2+: tukaj dodamo sovražnika in trke.
  */
 import { GAME_STATES } from "./config.js";
+import { updateBullets } from "./bullets.js";
 import "./enemies.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
@@ -33,8 +34,9 @@ function update(timestamp) {
 
 	if (world.state === GAME_STATES.PLAYING) {
 		updatePlayer(dt);
+		updateBullets(dt);
 	}
-	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike in strele.
+	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike.
 	draw();
 	requestAnimationFrame(update);
 }
