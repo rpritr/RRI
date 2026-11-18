@@ -7,7 +7,7 @@
  */
 import { GAME_STATES } from "./config.js";
 import { updateBullets } from "./bullets.js";
-import { createEnemies } from "./enemies.js";
+import { spawnWave } from "./enemies.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
 import { draw } from "./render.js";
@@ -17,7 +17,9 @@ let lastTime = 0;
 
 export function resetGame() {
 	world.player = createPlayer();
-	world.enemies = createEnemies();
+	world.enemies = [];
+	world.wave = 0;
+	spawnWave(1);
 	world.bullets.length = 0;
 	world.score = 0;
 	world.keys = { w: false, a: false, s: false, d: false, shift: false };
@@ -52,6 +54,10 @@ function update(timestamp) {
 		updatePlayer(dt);
 		if (world.state === GAME_STATES.PLAYING) {
 			updateBullets(dt);
+			// Start the next wave only after every enemy in the current wave is removed.
+			if (world.enemies.length === 0) {
+				spawnWave(world.wave + 1);
+			}
 		}
 	}
 	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike.

@@ -36,11 +36,12 @@ Igralec vodi modrega lika po igralnem polju s tipkami WASD, s tipko Shift pa za�
 
 ## 6. Sovražniki in ovire
 
-V trenutni različici jih še ni.
+Sovražniki so kvadratki velikosti 32 × 32 z 3 HP. Spawnajo se ob robu platna, ne na igralcu ali zidu. Projektil ob zadetku odstrani 1 HP; ko HP doseže 0, sovražnik izgine.
 
 ## 7. Napredek in težavnost
 
-- Točke, valovi in stopnje težavnosti še niso implementirani.
+- Val se začne pri 1 in vsebuje `2 + wave` sovražnikov. Ko je `enemies.length === 0`, igra pokliče `spawnWave(wave + 1)`.
+- Uboj sovražnika doda 10 točk; rezultat in trenutni val sta prikazana na platnu.
 - Zmaga ali poraz: trenutna različica nima pogoja za zmago ali poraz.
 
 ## 8. Stanja igre

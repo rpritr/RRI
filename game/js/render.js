@@ -19,6 +19,16 @@ export function draw() {
 		ctx.fillStyle = enemy.flashRed ? "#ef4444" : enemy.color;
 		ctx.fillRect(enemy.x, enemy.y, enemy.w, enemy.h);
 		enemy.flashRed = false;
+
+		const healthRatio =
+			enemy.maxHp > 0
+				? Math.max(0, Math.min(1, enemy.hp / enemy.maxHp))
+				: 0;
+		const barY = enemy.y >= 8 ? enemy.y - 5 : enemy.y + enemy.h + 2;
+		ctx.fillStyle = "#ef4444";
+		ctx.fillRect(enemy.x + enemy.w / 2 - 16, barY, 32, 3);
+		ctx.fillStyle = "#22c55e";
+		ctx.fillRect(enemy.x + enemy.w / 2 - 16, barY, 32 * healthRatio, 3);
 	}
 
 	// Projektili.
@@ -71,4 +81,5 @@ export function draw() {
 	ctx.fillStyle = "#ffffff";
 	ctx.textAlign = "right";
 	ctx.fillText(`Score: ${world.score}`, W - 12, 24);
+	ctx.fillText(`Wave: ${world.wave}`, W - 12, 46);
 }

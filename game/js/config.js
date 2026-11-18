@@ -17,10 +17,14 @@ export const PLAYER_COLOR = "#3b82f6";
 export const PLAYER_MAX_HP = 10;
 export const PLAYER_HURT_COOLDOWN = 1;
 
+// Nastavitve sovražnikov.
+export const ENEMY_SIZE = 32;
+export const ENEMY_SPAWN_PADDING = ENEMY_SIZE * 2;
+
 // Hitrost projektila v pikslih na sekundo.
 export const BULLET_SPEED = 500;
 export const BULLET_SIZE = 6;
-export const POINTS_PER_KILL = 100;
+export const POINTS_PER_KILL = 10;
 
 export const walls = [
 	{ x: 100, y: 100, w: 200, h: 24 },
