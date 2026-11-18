@@ -14,6 +14,7 @@ export const world = {
 	player: null,
 	enemies: [],
 	bullets: [],
+	score: 0,
 	// true = tipka je trenutno pritisnjena.
 	keys: { w: false, a: false, s: false, d: false, shift: false },
 	mouse: { x: 0, y: 0 },

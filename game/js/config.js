@@ -20,6 +20,7 @@ export const PLAYER_HURT_COOLDOWN = 1;
 // Hitrost projektila v pikslih na sekundo.
 export const BULLET_SPEED = 500;
 export const BULLET_SIZE = 6;
+export const POINTS_PER_KILL = 100;
 
 export const walls = [
 	{ x: 100, y: 100, w: 200, h: 24 },

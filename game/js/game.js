@@ -19,6 +19,7 @@ export function resetGame() {
 	world.player = createPlayer();
 	world.enemies = createEnemies();
 	world.bullets.length = 0;
+	world.score = 0;
 	world.keys = { w: false, a: false, s: false, d: false, shift: false };
 	world.state = GAME_STATES.PLAYING;
 	lastTime = 0;

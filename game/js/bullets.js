@@ -2,6 +2,7 @@ import {
 	BULLET_SIZE,
 	BULLET_SPEED,
 	GAME_STATES,
+	POINTS_PER_KILL,
 	walls,
 } from "./config.js";
 import { aabbOverlap } from "./collision.js";
@@ -56,10 +57,20 @@ export function updateBullets(dt) {
 			continue;
 		}
 
-		const hitEnemy = world.enemies.find((enemy) => aabbOverlap(bullet, enemy));
-		if (hitEnemy) {
-			hitEnemy.flashRed = true;
+		const enemyIndex = world.enemies.findIndex((enemy) =>
+			aabbOverlap(bullet, enemy),
+		);
+		if (enemyIndex !== -1) {
+			const enemy = world.enemies[enemyIndex];
+			enemy.hp -= 1;
 			bullets.splice(i, 1);
+
+			if (enemy.hp <= 0) {
+				world.enemies.splice(enemyIndex, 1);
+				world.score += POINTS_PER_KILL;
+			} else {
+				enemy.flashRed = true;
+			}
 		}
 	}
 }

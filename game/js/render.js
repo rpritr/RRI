@@ -67,4 +67,8 @@ export function draw() {
 	ctx.fillRect(12, 32, healthBarWidth, 10);
 	ctx.fillStyle = "#22c55e";
 	ctx.fillRect(12, 32, healthBarWidth * healthRatio, 10);
+
+	ctx.fillStyle = "#ffffff";
+	ctx.textAlign = "right";
+	ctx.fillText(`Score: ${world.score}`, W - 12, 24);
 }
