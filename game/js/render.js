@@ -1,4 +1,4 @@
-import { walls } from "./config.js";
+import { GAME_STATES, walls } from "./config.js";
 import { world } from "./world.js";
 
 // --- Risanje ----------------------------------------------------------------
@@ -36,4 +36,35 @@ export function draw() {
 	ctx.fillStyle = "#93c5fd";
 	ctx.fillRect(player.x + 8, player.y + 8, 6, 6);
 	ctx.fillRect(player.x + 18, player.y + 8, 6, 6);
+
+	if (
+		world.state === GAME_STATES.GAME_OVER ||
+		world.state === GAME_STATES.PAUSED
+	) {
+		const title =
+			world.state === GAME_STATES.PAUSED ? "Paused" : "Game Over";
+		const message =
+			world.state === GAME_STATES.PAUSED
+				? "Press P to resume"
+				: "Press R to restart";
+		ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
+		ctx.fillRect(0, 0, W, H);
+		ctx.fillStyle = "#ffffff";
+		ctx.textAlign = "center";
+		ctx.font = "bold 32px sans-serif";
+		ctx.fillText(title, W / 2, H / 2);
+		ctx.font = "16px sans-serif";
+		ctx.fillText(message, W / 2, H / 2 + 32);
+	}
+
+	const healthBarWidth = 120;
+	const healthRatio = Math.max(0, Math.min(1, player.hp / player.maxHp));
+	ctx.fillStyle = "#ffffff";
+	ctx.textAlign = "left";
+	ctx.font = "16px sans-serif";
+	ctx.fillText(`HP: ${player.hp} / ${player.maxHp}`, 12, 24);
+	ctx.fillStyle = "#ef4444";
+	ctx.fillRect(12, 32, healthBarWidth, 10);
+	ctx.fillStyle = "#22c55e";
+	ctx.fillRect(12, 32, healthBarWidth * healthRatio, 10);
 }

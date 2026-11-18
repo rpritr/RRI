@@ -7,16 +7,31 @@
  */
 import { GAME_STATES } from "./config.js";
 import { updateBullets } from "./bullets.js";
-import "./enemies.js";
+import { createEnemies } from "./enemies.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
 import { draw } from "./render.js";
 import { world } from "./world.js";
 
-world.player = createPlayer();
+let lastTime = 0;
+
+export function resetGame() {
+	world.player = createPlayer();
+	world.enemies = createEnemies();
+	world.bullets.length = 0;
+	world.keys = { w: false, a: false, s: false, d: false, shift: false };
+	world.state = GAME_STATES.PLAYING;
+	lastTime = 0;
+}
+
+resetGame();
 bindInput();
 
-let lastTime = 0;
+window.addEventListener("keydown", (event) => {
+	if (event.key.toLowerCase() === "r" && !event.repeat) {
+		resetGame();
+	}
+});
 
 // --- Zanka igre (delta time) -------------------------------------------------
 /**
@@ -34,7 +49,9 @@ function update(timestamp) {
 
 	if (world.state === GAME_STATES.PLAYING) {
 		updatePlayer(dt);
-		updateBullets(dt);
+		if (world.state === GAME_STATES.PLAYING) {
+			updateBullets(dt);
+		}
 	}
 	// Kasneje (teden 4+): tukaj posodobiš tudi sovražnike.
 	draw();

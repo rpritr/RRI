@@ -1,5 +1,8 @@
 import {
+	GAME_STATES,
 	PLAYER_COLOR,
+	PLAYER_HURT_COOLDOWN,
+	PLAYER_MAX_HP,
 	PLAYER_SIZE,
 	PLAYER_SPEED,
 	SPRINT_MULTIPLIER,
@@ -14,6 +17,9 @@ export function createPlayer() {
 		y: world.H / 2 - PLAYER_SIZE / 2,
 		w: PLAYER_SIZE,
 		h: PLAYER_SIZE,
+		hp: PLAYER_MAX_HP,
+		maxHp: PLAYER_MAX_HP,
+		hurtTimer: 0,
 		speed: PLAYER_SPEED,
 		color: PLAYER_COLOR,
 		enemyCollision: false,
@@ -29,6 +35,7 @@ export function createPlayer() {
  */
 export function updatePlayer(dt) {
 	const { player, keys } = world;
+	player.hurtTimer = Math.max(0, player.hurtTimer - dt);
 	let dx = 0;
 	let dy = 0;
 
@@ -47,8 +54,15 @@ export function updatePlayer(dt) {
 	const speedMultiplier = keys.shift ? SPRINT_MULTIPLIER : 1;
 	const speed = player.speed * speedMultiplier;
 	const hitEnemy = moveWithWalls(player, dx * speed * dt, dy * speed * dt);
-	player.flashRed = hitEnemy && !player.enemyCollision;
 	player.enemyCollision = hitEnemy;
+	if (hitEnemy && player.hurtTimer <= 0) {
+		player.hp = Math.max(0, player.hp - 1);
+		player.hurtTimer = PLAYER_HURT_COOLDOWN;
+		player.flashRed = true;
+		if (player.hp <= 0) {
+			world.state = GAME_STATES.GAME_OVER;
+		}
+	}
 	// Omejitev na platno (clamp).
 	player.x = Math.max(0, Math.min(world.W - player.w, player.x));
 	player.y = Math.max(0, Math.min(world.H - player.h, player.y));
