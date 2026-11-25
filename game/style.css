@@ -56,3 +56,12 @@ kbd {
   /* pixel-art prijazno, ko bodo spritei */
   image-rendering: pixelated;
 }
+
+#game:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: contain;
+}

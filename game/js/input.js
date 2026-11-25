@@ -37,6 +37,17 @@ export function bindInput() {
 
 	window.addEventListener("keydown", (event) => {
 		const key = normalizeKey(event.key.toLowerCase());
+		if (key === "f" && !event.repeat) {
+			event.preventDefault();
+			const fullscreenRequest =
+				document.fullscreenElement === world.canvas
+					? document.exitFullscreen()
+					: world.canvas.requestFullscreen();
+			fullscreenRequest.catch((error) => {
+				console.error("Could not toggle canvas fullscreen.", error);
+			});
+		}
+
 		if (key === "p" && !event.repeat) {
 			if (world.state === GAME_STATES.PLAYING) {
 				world.state = GAME_STATES.PAUSED;
