@@ -20,6 +20,7 @@ export const PLAYER_HURT_COOLDOWN = 1;
 // Nastavitve sovražnikov.
 export const ENEMY_SIZE = 32;
 export const ENEMY_SPAWN_PADDING = ENEMY_SIZE * 2;
+export const ENEMY_SPEED = 90;
 
 // Hitrost projektila v pikslih na sekundo.
 export const BULLET_SPEED = 500;

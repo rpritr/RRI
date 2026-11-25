@@ -7,7 +7,7 @@
  */
 import { GAME_STATES } from "./config.js";
 import { updateBullets } from "./bullets.js";
-import { spawnWave } from "./enemies.js";
+import { spawnWave, updateEnemies } from "./enemies.js";
 import { bindInput } from "./input.js";
 import { createPlayer, updatePlayer } from "./player.js";
 import { draw } from "./render.js";
@@ -53,6 +53,7 @@ function update(timestamp) {
 	if (world.state === GAME_STATES.PLAYING) {
 		updatePlayer(dt);
 		if (world.state === GAME_STATES.PLAYING) {
+			updateEnemies(dt);
 			updateBullets(dt);
 			// Start the next wave only after every enemy in the current wave is removed.
 			if (world.enemies.length === 0) {

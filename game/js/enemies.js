@@ -1,4 +1,9 @@
-import { ENEMY_SIZE, ENEMY_SPAWN_PADDING, walls } from "./config.js";
+import {
+	ENEMY_SIZE,
+	ENEMY_SPAWN_PADDING,
+	ENEMY_SPEED,
+	walls,
+} from "./config.js";
 import { aabbOverlap } from "./collision.js";
 import { world } from "./world.js";
 
@@ -66,4 +71,39 @@ export function spawnWave(n) {
 
 	world.wave = n;
 	world.enemies = enemies;
+}
+
+export function updateEnemies(dt) {
+	const { enemies, player } = world;
+	const playerX = player.x + player.w / 2;
+	const playerY = player.y + player.h / 2;
+
+	for (const enemy of enemies) {
+		const dx = playerX - (enemy.x + enemy.w / 2);
+		const dy = playerY - (enemy.y + enemy.h / 2);
+		const distance = Math.hypot(dx, dy);
+		if (distance === 0) continue;
+
+		const step = Math.min(ENEMY_SPEED * dt, distance);
+		const moveX = (dx / distance) * step;
+		enemy.x += moveX;
+		if (
+			walls.some((wall) => aabbOverlap(enemy, wall)) ||
+			aabbOverlap(enemy, player)
+		) {
+			enemy.x -= moveX;
+		}
+
+		const moveY = (dy / distance) * step;
+		enemy.y += moveY;
+		if (
+			walls.some((wall) => aabbOverlap(enemy, wall)) ||
+			aabbOverlap(enemy, player)
+		) {
+			enemy.y -= moveY;
+		}
+
+		enemy.x = Math.max(0, Math.min(world.W - enemy.w, enemy.x));
+		enemy.y = Math.max(0, Math.min(world.H - enemy.h, enemy.y));
+	}
 }
