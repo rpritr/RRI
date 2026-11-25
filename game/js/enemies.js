@@ -1,10 +1,11 @@
 import {
 	ENEMY_SIZE,
 	ENEMY_SPAWN_PADDING,
-	ENEMY_SPEED,
+	ENEMY_TYPES,
 	walls,
 } from "./config.js";
 import { aabbOverlap } from "./collision.js";
+import { damagePlayer } from "./player.js";
 import { world } from "./world.js";
 
 export function spawnWave(n) {
@@ -56,11 +57,13 @@ export function spawnWave(n) {
 		const candidate = { ...position, w: ENEMY_SIZE, h: ENEMY_SIZE };
 		if (enemies.some((enemy) => aabbOverlap(candidate, enemy))) continue;
 
+		const type = Math.random() < 2 / 3 ? "walker" : "runner";
+		const stats = ENEMY_TYPES[type];
 		enemies.push({
 			...candidate,
-			hp: 3,
-			maxHp: 3,
-			color: "#22c55e",
+			type,
+			...stats,
+			maxHp: stats.hp,
 		});
 		if (enemies.length === enemyCount) break;
 	}
@@ -84,22 +87,20 @@ export function updateEnemies(dt) {
 		const distance = Math.hypot(dx, dy);
 		if (distance === 0) continue;
 
-		const step = Math.min(ENEMY_SPEED * dt, distance);
+		const step = Math.min(enemy.speed * dt, distance);
 		const moveX = (dx / distance) * step;
 		enemy.x += moveX;
-		if (
-			walls.some((wall) => aabbOverlap(enemy, wall)) ||
-			aabbOverlap(enemy, player)
-		) {
+		const xHitsPlayer = aabbOverlap(enemy, player);
+		if (xHitsPlayer) damagePlayer();
+		if (walls.some((wall) => aabbOverlap(enemy, wall)) || xHitsPlayer) {
 			enemy.x -= moveX;
 		}
 
 		const moveY = (dy / distance) * step;
 		enemy.y += moveY;
-		if (
-			walls.some((wall) => aabbOverlap(enemy, wall)) ||
-			aabbOverlap(enemy, player)
-		) {
+		const yHitsPlayer = aabbOverlap(enemy, player);
+		if (yHitsPlayer) damagePlayer();
+		if (walls.some((wall) => aabbOverlap(enemy, wall)) || yHitsPlayer) {
 			enemy.y -= moveY;
 		}
 

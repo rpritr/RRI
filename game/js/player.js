@@ -28,6 +28,18 @@ export function createPlayer() {
 	};
 }
 
+export function damagePlayer() {
+	const { player } = world;
+	if (player.hurtTimer > 0) return;
+
+	player.hp = Math.max(0, player.hp - 1);
+	player.hurtTimer = PLAYER_HURT_COOLDOWN;
+	player.flashRed = true;
+	if (player.hp <= 0) {
+		world.state = GAME_STATES.GAME_OVER;
+	}
+}
+
 // --- Posodobitev igralca ----------------------------------------------------
 /**
  * Premakne igralca glede na WASD in ga omeji na rob platna.
@@ -55,14 +67,7 @@ export function updatePlayer(dt) {
 	const speed = player.speed * speedMultiplier;
 	const hitEnemy = moveWithWalls(player, dx * speed * dt, dy * speed * dt);
 	player.enemyCollision = hitEnemy;
-	if (hitEnemy && player.hurtTimer <= 0) {
-		player.hp = Math.max(0, player.hp - 1);
-		player.hurtTimer = PLAYER_HURT_COOLDOWN;
-		player.flashRed = true;
-		if (player.hp <= 0) {
-			world.state = GAME_STATES.GAME_OVER;
-		}
-	}
+	if (hitEnemy) damagePlayer();
 	// Omejitev na platno (clamp).
 	player.x = Math.max(0, Math.min(world.W - player.w, player.x));
 	player.y = Math.max(0, Math.min(world.H - player.h, player.y));
