@@ -8,6 +8,8 @@ import { aabbOverlap } from "./collision.js";
 import { damagePlayer } from "./player.js";
 import { world } from "./world.js";
 
+const ENEMY_WALK_FRAME_DURATION = 0.1;
+
 export function spawnWave(n) {
 	if (!Number.isInteger(n) || n < 1) {
 		throw new RangeError("Wave number must be a positive integer.");
@@ -64,6 +66,9 @@ export function spawnWave(n) {
 			type,
 			...stats,
 			maxHp: stats.hp,
+			facingRight: true,
+			walkFrame: 0,
+			walkTimer: 0,
 		});
 		if (enemies.length === enemyCount) break;
 	}
@@ -84,9 +89,16 @@ export function updateEnemies(dt) {
 	for (const enemy of enemies) {
 		const dx = playerX - (enemy.x + enemy.w / 2);
 		const dy = playerY - (enemy.y + enemy.h / 2);
+		if (dx !== 0) enemy.facingRight = dx > 0;
 		const distance = Math.hypot(dx, dy);
-		if (distance === 0) continue;
+		if (distance === 0) {
+			enemy.walkFrame = 0;
+			enemy.walkTimer = 0;
+			continue;
+		}
 
+		const previousX = enemy.x;
+		const previousY = enemy.y;
 		const step = Math.min(enemy.speed * dt, distance);
 		const moveX = (dx / distance) * step;
 		enemy.x += moveX;
@@ -106,5 +118,16 @@ export function updateEnemies(dt) {
 
 		enemy.x = Math.max(0, Math.min(world.W - enemy.w, enemy.x));
 		enemy.y = Math.max(0, Math.min(world.H - enemy.h, enemy.y));
+
+		if (enemy.x !== previousX || enemy.y !== previousY) {
+			enemy.walkTimer =
+				(enemy.walkTimer + dt) % (ENEMY_WALK_FRAME_DURATION * 10);
+			enemy.walkFrame = Math.floor(
+				enemy.walkTimer / ENEMY_WALK_FRAME_DURATION,
+			);
+		} else {
+			enemy.walkTimer = 0;
+			enemy.walkFrame = 0;
+		}
 	}
 }

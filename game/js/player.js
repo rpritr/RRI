@@ -22,6 +22,9 @@ export function createPlayer() {
 		hurtTimer: 0,
 		speed: PLAYER_SPEED,
 		color: PLAYER_COLOR,
+		facing: "down",
+		frame: 0,
+		walkTimer: 0,
 		enemyCollision: false,
 		flashRed: false,
 		shotTimer: 0,
@@ -55,6 +58,19 @@ export function updatePlayer(dt) {
 	if (keys.s) dy += 1;
 	if (keys.a) dx -= 1;
 	if (keys.d) dx += 1;
+
+	if (dx !== 0 || dy !== 0) {
+		if (Math.abs(dx) > Math.abs(dy)) {
+			player.facing = dx > 0 ? "right" : "left";
+		} else {
+			player.facing = dy > 0 ? "down" : "up";
+		}
+		player.walkTimer = (player.walkTimer + dt) % 0.48;
+		player.frame = Math.floor(player.walkTimer / 0.12);
+	} else {
+		player.walkTimer = 0;
+		player.frame = 0;
+	}
 
 	// Diagonalno premikanje: normaliziraj, da ni hitrejše.
 	if (dx !== 0 || dy !== 0) {
