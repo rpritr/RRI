@@ -47,6 +47,22 @@ kbd {
   font-size: 0.85em;
 }
 
+#fullscreen-button {
+  margin-left: 0.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #5f6368;
+  border-radius: 4px;
+  background: #1a1d23;
+  color: #e8eaed;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+#fullscreen-button:hover {
+  background: #242831;
+}
+
 #game {
   display: block;
   background: #1a1d23;
@@ -57,9 +73,10 @@ kbd {
   image-rendering: pixelated;
 }
 
-#game:fullscreen {
-  width: 100vw;
-  height: 100vh;
+#game:fullscreen,
+#game:-webkit-full-screen {
+  width: min(100vw, 177.7778vh);
+  height: min(100vh, 56.25vw);
   border: 0;
   border-radius: 0;
   box-shadow: none;

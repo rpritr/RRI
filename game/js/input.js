@@ -19,6 +19,47 @@ function normalizeKey(key) {
 
 // --- Tipkovnica -------------------------------------------------------------
 export function bindInput() {
+	function toggleFullscreen() {
+		const isFullscreen =
+			document.fullscreenElement === world.canvas ||
+			document.webkitFullscreenElement === world.canvas;
+		let fullscreenRequest;
+
+		if (isFullscreen) {
+			fullscreenRequest =
+				document.exitFullscreen?.() ||
+				document.webkitExitFullscreen?.();
+		} else if (typeof world.canvas.requestFullscreen === "function") {
+			fullscreenRequest = world.canvas.requestFullscreen();
+		} else if (typeof world.canvas.webkitRequestFullscreen === "function") {
+			fullscreenRequest = world.canvas.webkitRequestFullscreen();
+		} else {
+			console.error("Fullscreen is not supported by this browser.");
+			return;
+		}
+
+		fullscreenRequest?.catch?.((error) => {
+			console.error("Could not toggle canvas fullscreen.", error);
+		});
+	}
+
+	const fullscreenButton = document.getElementById("fullscreen-button");
+	fullscreenButton?.addEventListener("click", toggleFullscreen);
+
+	function updateFullscreenButton() {
+		if (!fullscreenButton) return;
+		const isFullscreen =
+			document.fullscreenElement === world.canvas ||
+			document.webkitFullscreenElement === world.canvas;
+		fullscreenButton.textContent =
+			isFullscreen
+				? "Zapri celozaslonsko"
+				: "Celozaslonsko";
+	}
+
+	document.addEventListener("fullscreenchange", updateFullscreenButton);
+	document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
+
 	function updateMousePosition(event) {
 		const rect = world.canvas.getBoundingClientRect();
 		world.mouse.x =
@@ -39,13 +80,7 @@ export function bindInput() {
 		const key = normalizeKey(event.key.toLowerCase());
 		if (key === "f" && !event.repeat) {
 			event.preventDefault();
-			const fullscreenRequest =
-				document.fullscreenElement === world.canvas
-					? document.exitFullscreen()
-					: world.canvas.requestFullscreen();
-			fullscreenRequest.catch((error) => {
-				console.error("Could not toggle canvas fullscreen.", error);
-			});
+			toggleFullscreen();
 		}
 
 		if (key === "p" && !event.repeat) {
